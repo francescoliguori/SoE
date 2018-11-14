@@ -35,7 +35,7 @@ public class Player extends Creature {
     private float jumpStrength = 200;
 
     private float jumpStep = 15;
-    private float slideStep = 5;
+    private float slideStep = 10;
 
     private float groundHeight;
 
@@ -49,7 +49,7 @@ public class Player extends Creature {
         animRunning = new Animation(70, Assets.playerRunning);
         animStop = new Animation(70, Assets.playerStop);
         animJump= new Animation(270, Assets.playerJump);
-        animDown = new Animation(100, Assets.playerDown); //my add to define the millisecond
+        animDown = new Animation(50, Assets.playerDown); //my add to define the millisecond
         groundHeight = y;
     }
 
