@@ -35,7 +35,8 @@ public class Player extends Creature {
     private float jumpStrength = 200;
 
     private float jumpStep = 15;
-    private float slideStep = 10;
+    private float slideStepY = 80; //10
+    private float slideStepX=15;
 
     private float groundHeight;
     private float maxGroundSlide=400;
@@ -50,7 +51,7 @@ public class Player extends Creature {
         animRunning = new Animation(70, Assets.playerRunning);
         animStop = new Animation(70, Assets.playerStop);
         animJump= new Animation(270, Assets.playerJump);
-        animDown = new Animation(50, Assets.playerDown); //my add to define the millisecond
+        animDown = new Animation(20, Assets.playerDown); //my add to define the millisecond
         groundHeight = y;
     }
 
@@ -104,20 +105,23 @@ public class Player extends Creature {
         }
     }
 
-    private void slide(float step) {  //funzione per lo sliding in discesa 
+    private void slide(float stepY,float stepX) {  //funzione per lo sliding in discesa 
         
         if (!slidingUp && !slidingDown) {  
-            yMove += step;
-            if (y > (groundHeight + getHeight()) ){ 
-                y = groundHeight + getHeight();
+            yMove += stepY;
+            xMove+=stepX;
+            if (y > (groundHeight + getHeight()/2) ){ 
+                y = groundHeight + getHeight()/2;
                 slidingUp = true;
                 
                 //down=false;
             }
         } else if (slidingUp && !slidingDown) {
-            yMove -= step;
+            yMove -= stepY;
+            xMove+=stepX;
             if (y <= groundHeight  ) {
                 yMove = 0;
+                
                 //System.out.println("Entrato nell'if");
                 yMove += groundHeight - y;
                 slidingUp = false;
@@ -137,7 +141,7 @@ public class Player extends Creature {
 
         fall();
         jump(jumpStep);
-        slide(slideStep);
+        slide(slideStepY,slideStepX);
         //System.out.println(yDelta);
         if (y == groundHeight && handler.getKeyManager().up) {
             yMove -= jumpStep;
@@ -162,7 +166,12 @@ public class Player extends Creature {
         }
         if (handler.getKeyManager().down && y == groundHeight) {
             if (slidingDown) {
-                yMove += slideStep;
+                yMove += slideStepY;
+                xMove+=slideStepX;
+                if ((x + xMove) >= handler.getWidth() - 250) {
+                //x = 375;
+                x = handler.getWidth() - 250;
+                }
                // down=true;
                 slidingDown = false;
                 jumping=false;
@@ -192,7 +201,7 @@ public class Player extends Creature {
                 return animJump.getFrame(4);
             }
             
-        }else if(!slidingDown){
+        }else if(!slidingDown ){
             return animDown.getCurrentFrame();
         
         } else {
