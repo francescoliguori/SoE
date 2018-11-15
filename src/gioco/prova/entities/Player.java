@@ -38,6 +38,7 @@ public class Player extends Creature {
     private float slideStep = 10;
 
     private float groundHeight;
+    private float maxGroundSlide=400;
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -61,7 +62,7 @@ public class Player extends Creature {
         animRunningLeft.tick();
         animRunningRight.tick();
         animRunning.tick();
-        
+        animDown.tick();
     //animJumping.tick();
         //movimento
         getInput();
@@ -97,29 +98,32 @@ public class Player extends Creature {
             if (y <= groundHeight - jumpStrength) {
                 jumping = false;
                 falling = true;
+                
                 jumpStep = 15;
             }
         }
     }
 
     private void slide(float step) {  //funzione per lo sliding in discesa 
-        animDown.tick();
+        
         if (!slidingUp && !slidingDown) {  
             yMove += step;
-            if (y > (groundHeight + getHeight())) {
+            if (y > (groundHeight + getHeight()) ){ 
                 y = groundHeight + getHeight();
                 slidingUp = true;
-                down=false;
+                
+                //down=false;
             }
         } else if (slidingUp && !slidingDown) {
             yMove -= step;
-            if (y <= groundHeight) {
+            if (y <= groundHeight  ) {
                 yMove = 0;
-                System.out.println("Entrato nell'if");
+                //System.out.println("Entrato nell'if");
                 yMove += groundHeight - y;
                 slidingUp = false;
                 slidingDown = true;
-                down=true;
+                
+               // down=true;
                 
                 System.out.println(slidingUp + " " + slidingDown);
             }
@@ -159,8 +163,9 @@ public class Player extends Creature {
         if (handler.getKeyManager().down && y == groundHeight) {
             if (slidingDown) {
                 yMove += slideStep;
-                down=true;
+               // down=true;
                 slidingDown = false;
+                jumping=false;
 
             }
         }
