@@ -39,7 +39,6 @@ public class Player extends Creature {
     private float slideStepX=15;
 
     private float groundHeight;
-    private float maxGroundSlide=400;
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -110,8 +109,8 @@ public class Player extends Creature {
         if (!slidingUp && !slidingDown) {  
             yMove += stepY;
             xMove+=stepX;
-            if (y > (groundHeight + getHeight()/2) ){ 
-                y = groundHeight + getHeight()/2;
+            if (y > (groundHeight + getHeight()/3) ){ 
+                y = groundHeight + getHeight()/3;
                 slidingUp = true;
                 
                 //down=false;
@@ -189,6 +188,7 @@ public class Player extends Creature {
       //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
+        //g.clearRect((int)x,(int) y, 187, 155);
 //        g.setColor(Color.red);
 //        g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
     }

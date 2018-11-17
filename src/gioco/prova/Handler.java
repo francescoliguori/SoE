@@ -6,7 +6,7 @@
 package gioco.prova;
 
 import gioco.prova.input.KeyManager;
-//import gioco.prova.worlds.World;
+import gioco.prova.world.World;
 
 /**
  *
@@ -14,7 +14,7 @@ import gioco.prova.input.KeyManager;
  */
 public class Handler {
     private Game game;
-    //private World world;
+    private World world;
 
     public Handler(Game game) {
         this.game = game;
@@ -28,13 +28,13 @@ public class Handler {
         this.game = game;
     }
 
-    /*public World getWorld() {
+    public World getWorld() {
         return world;
     }
 
     public void setWorld(World world) {
         this.world = world;
-    }*/
+    }
     
     public int getWidth(){
         return game.getWidth();

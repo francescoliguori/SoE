@@ -22,16 +22,20 @@ public class Assets {
     public static BufferedImage[] playerJump;
     public static BufferedImage[] playerStop;
     public static BufferedImage[] playerDown; //my add
+    public static BufferedImage[] enemies;
     public static void init()
     {   
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi_jump_piccolo.png"));
+        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies2.png"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
         playerStop = new BufferedImage[3];
         playerDown = new BufferedImage[4]; //my add
+        enemies=new BufferedImage[6];
         player = sheet.crop(0, 0 , width, height);
+        
         for(int i=0;i<=5;i++){
             playerRunning[i] = sheet.crop(width*i, height, width, height);
         }
@@ -62,6 +66,8 @@ public class Assets {
         playerDown[2] = sheet.crop(width * 3, height*4, width, height);
 	playerDown[3] = sheet.crop(width * 4, height*4, width, height);
         playerDown[5] = sheet.crop(width * 5, height*4, width, height);*/
+        for (int i=0;i<6;i++)
+            enemies[i]=sheetEnemy.crop(width*i,0,width,height);
 	
     }
 }

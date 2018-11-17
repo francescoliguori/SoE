@@ -12,6 +12,7 @@ import gioco.prova.input.KeyManager;
 import gioco.prova.states.GameState;
 import gioco.prova.states.MenuState;
 import gioco.prova.states.State;
+import gioco.prova.world.World;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -35,6 +36,7 @@ public class Game implements Runnable
     
     private State gameState;
     private State menuState;
+    private World world;
     
     // Input
     private KeyManager keyManager;
@@ -55,6 +57,8 @@ public class Game implements Runnable
         this.height = height;
         this.title = title;
         keyManager = new KeyManager();
+       
+       
     }
     
    
@@ -62,8 +66,7 @@ public class Game implements Runnable
     {
     display = new Display(title, width, height);
     display.getFrame().addKeyListener(keyManager);
-    Assets.init();
-    
+    Assets.init();  
     handler = new Handler(this);
     gameState = new GameState(handler);
     menuState = new MenuState(handler);
@@ -95,6 +98,9 @@ public class Game implements Runnable
         //Draw here
 //        g.setColor(Color.red);
 //        g.fillRect(0, 0, width, height);
+    
+        
+        
         //drawImage prendee in ingresso l'immagine da disegnare, le coordinate 
         //x ed y e infine un observer, in questo caso posto a null.
         //An asynchronous update interface for receiving notifications about 
@@ -113,6 +119,7 @@ public class Game implements Runnable
     {
         init();
         
+       
         //frame, o tick, per second: quante volte al secondo vengono invocate
         //tick e render
         int fps = 60;
