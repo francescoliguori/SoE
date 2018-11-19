@@ -6,8 +6,10 @@
 package gioco.prova.entities;
 
 import gioco.prova.Handler;
+import gioco.prova.bullets.Fireball;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  *
@@ -17,16 +19,45 @@ public class ControllerEntities {
     private LinkedList <Enemies> e = new LinkedList<Enemies>();
     private Enemies tempEnemy;
     private Handler handler;
-
+    private LinkedList<Fireball> f = new LinkedList<Fireball>();
+    private LinkedList ball;
+    private long lastTime=System.nanoTime() ; //used for generation of enemies 
+    private Fireball fireball;
+    
     public ControllerEntities(Handler handler) {
         this.handler = handler;
+       
     }
     
     public void tick(){
-        for(int i = 0; i < e.size(); i++){
+    /*    for(int i = 0; i < e.size(); i++){
             tempEnemy = e.get(i);
             tempEnemy.tick();
         }
+        for(int i = 0; i < f.size(); i++)
+        {
+            
+            fireball = f.get(i);
+            fireball.tick();
+        
+            
+       }*/
+    for(int i = 0; i < e.size(); i++){
+      
+            tempEnemy = e.get(i);
+            if(tempEnemy.getX() < -tempEnemy.getWidth())
+                removeEnemy(tempEnemy);
+            tempEnemy.tick();
+        }
+    for(int i = 0; i < f.size(); i++){
+            System.out.println(f.size());
+           fireball = f.get(i);          
+            if(fireball.getX()> handler.getWidth()){               
+                removeFireball(fireball);
+            }
+            fireball.tick();   
+         }
+        enemyGenerator();
     }
     
     public void render(Graphics g){
@@ -34,8 +65,25 @@ public class ControllerEntities {
             tempEnemy = e.get(i);
             tempEnemy.render(g);
         }
+        for(int i = 0; i < f.size(); i++){
+            fireball=f.get(i);
+            fireball.render(g);
+        }
+        
     }
     
+    public boolean isNotShooting(){
+        return f.isEmpty() ;
+    }
+    public void addFireball(Fireball fireball){
+        f.add(fireball);
+        
+    }
+    
+    public void removeFireball(Fireball fireball){       
+       f.remove(fireball);
+           
+    }
     public void addEnemy(Enemies enemy){
         e.add(enemy);
     }
@@ -43,4 +91,23 @@ public class ControllerEntities {
     public void removeEnemy(Enemies enemy){
         e.remove(enemy);
     }
+    
+    public LinkedList<Fireball> getF(){
+        return f;
+    }
+    
+    private void enemyGenerator(){
+         long now=System.nanoTime() ; //used for time generation of enemies        
+         if(now - lastTime > 2000000000){           //every 2 seconds at the moment
+             addEnemy(chooseEnemy((int)(Math.random()*2)));
+             lastTime=System.nanoTime();
+         }
+    }  
+   private Enemies chooseEnemy(int n){
+       if(n==1){
+           return new  Enemy1(handler,handler.getWidth(),300);
+       }
+       return new Enemy2(handler,handler.getWidth(),300);
+   }
+   
 }

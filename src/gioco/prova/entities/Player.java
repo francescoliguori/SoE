@@ -7,6 +7,7 @@ package gioco.prova.entities;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
+import gioco.prova.bullets.Fireball;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
 import java.awt.Color;
@@ -19,28 +20,31 @@ import java.awt.image.BufferedImage;
  */
 public class Player extends Creature {
 
+    private ControllerEntities c;
+    private Handler handler;
     private Animation animRunningLeft;
     private Animation animRunningRight;
     private Animation animRunning;
     private Animation animStop;
     private Animation animJump;
-     private Animation animDown;
-
+    private Animation animDown;
+    
     protected double gravity;
     protected boolean falling = true;
     protected boolean jumping = false;
     protected boolean down = false; //added
     protected boolean slidingUp = false;
     protected boolean slidingDown = true;
+   
     private float jumpStrength = 200;
 
     private float jumpStep = 15;
     private float slideStepY = 80; //10
-    private float slideStepX=15;
+    private float slideStepX=50; //15
 
     private float groundHeight;
 
-    public Player(Handler handler, float x, float y) {
+    public Player(Handler handler, float x, float y,ControllerEntities c) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         gravity = 0.5;
 
@@ -52,6 +56,9 @@ public class Player extends Creature {
         animJump= new Animation(270, Assets.playerJump);
         animDown = new Animation(20, Assets.playerDown); //my add to define the millisecond
         groundHeight = y;
+        //si aggiunge un controller entities: sarà usato per sparare
+        this.c = c;
+        this.handler = handler;
     }
 
     @Override
@@ -67,14 +74,14 @@ public class Player extends Creature {
         //movimento
         getInput();
         move();
-
+        
         /*if (y < 100){
          //y -= jumpStrength/3;
          y += weight;
          }*/
         System.out.println("ground: height" + groundHeight);
         System.out.println(" y " + y);
-
+   
     }
 
     private void fall() {
@@ -126,7 +133,7 @@ public class Player extends Creature {
                 slidingUp = false;
                 slidingDown = true;
                 
-               // down=true;
+           
                 
                 System.out.println(slidingUp + " " + slidingDown);
             }
@@ -167,16 +174,22 @@ public class Player extends Creature {
             if (slidingDown) {
                 yMove += slideStepY;
                 xMove+=slideStepX;
-                if ((x + xMove) >= handler.getWidth() - 250) {
+                if ((x + xMove) >= handler.getWidth() - 400) {  //250
                 //x = 375;
-                x = handler.getWidth() - 250;
+                x = handler.getWidth() - 400;
                 }
-               // down=true;
+              
                 slidingDown = false;
                 jumping=false;
 
             }
         }
+        //lo facciamo sparare solo se premiamo space e il personaggio è a terra
+        if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty()){   
+            //canShoot=false;
+            c.addFireball(new Fireball(handler, this.getX(), this.getY() , width, height));      
+        }       
+        
     }
 
     public boolean collisionWithGround(float y) {
@@ -188,6 +201,7 @@ public class Player extends Creature {
       //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
+        
         //g.clearRect((int)x,(int) y, 187, 155);
 //        g.setColor(Color.red);
 //        g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);

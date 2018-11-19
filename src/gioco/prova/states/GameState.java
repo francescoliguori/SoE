@@ -25,16 +25,16 @@ public class GameState extends State
     public GameState(Handler handler)
     {
        super(handler);
-       player = new Player(handler, 100, 300);
-       controller=new ControllerEntities(handler);
        
-       //enemy=new Enemies(handler,1000,300);
+       controller=new ControllerEntities(handler);
+       player = new Player(handler, 100, 300,controller);
     }
     @Override
     public void tick() 
     {
         player.tick();
         controller.tick();
+      
     }
 
     @Override
@@ -42,6 +42,7 @@ public class GameState extends State
     {
       player.render(g);
       controller.render(g);
+    
     }
     
 }

@@ -12,7 +12,7 @@ import gioco.prova.input.KeyManager;
 import gioco.prova.states.GameState;
 import gioco.prova.states.MenuState;
 import gioco.prova.states.State;
-import gioco.prova.world.World;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -36,7 +36,7 @@ public class Game implements Runnable
     
     private State gameState;
     private State menuState;
-    private World world;
+   
     
     // Input
     private KeyManager keyManager;
