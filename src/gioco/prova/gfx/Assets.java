@@ -25,12 +25,14 @@ public class Assets {
     public static BufferedImage[] enemies1;
     public static BufferedImage[] enemies2;
     public static BufferedImage[] fireballJutsu;
+    public static BufferedImage[] kunaiThrow;
     public static void init()
     {   
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi_jump_piccolo.png"));
         SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies5.png"));
         SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
+        SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
@@ -39,6 +41,7 @@ public class Assets {
         enemies1=new BufferedImage[6];
         enemies2=new BufferedImage[8];
         fireballJutsu= new BufferedImage[7];
+        kunaiThrow= new BufferedImage[3];
         player = sheet.crop(0, 0 , width, height);
         
         for(int i=0;i<=5;i++){
@@ -79,6 +82,9 @@ public class Assets {
         }
         for (int i=0;i<7;i++){
             fireballJutsu[i]=sheetFireball.crop(width*i,0,width,height);
+        }
+        for (int i=0;i<3;i++){
+            kunaiThrow[i]=sheetKunai.crop(width*i,0,width,height);
         }
     }
 }

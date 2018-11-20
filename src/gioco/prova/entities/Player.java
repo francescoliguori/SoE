@@ -8,6 +8,7 @@ package gioco.prova.entities;
 import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.bullets.Fireball;
+import gioco.prova.bullets.Kunai;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
 import java.awt.Color;
@@ -188,7 +189,13 @@ public class Player extends Creature {
         if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty()){   
             //canShoot=false;
             c.addFireball(new Fireball(handler, this.getX(), this.getY() , width, height));      
-        }       
+        }
+  
+        //lo facciamo sparare solo se premiamo V e il personaggio è a terra
+        if (handler.getKeyManager().v && y == groundHeight && c.getK().isEmpty()){   
+            //canShoot=false;
+            c.addKunai(new Kunai(handler, this.getX(), this.getY() , width, height));      
+        }  
         
     }
 

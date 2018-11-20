@@ -34,6 +34,9 @@ public class Game implements Runnable
     private BufferStrategy bs;
     private Graphics g;
     
+    //static background
+    private BufferedImage background;
+    
     private State gameState;
     private State menuState;
    
@@ -71,6 +74,9 @@ public class Game implements Runnable
     gameState = new GameState(handler);
     menuState = new MenuState(handler);
     State.setState(gameState);
+    
+    //background
+    background = ImageLoader.loadImage("/pattern.png");
     }
     
     private void tick()
@@ -96,8 +102,8 @@ public class Game implements Runnable
         
         g.clearRect(0, 0, width, height);
         //Draw here
-//        g.setColor(Color.red);
-//        g.fillRect(0, 0, width, height);
+        //background
+        g.drawImage(background, 0, 0, null);
     
         
         

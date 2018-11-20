@@ -7,6 +7,7 @@ package gioco.prova.entities;
 
 import gioco.prova.Handler;
 import gioco.prova.bullets.Fireball;
+import gioco.prova.bullets.Kunai;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.Random;
@@ -21,8 +22,11 @@ public class ControllerEntities {
     private Handler handler;
     private LinkedList<Fireball> f = new LinkedList<Fireball>();
     private LinkedList ball;
+    private LinkedList<Kunai> k = new LinkedList<Kunai>();
+    private LinkedList kuna;
     private long lastTime=System.nanoTime() ; //used for generation of enemies 
     private Fireball fireball;
+    private Kunai kunai;
     
     public ControllerEntities(Handler handler) {
         this.handler = handler;
@@ -57,6 +61,15 @@ public class ControllerEntities {
             }
             fireball.tick();   
          }
+    for(int i = 0; i < k.size(); i++){
+                System.out.println(k.size());
+           kunai =k.get(i);          
+            if(kunai.getX()> handler.getWidth()){               
+                removeKunai(kunai);
+            }
+            kunai.tick();   
+         }
+    
         enemyGenerator();
     }
     
@@ -69,6 +82,10 @@ public class ControllerEntities {
             fireball=f.get(i);
             fireball.render(g);
         }
+        for(int i = 0; i < k.size(); i++){
+            kunai = k.get(i);
+            kunai.render(g);
+        }
         
     }
     
@@ -77,12 +94,18 @@ public class ControllerEntities {
     }
     public void addFireball(Fireball fireball){
         f.add(fireball);
-        
     }
     
     public void removeFireball(Fireball fireball){       
-       f.remove(fireball);
-           
+       f.remove(fireball);    
+    }
+    
+    public void addKunai(Kunai kunai){
+        k.add(kunai);
+    }
+    
+    public void removeKunai(Kunai kunai){       
+       k.remove(kunai);
     }
     public void addEnemy(Enemies enemy){
         e.add(enemy);
@@ -94,6 +117,10 @@ public class ControllerEntities {
     
     public LinkedList<Fireball> getF(){
         return f;
+    }
+    
+    public LinkedList<Kunai> getK(){
+        return k;
     }
     
     private void enemyGenerator(){
