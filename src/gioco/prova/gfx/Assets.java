@@ -24,6 +24,7 @@ public class Assets {
     public static BufferedImage[] playerDown; //my add
     public static BufferedImage[] enemies1;
     public static BufferedImage[] enemies2;
+    public static BufferedImage[] enemies3;
     public static BufferedImage[] fireballJutsu;
     public static BufferedImage[] kunaiThrow;
     public static void init()
@@ -38,8 +39,9 @@ public class Assets {
         playerJump = new BufferedImage[8];
         playerStop = new BufferedImage[3];
         playerDown = new BufferedImage[4]; //my add
-        enemies1=new BufferedImage[7];
-        enemies2=new BufferedImage[8];
+        enemies1 = new BufferedImage[7];
+        enemies2 = new BufferedImage[8];
+        enemies3 = new BufferedImage[7];
         fireballJutsu= new BufferedImage[7];
         kunaiThrow= new BufferedImage[3];
         player = sheet.crop(0, 0 , width, height);
@@ -75,14 +77,21 @@ public class Assets {
 	playerDown[3] = sheet.crop(width * 4, height*4, width, height);
         playerDown[5] = sheet.crop(width * 5, height*4, width, height);*/
         for (int i=0;i<7;i++){
-            enemies1[i]=sheetEnemy.crop(width*i,0,width,height);	
+            enemies1[i]=sheetEnemy.crop(width*i,height*3,width,height);	
         }
+        
         for (int i=0;i<8;i++){
             enemies2[i]=sheetEnemy.crop(width*i,height*2,width,height);	
         }
+        
+        for (int i=0;i<7;i++){
+            enemies3[i]=sheetEnemy.crop(width*i,height*0,width,height);	
+        }
+        
         for (int i=0;i<7;i++){
             fireballJutsu[i]=sheetFireball.crop(width*i,0,width,height);
         }
+        
         for (int i=0;i<3;i++){
             kunaiThrow[i]=sheetKunai.crop(width*i,0,width,height);
         }

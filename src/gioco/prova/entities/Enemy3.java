@@ -14,23 +14,23 @@ import java.awt.Graphics;
  *
  * @author Utente
  */ 
-public class Enemy2 extends Enemies {
-    private Animation enemyRunning2;     
+public class Enemy3 extends Enemies {
+    private Animation enemyFlying;     
 
-    public Enemy2(Handler handler, float x, float y) {
+    public Enemy3(Handler handler, float x, float y) {
         super(handler, x, y);
-         enemyRunning2 = new Animation(100, Assets.enemies2);
+         enemyFlying = new Animation(100, Assets.enemies3);
     }
          @Override
     public void tick() {
-       enemyRunning2.tick();
+       enemyFlying.tick();
        getInput();
        move();
     }
 
     @Override
     public void render(Graphics g) {
-       g.drawImage(enemyRunning2.getCurrentFrame(), (int) x, (int) y, null);
+       g.drawImage(enemyFlying.getCurrentFrame(), (int) x, (int) y, null);
     }
     
     private void getInput() {

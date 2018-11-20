@@ -126,15 +126,16 @@ public class ControllerEntities {
     private void enemyGenerator(){
          long now=System.nanoTime() ; //used for time generation of enemies        
          if(now - lastTime > 2000000000){           //every 2 seconds at the moment
-             addEnemy(chooseEnemy((int)(Math.random()*2)));
+             addEnemy(chooseEnemy((int)(Math.random()*3)));
              lastTime=System.nanoTime();
          }
     }  
    private Enemies chooseEnemy(int n){
        if(n==1){
-           return new  Enemy1(handler,handler.getWidth(),300);
+           return new  Enemy1(handler,handler.getWidth(), 300);
        }
-       return new Enemy2(handler,handler.getWidth(),300);
+        else if(n == 0)return new Enemy2(handler,handler.getWidth(), 300);
+       return new Enemy3(handler,handler.getWidth(), 300);
    }
    
 }
