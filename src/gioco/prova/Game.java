@@ -19,6 +19,9 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import gioco.prova.display.ScrollBackground;
+import gioco.prova.gfx.ImageLoader;
 /**
  *
  * @author marcoruggiero
@@ -28,11 +31,15 @@ public class Game implements Runnable
     private Display display;
     public int width, height;
     public String title;
+    
     private boolean running = false;
     private Thread thread;
     
     private BufferStrategy bs;
     private Graphics g;
+    
+    //SCROLLBACKGROUND
+    private ScrollBackground sbg;
     
     //static background
     private BufferedImage background;
@@ -68,6 +75,13 @@ public class Game implements Runnable
     private void init()
     {
     display = new Display(title, width, height);
+    //Setting background image paths
+    String[] paths = new String[3];
+    paths[0] = "/texture/pattern.png";
+    paths[1] = "/texture/pattern2.png";
+    paths[2] = "/texture/pattern.png";
+    //Instantiate ScrollBackground with the image
+    sbg = new ScrollBackground(paths, 5);
     display.getFrame().addKeyListener(keyManager);
     Assets.init();  
     handler = new Handler(this);
@@ -76,7 +90,7 @@ public class Game implements Runnable
     State.setState(gameState);
     
     //background
-    background = ImageLoader.loadImage("/pattern.png");
+    //background = ImageLoader.loadImage("/pattern.png");
     }
     
     private void tick()
@@ -86,6 +100,8 @@ public class Game implements Runnable
         {
             State.getState().tick();
         }
+        
+        sbg.tick();
         
     }
     
@@ -106,6 +122,9 @@ public class Game implements Runnable
         g.drawImage(background, 0, 0, null);
     
         
+        //Start Drawing
+        //Draw the background image into the Graphic referenc g
+        sbg.render(g);
         
         //drawImage prendee in ingresso l'immagine da disegnare, le coordinate 
         //x ed y e infine un observer, in questo caso posto a null.
@@ -121,6 +140,7 @@ public class Game implements Runnable
         g.dispose();
         
     }
+        
     public void run()
     {
         init();
