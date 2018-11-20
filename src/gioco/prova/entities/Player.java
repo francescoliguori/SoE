@@ -55,7 +55,7 @@ public class Player extends Creature {
         animRunning = new Animation(70, Assets.playerRunning);
         animStop = new Animation(70, Assets.playerStop);
         animJump= new Animation(270, Assets.playerJump);
-        animDown = new Animation(20, Assets.playerDown); //my add to define the millisecond
+        animDown = new Animation(200, Assets.playerDown); //my add to define the millisecond
         groundHeight = y;
         //si aggiunge un controller entities: sarà usato per sparare
         this.c = c;

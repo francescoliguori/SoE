@@ -23,7 +23,7 @@ public class Kunai extends Entity {
     
     public Kunai(Handler handler, float x, float y, int width, int height){
        super(handler,  x,  y,  width,  height);
-       kunaiThrow = new Animation(240, Assets.kunaiThrow);
+       kunaiThrow = new Animation(100, Assets.kunaiThrow);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Kunai extends Entity {
     }
     
     public void move(){
-        x+=10;
+        x+=17;
     }
      
     
