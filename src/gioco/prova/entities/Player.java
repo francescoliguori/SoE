@@ -191,8 +191,8 @@ public class Player extends Creature {
             c.addFireball(new Fireball(handler, this.getX(), this.getY() , width, height));      
         }
   
-        //lo facciamo sparare solo se premiamo V e il personaggio è a terra
-        if (handler.getKeyManager().v && y == groundHeight && c.getK().isEmpty()){   
+        //lo facciamo sparare solo se premiamo V e
+        if (handler.getKeyManager().v && c.getK().isEmpty()){   
             //canShoot=false;
             c.addKunai(new Kunai(handler, this.getX(), this.getY() , width, height));      
         }  
