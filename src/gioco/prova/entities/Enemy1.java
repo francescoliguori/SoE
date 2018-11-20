@@ -19,7 +19,7 @@ public class Enemy1 extends Enemies  {
 
     public Enemy1(Handler handler, float x, float y) {
         super(handler, x, y);
-        enemyRunning1 = new Animation(70, Assets.enemies1);
+        enemyRunning1 = new Animation(90, Assets.enemies1);
     }
         
         

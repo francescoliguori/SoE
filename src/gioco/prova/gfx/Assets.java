@@ -30,7 +30,7 @@ public class Assets {
     {   
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi_jump_piccolo.png"));
-        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies5.png"));
+        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies6.png"));
         SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
         SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
         
@@ -38,7 +38,7 @@ public class Assets {
         playerJump = new BufferedImage[8];
         playerStop = new BufferedImage[3];
         playerDown = new BufferedImage[4]; //my add
-        enemies1=new BufferedImage[6];
+        enemies1=new BufferedImage[7];
         enemies2=new BufferedImage[8];
         fireballJutsu= new BufferedImage[7];
         kunaiThrow= new BufferedImage[3];
@@ -74,7 +74,7 @@ public class Assets {
         playerDown[2] = sheet.crop(width * 3, height*4, width, height);
 	playerDown[3] = sheet.crop(width * 4, height*4, width, height);
         playerDown[5] = sheet.crop(width * 5, height*4, width, height);*/
-        for (int i=0;i<6;i++){
+        for (int i=0;i<7;i++){
             enemies1[i]=sheetEnemy.crop(width*i,0,width,height);	
         }
         for (int i=0;i<8;i++){

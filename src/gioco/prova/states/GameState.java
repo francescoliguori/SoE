@@ -20,8 +20,7 @@ import java.awt.Graphics;
 public class GameState extends State
 {
     private Player player;
-    private Enemies enemy;
-    private ControllerEntities controller;
+        private ControllerEntities controller;
     public GameState(Handler handler)
     {
        super(handler);

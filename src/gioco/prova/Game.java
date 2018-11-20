@@ -81,7 +81,7 @@ public class Game implements Runnable
     paths[1] = "/texture/pattern2.png";
     paths[2] = "/texture/pattern.png";
     //Instantiate ScrollBackground with the image
-    sbg = new ScrollBackground(paths, 5);
+    sbg = new ScrollBackground(paths, 3);
     display.getFrame().addKeyListener(keyManager);
     Assets.init();  
     handler = new Handler(this);
