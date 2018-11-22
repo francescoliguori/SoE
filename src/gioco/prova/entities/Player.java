@@ -45,7 +45,7 @@ public class Player extends Creature {
 
     private float groundHeight;
 
-    public Player(Handler handler, float x, float y,ControllerEntities c) {
+    public Player(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         gravity = 0.5;
 
@@ -80,8 +80,8 @@ public class Player extends Creature {
          //y -= jumpStrength/3;
          y += weight;
          }*/
-        System.out.println("ground: height" + groundHeight);
-        System.out.println(" y " + y);
+        /*System.out.println("ground: height" + groundHeight);
+        System.out.println(" y " + y);*/
    
     }
 
@@ -185,8 +185,9 @@ public class Player extends Creature {
 
             }
         }
+        
         //lo facciamo sparare solo se premiamo space e il personaggio è a terra
-        if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty()){   
+        if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty()){
             //canShoot=false;
             c.addFireball(new Fireball(handler, this.getX(), this.getY() , width, height));      
         }

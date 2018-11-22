@@ -12,7 +12,7 @@ import gioco.prova.Handler;
  *
  * @author marcoruggiero
  */
-public  abstract class Creature extends Entity
+public abstract class Creature extends Entity
 {
     public static final int DEFAULT_HEALTH = 10;
     protected int health;

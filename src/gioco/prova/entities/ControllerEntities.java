@@ -30,7 +30,6 @@ public class ControllerEntities {
     
     public ControllerEntities(Handler handler) {
         this.handler = handler;
-       
     }
     
     public void tick(){
@@ -122,6 +121,10 @@ public class ControllerEntities {
     public LinkedList<Kunai> getK(){
         return k;
     }
+
+    public LinkedList<Enemies> getE() {
+        return e;
+    }
     
     private void enemyGenerator(){
          long now=System.nanoTime() ; //used for time generation of enemies        
@@ -132,7 +135,7 @@ public class ControllerEntities {
     }  
    private Enemies chooseEnemy(int n){
        if(n==1){
-           return new  Enemy1(handler,handler.getWidth(), 300);
+           return new  Enemy1(handler,handler.getWidth(), 150);
        }
         else if(n == 0)return new Enemy2(handler,handler.getWidth(), 300);
        return new Enemy3(handler,handler.getWidth(), 300);

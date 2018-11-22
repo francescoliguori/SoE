@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package gioco.prova;
+
 import gioco.prova.display.Display;
 import gioco.prova.gfx.Assets;
 import gioco.prova.gfx.ImageLoader;
@@ -22,38 +23,38 @@ import java.util.logging.Logger;
 
 import gioco.prova.display.ScrollBackground;
 import gioco.prova.gfx.ImageLoader;
+
 /**
  *
  * @author marcoruggiero
  */
-public class Game implements Runnable
-{
+public class Game implements Runnable {
+
     private Display display;
     public int width, height;
     public String title;
-    
+
     private boolean running = false;
     private Thread thread;
-    
+
     private BufferStrategy bs;
     private Graphics g;
-    
+
     //SCROLLBACKGROUND
     private ScrollBackground sbg;
-    
+
     //static background
     private BufferedImage background;
-    
+
     private State gameState;
     private State menuState;
-   
-    
+
     // Input
     private KeyManager keyManager;
-    
+
     // Handler
     private Handler handler;
-    
+
     public int getWidth() {
         return width;
     }
@@ -61,91 +62,66 @@ public class Game implements Runnable
     public int getHeight() {
         return height;
     }
-    public Game(String title, int width, int height)
-    {
+
+    public Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
         this.title = title;
         keyManager = new KeyManager();
-       
-       
+
     }
-    
-   
-    private void init()
-    {
-    display = new Display(title, width, height);
-    //Setting background image paths
-    String[] paths = new String[3];
-    paths[0] = "/texture/pattern.png";
-    paths[1] = "/texture/pattern2.png";
-    paths[2] = "/texture/pattern.png";
-    //Instantiate ScrollBackground with the image
-    sbg = new ScrollBackground(paths, 4);
-    display.getFrame().addKeyListener(keyManager);
-    Assets.init();  
-    handler = new Handler(this);
-    gameState = new GameState(handler);
-    menuState = new MenuState(handler);
-    State.setState(gameState);
-    
-    //background
-    //background = ImageLoader.loadImage("/pattern.png");
+
+    private void init() {
+        display = new Display(title, width, height);
+        display.getFrame().addKeyListener(keyManager);
+        Assets.init();
+        handler = new Handler(this);
+        gameState = new GameState(handler);
+        menuState = new MenuState(handler);
+        State.setState(gameState);
+
+        //background
+        //background = ImageLoader.loadImage("/pattern.png");
     }
-    
-    private void tick()
-    {   
+
+    private void tick() {
         keyManager.tick();
-        if (State.getState() != null)
-        {
+        if (State.getState() != null) {
             State.getState().tick();
         }
-        
-        sbg.tick();
-        
     }
-    
-    private void render()
-    {
+
+    private void render() {
         bs = display.getCanvas().getBufferStrategy();
-        if (bs == null)
-        {
+        if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
             return;
         }
         g = bs.getDrawGraphics();
         //Clear here
-        
+
         g.clearRect(0, 0, width, height);
         //Draw here
-        //background
-        g.drawImage(background, 0, 0, null);
-    
         
         //Start Drawing
         //Draw the background image into the Graphic referenc g
-        sbg.render(g);
         
         //drawImage prendee in ingresso l'immagine da disegnare, le coordinate 
         //x ed y e infine un observer, in questo caso posto a null.
         //An asynchronous update interface for receiving notifications about 
         //Image information as the Image is constructed.
-       
-         if (State.getState() != null)
-        {
+        if (State.getState() != null) {
             State.getState().render(g);
         }
         //End drawing
         bs.show();
         g.dispose();
-        
+
     }
-        
-    public void run()
-    {
+
+    public void run() {
         init();
-        
-       
+
         //frame, o tick, per second: quante volte al secondo vengono invocate
         //tick e render
         int fps = 60;
@@ -162,50 +138,47 @@ public class Game implements Runnable
         //si vuole creare un contatore dei frame al secondo
         long timer = 0;
         int ticks = 0;
-        while(running)
-        {
+        while (running) {
             now = System.nanoTime();
             delta += (now - lastTime) / timePerTick;
-            timer += (now - lastTime); 
+            timer += (now - lastTime);
             lastTime = now;
-            
-            if (delta >= 1)
-            {
-            tick();
-            render();
-            ticks++;
-            delta--;
+
+            if (delta >= 1) {
+                tick();
+                render();
+                ticks++;
+                delta--;
             }
-            
-            if (timer >= 1000000000)
-            {
-                System.out.println("Tick e frame:"+ticks);
+
+            if (timer >= 1000000000) {
+                System.out.println("Tick e frame:" + ticks);
                 ticks = 0;
                 timer = 0;
-                
+
             }
-           
+
         }
         stop();
     }
-    
-    public KeyManager getKeyManager()
-    {
+
+    public KeyManager getKeyManager() {
         return keyManager;
     }
-    public synchronized void start()
-    {   
-        if (running)
+
+    public synchronized void start() {
+        if (running) {
             return;
+        }
         running = true;
         thread = new Thread(this);
         thread.start();
     }
-    
-    public synchronized void stop()
-    {
-        if (!running)
+
+    public synchronized void stop() {
+        if (!running) {
             return;
+        }
         running = false;
         try {
             thread.join();
@@ -213,5 +186,5 @@ public class Game implements Runnable
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-            
+
 }

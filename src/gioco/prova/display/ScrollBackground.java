@@ -6,6 +6,7 @@
 package gioco.prova.display;
 
 import java.awt.Graphics;
+import static java.lang.System.exit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,16 +16,19 @@ import java.util.logging.Logger;
  */
 public class ScrollBackground {
     private Background[] bg;
-    private int scrolling, delay;
+    private int scrolling;
     
     public ScrollBackground(String[] path, int scrolling) {
         this.scrolling = scrolling;
         bg = addBackgrounds(path);
-        delay = scrolling * (path.length - 1);
     }
 
-    public int getDelay() {
-        return delay;
+    public Background[] getBg() {
+        return bg;
+    }
+
+    public int getScrolling() {
+        return scrolling;
     }
     
     public void tick() {
@@ -32,21 +36,22 @@ public class ScrollBackground {
             if (bg[i].getX() > -bg[i].getImage().getWidth()) {
                 bg[i].setX(bg[i].getX() - scrolling);
             } else {
-                bg[i].setX((bg.length - 1) * (bg[i].getImage().getWidth() - (scrolling * (bg.length - 1))));
+                bg[i].setX(((bg.length - 1) * (bg[i].getImage().getWidth())) - scrolling);
             }
+            
         }
     }
     
     public void render(Graphics g) {
         try {
-            Thread.currentThread().sleep(delay);
+            Thread.currentThread().sleep(scrolling);
+            for(int i = 0; i < bg.length; i++) {
+                g.drawImage(bg[i].getImage(), bg[i].getX(), 0, null);
+            }
         } catch (InterruptedException ex) {
             Logger.getLogger(ScrollBackground.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        for(int i = 0; i < bg.length; i++) {
-            g.drawImage(bg[i].getImage(), bg[i].getX(), 0, null);
-        }
     }
     
     private Background[] addBackgrounds(String[] path) {
