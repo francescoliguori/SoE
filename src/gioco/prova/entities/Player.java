@@ -156,7 +156,7 @@ public class Player extends Creature {
     public boolean checkEnemyColliions(float xOffset,float yOffset)
     {
        for (Enemies e : handler.getGame().getGameState().getController().getEnemies()){
-           if (e.getCollisionBounds(0f,0f).intersects(this.getCollisionBounds(xOffset, yOffset)))
+           if (e.getCollisionBounds(0f,0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !e.isDead())
                return true;
        }
        return false;

@@ -43,7 +43,7 @@ public class Assets {
         playerDown = new BufferedImage[4]; //my add
         enemies1 = new BufferedImage[7];
         enemies2 = new BufferedImage[8];
-        enemies2Dead = new BufferedImage[7];
+        enemies2Dead = new BufferedImage[5];
         enemies3 = new BufferedImage[7];
         fireballJutsu= new BufferedImage[7];
         kunaiThrow= new BufferedImage[3];
@@ -84,9 +84,9 @@ public class Assets {
             enemies1[i]=sheetEnemy.crop(widthEnemies*i,heightEnemies*4,widthEnemies,heightEnemies);	
         }
         
-        for (int i=0;i<7;i++){
+        for (int i=0;i<5;i++){
             //gigante cade
-            enemies2Dead[i]=sheetEnemy.crop(widthEnemies*i,heightEnemies*3,widthEnemies,heightEnemies);	
+            enemies2Dead[i]=sheetEnemy.crop(widthEnemies*(i+2),heightEnemies*3,widthEnemies,heightEnemies);	
         }
         
         for (int i=0;i<8;i++){

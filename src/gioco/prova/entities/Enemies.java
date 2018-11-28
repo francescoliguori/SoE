@@ -17,10 +17,15 @@ import java.awt.Graphics;
  * @author Utente
  */
 public abstract class Enemies extends Creature {
+    protected boolean dead = false;
     
     public Enemies(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
        
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 
     private void destroyEnemy(Graphics g){
@@ -31,7 +36,7 @@ public abstract class Enemies extends Creature {
     }
      //questo metodo è utilizzato per controllare se un nemico 
     //entra in collisione con un kunai lanciato dal personaggio
-    public boolean checkKunaiColliions(float xOffset,float yOffset)
+    public boolean checkKunaiCollisions(float xOffset,float yOffset)
     {
        for (Kunai k : handler.getGame().getGameState().getController().getK()){
            if (k.getCollisionBounds(0f,0f).intersects(this.getCollisionBounds(xOffset, yOffset))){

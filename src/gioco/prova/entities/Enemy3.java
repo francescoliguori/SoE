@@ -46,7 +46,7 @@ public class Enemy3 extends Enemies {
     }
      private BufferedImage getCurrentAnimationFrame() 
     {
-        if (this.checkKunaiColliions(0, 0) || this.checkFireballCollisions(0, 0))
+        if (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))
         {
        
          handler.getGame().getGameState().getController().removeEnemy(this);
