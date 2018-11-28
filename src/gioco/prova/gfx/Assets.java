@@ -17,6 +17,7 @@ public class Assets {
     
     //dimensioni di ogni elemento della "griglia" spritesheet
     private static final int width = 155, height = 187;
+    private static final int widthEnemies = 155, heightEnemies = 187;
     public static BufferedImage player;
     public static BufferedImage[] playerRunning;
     public static BufferedImage[] playerJump;
@@ -24,6 +25,7 @@ public class Assets {
     public static BufferedImage[] playerDown; //my add
     public static BufferedImage[] enemies1;
     public static BufferedImage[] enemies2;
+    public static BufferedImage[] enemies2Dead;
     public static BufferedImage[] enemies3;
     public static BufferedImage[] fireballJutsu;
     public static BufferedImage[] kunaiThrow;
@@ -31,7 +33,7 @@ public class Assets {
     {   
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi_jump_piccolo.png"));
-        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies6.png"));
+        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies7.png"));
         SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
         SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
         
@@ -41,6 +43,7 @@ public class Assets {
         playerDown = new BufferedImage[4]; //my add
         enemies1 = new BufferedImage[7];
         enemies2 = new BufferedImage[8];
+        enemies2Dead = new BufferedImage[7];
         enemies3 = new BufferedImage[7];
         fireballJutsu= new BufferedImage[7];
         kunaiThrow= new BufferedImage[3];
@@ -77,15 +80,23 @@ public class Assets {
 	playerDown[3] = sheet.crop(width * 4, height*4, width, height);
         playerDown[5] = sheet.crop(width * 5, height*4, width, height);*/
         for (int i=0;i<7;i++){
-            enemies1[i]=sheetEnemy.crop(width*i,height*3,width,height);	
-        }
-        
-        for (int i=0;i<8;i++){
-            enemies2[i]=sheetEnemy.crop(width*i,height*2,width,height);	
+            //corvo
+            enemies1[i]=sheetEnemy.crop(widthEnemies*i,heightEnemies*4,widthEnemies,heightEnemies);	
         }
         
         for (int i=0;i<7;i++){
-            enemies3[i]=sheetEnemy.crop(width*i,height*0,width,height);	
+            //gigante cade
+            enemies2Dead[i]=sheetEnemy.crop(widthEnemies*i,heightEnemies*3,widthEnemies,heightEnemies);	
+        }
+        
+        for (int i=0;i<8;i++){
+            //gigante corre
+            enemies2[i]=sheetEnemy.crop(widthEnemies*i,heightEnemies*2,widthEnemies,heightEnemies);	
+        }
+        
+        for (int i=0;i<7;i++){
+            //Anbu corre
+            enemies3[i]=sheetEnemy.crop(widthEnemies*i,heightEnemies*0,widthEnemies,heightEnemies);	
         }
         
         for (int i=0;i<7;i++){

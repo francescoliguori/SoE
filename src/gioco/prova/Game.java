@@ -46,8 +46,10 @@ public class Game implements Runnable {
     //static background
     private BufferedImage background;
 
-    private State gameState;
+    private GameState gameState;
     private State menuState;
+
+   
 
     // Input
     private KeyManager keyManager;
@@ -164,6 +166,10 @@ public class Game implements Runnable {
 
     public KeyManager getKeyManager() {
         return keyManager;
+    }
+    
+    public GameState getGameState() {
+        return gameState;
     }
 
     public synchronized void start() {

@@ -9,6 +9,7 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -86,6 +87,12 @@ public class ControllerEntities {
             kunai.render(g);
         }
         
+    }
+    public LinkedList<Enemies> getEnemies() {
+		return e;
+    }
+    public LinkedList<Kunai> getKunai() {
+		return k;
     }
     
     public boolean isNotShooting(){

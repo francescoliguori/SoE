@@ -23,6 +23,10 @@ public class GameState extends State
     private Player player;
     private ScrollBackground scrollbg;
     private ControllerEntities controller;
+
+    public ControllerEntities getController() {
+        return controller;
+    }
     
     public GameState(Handler handler)
     {

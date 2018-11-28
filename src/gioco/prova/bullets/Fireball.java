@@ -10,6 +10,7 @@ import gioco.prova.entities.Entity;
 import java.awt.Graphics;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 
@@ -24,6 +25,11 @@ public class Fireball extends Entity {
     public Fireball(Handler handler, float x, float y, int width, int height){
        super(handler,  x,  y,  width,  height);
        fireballJutsu = new Animation(240, Assets.fireballJutsu);
+       bounds.x = 100;
+       bounds.y = 60;
+       bounds.width = 123;
+       bounds.height = 120;
+      
     }
 
     @Override
@@ -38,6 +44,9 @@ public class Fireball extends Entity {
     public void render(Graphics g) {
  
          g.drawImage(getCurrentAnimationFrame(), (int) x+40, (int) y-15, null);
+         //g.setColor(Color.red);
+         //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
+       
     }
     
     private BufferedImage getCurrentAnimationFrame(){

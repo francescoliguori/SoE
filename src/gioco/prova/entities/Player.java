@@ -60,6 +60,11 @@ public class Player extends Creature {
         //si aggiunge un controller entities: sarà usato per sparare
         this.c = c;
         this.handler = handler;
+        
+        bounds.x = 40;
+        bounds.y = 100;
+        bounds.width = 95;
+        bounds.height = 90;
     }
 
     @Override
@@ -88,9 +93,12 @@ public class Player extends Creature {
     private void fall() {
 
         if (falling) {
+            bounds.y = 100;
+            bounds.height = 90;
             y += gravity;
             gravity += 1;
             if (collisionWithGround(y)) {
+                
                 y = groundHeight;
                 falling = false;
                 gravity = 0.5;
@@ -101,6 +109,8 @@ public class Player extends Creature {
 
     private void jump(float step) {
         if (jumping) {
+            bounds.height=120;
+            bounds.y=70;
             y -= step;
             jumpStep -= 0.6;
             if (y <= groundHeight - jumpStrength) {
@@ -141,6 +151,19 @@ public class Player extends Creature {
         }
 
     }
+    //questo metodo è utilizzato per controllare se il player 
+    //entra in collisione con un nemico
+    public boolean checkEnemyColliions(float xOffset,float yOffset)
+    {
+       for (Enemies e : handler.getGame().getGameState().getController().getEnemies()){
+           if (e.getCollisionBounds(0f,0f).intersects(this.getCollisionBounds(xOffset, yOffset)))
+               return true;
+       }
+       return false;
+       
+    }
+    
+   
 
     private void getInput() {
         xMove = 0;
@@ -211,12 +234,20 @@ public class Player extends Creature {
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
         
         //g.clearRect((int)x,(int) y, 187, 155);
-//        g.setColor(Color.red);
-//        g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
+        //g.setColor(Color.red);
+        //g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
+        //g.setColor(Color.red);
+       
+        //g.fillRect((int)(x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
     }
 
     private BufferedImage getCurrentAnimationFrame() {
         if (jumping) {
+            if (this.checkEnemyColliions(0, 0))
+        {
+            
+            return animDown.getCurrentFrame();
+        }
             if (y >= groundHeight - (jumpStrength * 2 / 4)) {
                 return animJump.getFrame(3);
             } else {
@@ -229,17 +260,40 @@ public class Player extends Creature {
         } else {
 
             if (falling && y >= (groundHeight - jumpStrength)) {
+                if (this.checkEnemyColliions(0, 0))
+        {
+            
+            return animDown.getCurrentFrame();
+        }
                 return animJump.getFrame(6);
 
             }
 
         }
         if (xMove < 0) {
+            if (this.checkEnemyColliions(0, 0))
+        {
+            
+            return animDown.getCurrentFrame();
+        }
+            
+            
             return animRunningLeft.getCurrentFrame();
         }
         if (xMove > 0) {
+            if (this.checkEnemyColliions(0, 0))
+        {
+            
+            return animDown.getCurrentFrame();
+        }
             return animRunningRight.getCurrentFrame();
         }
+           if (this.checkEnemyColliions(0, 0))
+        {
+            
+            return animDown.getCurrentFrame();
+        }
+        
         return animRunning.getCurrentFrame();
     }
 

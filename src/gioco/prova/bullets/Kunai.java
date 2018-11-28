@@ -10,6 +10,7 @@ import gioco.prova.entities.Entity;
 import java.awt.Graphics;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 
@@ -24,6 +25,11 @@ public class Kunai extends Entity {
     public Kunai(Handler handler, float x, float y, int width, int height){
        super(handler,  x,  y,  width,  height);
        kunaiThrow = new Animation(100, Assets.kunaiThrow);
+       //creazione del quadrato di collisione per il kunai
+       bounds.x = 118;
+       bounds.y = 125;
+       bounds.width = 23;
+       bounds.height = 10;
     }
 
     @Override
@@ -38,6 +44,9 @@ public class Kunai extends Entity {
     public void render(Graphics g) {
  
          g.drawImage(getCurrentAnimationFrame(), (int) x+40, (int) y-15, null);
+         //g.setColor(Color.red);
+         //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
+       
     }
     
     private BufferedImage getCurrentAnimationFrame(){
