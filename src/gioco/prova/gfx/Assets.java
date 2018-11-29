@@ -30,14 +30,16 @@ public class Assets {
     public static BufferedImage[] enemies3Dead;
     public static BufferedImage[] enemies3Jump;
     public static BufferedImage[] fireballJutsu;
-    public static BufferedImage[] kunaiThrow;
+    public static BufferedImage[] kunaiThrowForward;
+    public static BufferedImage[] kunaiThrowBackward;
     public static void init()
     {   
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi_jump_piccolo.png"));
         SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies8.png"));
-        SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
-        SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
+//        SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
+//        SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
+        SpriteSheet sheetBullets= new SpriteSheet(ImageLoader.loadImage("/bullets.png"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
@@ -50,7 +52,8 @@ public class Assets {
         enemies3Dead = new BufferedImage[8];
         enemies3Jump = new BufferedImage[8];
         fireballJutsu= new BufferedImage[7];
-        kunaiThrow= new BufferedImage[3];
+        kunaiThrowForward= new BufferedImage[3];
+        kunaiThrowBackward= new BufferedImage[3];
         player = sheet.crop(0, 0 , width, height);
         
         for(int i=0;i<=5;i++){
@@ -97,11 +100,14 @@ public class Assets {
         }
         
         for (int i=0;i<7;i++){
-            fireballJutsu[i]=sheetFireball.crop(width*i,0,width,height);
+            fireballJutsu[i]=sheetBullets.crop(width*i,0,width,height);
         }
         
         for (int i=0;i<3;i++){
-            kunaiThrow[i]=sheetKunai.crop(width*i,0,width,height);
+            kunaiThrowForward[i]=sheetBullets.crop(width*i,height,width,height);
+        }
+        for (int i=0;i<3;i++){
+            kunaiThrowBackward[i]=sheetBullets.crop(width*i,height*2,width,height);
         }
     }
 }

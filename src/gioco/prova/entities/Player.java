@@ -85,8 +85,8 @@ public class Player extends Creature {
          //y -= jumpStrength/3;
          y += weight;
          }*/
- /*System.out.println("ground: height" + groundHeight);
-        System.out.println(" y " + y);*/
+        /*System.out.println("ground: height" + groundHeight);
+         System.out.println(" y " + y);*/
     }
 
     private void fall() {
@@ -154,16 +154,27 @@ public class Player extends Creature {
     public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
-                if(e.isDead()){
+                if (e.isDead()) {
                     //jumping = true;
                     //jump(jumpStep, groundHeight+100);
                     return false;
-                 } 
+                }
                 return true;
             }
         }
         return false;
 
+    }
+
+    public boolean collisionKunai(float xOffset, float yOffset) {
+        for (Kunai k : handler.getGame().getGameState().getController().getListKunaiEnemies()) {
+            if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
+                handler.getGame().getGameState().getController().getListKunaiEnemies().remove(k);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void getInput() {
@@ -243,7 +254,7 @@ public class Player extends Creature {
 
     private BufferedImage getCurrentAnimationFrame() {
         if (jumping) {
-            if (this.checkEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || collisionKunai(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
@@ -257,7 +268,7 @@ public class Player extends Creature {
             return animDown.getCurrentFrame();
 
         } else if (falling && y >= (groundHeight - jumpStrength)) {
-            if (this.checkEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || collisionKunai(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
@@ -265,7 +276,7 @@ public class Player extends Creature {
 
         }
         if (xMove < 0) {
-            if (this.checkEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || collisionKunai(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
@@ -273,13 +284,13 @@ public class Player extends Creature {
             return animRunningLeft.getCurrentFrame();
         }
         if (xMove > 0) {
-            if (this.checkEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || collisionKunai(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
             return animRunningRight.getCurrentFrame();
         }
-        if (this.checkEnemyCollisions(0, 0)) {
+        if (this.checkEnemyCollisions(0, 0) || collisionKunai(0, 0)) {
 
             return animDown.getCurrentFrame();
         }

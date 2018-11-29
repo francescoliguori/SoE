@@ -19,12 +19,14 @@ import java.awt.image.BufferedImage;
  */
 public class Kunai extends Entity {
 
-    private Animation kunaiThrow;
+    private Animation kunaiThrowForward;
+    private Animation kunaiThrowBackward;
     private boolean forward;
 
     public Kunai(Handler handler, float x, float y, int width, int height, boolean forward) {
         super(handler, x, y, width, height);
-        kunaiThrow = new Animation(100, Assets.kunaiThrow);
+        kunaiThrowForward = new Animation(100, Assets.kunaiThrowForward);
+        kunaiThrowBackward = new Animation(100, Assets.kunaiThrowBackward);
         //creazione del quadrato di collisione per il kunai
         bounds.x = 118;
         bounds.y = 125;
@@ -38,7 +40,13 @@ public class Kunai extends Entity {
         move(forward);
         //System.out.println(forward);
         //move();
-        kunaiThrow.tick();
+        if (forward) {
+            kunaiThrowForward.tick();
+        } else {
+            kunaiThrowBackward.tick();
+        }
+        //else
+
     }
 
     //@Override
@@ -51,10 +59,11 @@ public class Kunai extends Entity {
     }
 
     private BufferedImage getCurrentAnimationFrame() {
-//        if(forward)
-        return kunaiThrow.getCurrentFrame();
-//        else
-//            return kunaiThrow.getCurrentFrame();
+        if (forward) {
+            return kunaiThrowForward.getCurrentFrame();
+        } else {
+            return kunaiThrowBackward.getCurrentFrame();
+        }
     }
 
     public void move(boolean forward) {

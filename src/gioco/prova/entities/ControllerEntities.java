@@ -53,16 +53,16 @@ public class ControllerEntities {
             fireball.tick();
         }
         for (int i = 0; i < kunaiPlayer.size(); i++) {
-                //System.out.println(kunaiPlayer.size());
+            //System.out.println(kunaiPlayer.size());
             kunai = kunaiPlayer.get(i);
             if (kunai.getX() > handler.getWidth()) {
                 removeKunaiPlayer(kunai);
             }
             kunai.tick();
         }
-        
+
         for (int i = 0; i < kunaiEnemies.size(); i++) {
-               //System.out.println(kunaiEnemies.size());
+            //System.out.println(kunaiEnemies.size());
             kunai = kunaiEnemies.get(i);
             if (kunai.getX() < -kunai.getWidth()) {
                 removeKunaiEnemies(kunai);
@@ -86,17 +86,21 @@ public class ControllerEntities {
             kunai = kunaiPlayer.get(i);
             kunai.render(g);
         }
-        
+
         for (int i = 0; i < kunaiEnemies.size(); i++) {
             kunai = kunaiEnemies.get(i);
             kunai.render(g);
         }
 
     }
-    
-    //public boolean collisionKunai(Kunai kunai){
-        // metodo che implementerà la collisione del kunai nemico con il player
-    //}
+
+//    public boolean collisionKunai(Kunai kunai) {
+//        if (kunai.getCollisionBounds(0f, 0f).intersects(handler.getGame()
+//                .getGameState().getPlayer().getCollisionBounds(0, 0))) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     public LinkedList<Enemies> getEnemies() {
         return e;
@@ -109,7 +113,6 @@ public class ControllerEntities {
 //    public LinkedList<Kunai> getKunaiEnemies() {
 //        return kunaiEnemies;
 //    }
-
     public boolean isNotShooting() {
         return f.isEmpty();
     }
@@ -125,6 +128,7 @@ public class ControllerEntities {
     public void addKunaiPlayer(Kunai kunai) {
         kunaiPlayer.add(kunai);
     }
+
     public void addKunaiEnemies(Kunai kunai) {
         kunaiEnemies.add(kunai);
     }
@@ -132,7 +136,7 @@ public class ControllerEntities {
     public void removeKunaiPlayer(Kunai kunai) {
         kunaiPlayer.remove(kunai);
     }
-    
+
     public void removeKunaiEnemies(Kunai kunai) {
         kunaiEnemies.remove(kunai);
     }
@@ -156,7 +160,7 @@ public class ControllerEntities {
     public LinkedList<Kunai> getListKunaiPlayer() {
         return kunaiPlayer;
     }
-    
+
     public LinkedList<Kunai> getListKunaiEnemies() {
         return kunaiEnemies;
     }
@@ -178,11 +182,11 @@ public class ControllerEntities {
     }
 
     private Enemies chooseEnemy(int n) {
-        if (n == 1) {
+//        if (n == 1) {
             return new Enemy3(handler, handler.getWidth(), 330, this);
-        } else {
-            return new Enemy2(handler, handler.getWidth(), 330);
-        }
+//        } else {
+//            return new Enemy2(handler, handler.getWidth(), 330);
+//        }
     }
 
 }
