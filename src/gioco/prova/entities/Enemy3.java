@@ -27,7 +27,10 @@ public class Enemy3 extends Enemies {
     private boolean lastDeadFrame = false;
 
     //varibili per il tempo
+    private long lastTimeJump = System.currentTimeMillis();
     private long lastTime = System.nanoTime();
+    private long lastTimeKunai = System.currentTimeMillis();
+
     private long now;
 
     protected double gravity;
@@ -106,24 +109,57 @@ public class Enemy3 extends Enemies {
         if (!isDead()) {
             fall();
             jump(jumpStep);
-            
-            //System.out.println(yDelta);
-            now = System.nanoTime();
-            if (y == groundHeight && now - lastTime > 950000000) {
-                yMove -= jumpStep;
-                jumping = true;
-                lastTime = System.nanoTime();
-            }
+            now = System.nanoTime(); //used for time generation of enemies        
 
-            //sparare dopo un certo tempo
-            if (c.getK().isEmpty() && now - lastTime > 500000000) {
-                c.addKunai(new Kunai(handler, this.getX(), this.getY(), width, height));
-                lastTime = System.nanoTime();
-            }
+            //System.out.println(yDelta);
+            enemyBehavior();
+//            now = System.currentTimeMillis();
+//            if (y == groundHeight && now - lastTimeJump > Math.random()) {
+//                yMove -= jumpStep;
+//                jumping = true;
+//                lastTimeJump = System.currentTimeMillis();
+//            }
+//
+//            //sparare dopo un certo tempo
+//            if (now - lastTimeKunai > 2000) {
+//                c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
+//                lastTimeKunai = System.currentTimeMillis();
+//            }
         }
 
     }
 
+    private void enemyBehavior() {
+        if (now - lastTime > 1500000000) {           //every 2 seconds at the moment
+            if ((int) (Math.random() * 2) == 1) {
+                if (y == groundHeight) {
+                    yMove -= jumpStep;
+                    jumping = true;
+                    //lastTimeJump = System.currentTimeMillis();
+                    lastTime = System.nanoTime();
+                }
+
+            } else {
+                c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
+                //lastTimeKunai = System.currentTimeMillis();
+                lastTime = System.nanoTime();
+            }
+        }
+    }
+
+//    public boolean checkPlayerColliion(float xOffset, float yOffset) {
+//        if (.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
+//            if (e.isDead()) {
+//                    //jumping = true;
+//                //jump(jumpStep, groundHeight+100);
+//                return false;
+//            }
+//            return true;
+//        }
+//
+//        return false;
+//
+//    }
     @Override
     public void render(Graphics g) {
         if (jumping == false && falling == false) {

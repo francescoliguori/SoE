@@ -38,9 +38,9 @@ public abstract class Enemies extends Creature {
     //entra in collisione con un kunai lanciato dal personaggio
     public boolean checkKunaiCollisions(float xOffset,float yOffset)
     {
-       for (Kunai k : handler.getGame().getGameState().getController().getK()){
+       for (Kunai k : handler.getGame().getGameState().getController().getListKunaiPlayer()){
            if (k.getCollisionBounds(0f,0f).intersects(this.getCollisionBounds(xOffset, yOffset))){
-               handler.getGame().getGameState().getController().removeKunai(k);
+               handler.getGame().getGameState().getController().removeKunaiPlayer(k);
                return true;
            }
                

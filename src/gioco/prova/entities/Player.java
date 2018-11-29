@@ -151,7 +151,7 @@ public class Player extends Creature {
 
     //questo metodo è utilizzato per controllare se il player 
     //entra in collisione con un nemico
-    public boolean checkEnemyColliions(float xOffset, float yOffset) {
+    public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 if(e.isDead()){
@@ -217,9 +217,9 @@ public class Player extends Creature {
         }
 
         //lo facciamo sparare solo se premiamo V e
-        if (handler.getKeyManager().v && c.getK().isEmpty()) {
+        if (handler.getKeyManager().v && c.getListKunaiPlayer().isEmpty()) {
             //canShoot=false;
-            c.addKunai(new Kunai(handler, this.getX(), this.getY(), width, height));
+            c.addKunaiPlayer(new Kunai(handler, this.getX(), this.getY(), width, height, true));
         }
 
     }
@@ -243,7 +243,7 @@ public class Player extends Creature {
 
     private BufferedImage getCurrentAnimationFrame() {
         if (jumping) {
-            if (this.checkEnemyColliions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
@@ -257,7 +257,7 @@ public class Player extends Creature {
             return animDown.getCurrentFrame();
 
         } else if (falling && y >= (groundHeight - jumpStrength)) {
-            if (this.checkEnemyColliions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
@@ -265,7 +265,7 @@ public class Player extends Creature {
 
         }
         if (xMove < 0) {
-            if (this.checkEnemyColliions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
@@ -273,13 +273,13 @@ public class Player extends Creature {
             return animRunningLeft.getCurrentFrame();
         }
         if (xMove > 0) {
-            if (this.checkEnemyColliions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0)) {
 
                 return animDown.getCurrentFrame();
             }
             return animRunningRight.getCurrentFrame();
         }
-        if (this.checkEnemyColliions(0, 0)) {
+        if (this.checkEnemyCollisions(0, 0)) {
 
             return animDown.getCurrentFrame();
         }
