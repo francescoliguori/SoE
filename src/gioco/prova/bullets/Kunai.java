@@ -13,49 +13,57 @@ import gioco.prova.gfx.Assets;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-
 /**
  *
  * @author marcoruggiero
  */
 public class Kunai extends Entity {
-    
+
     private Animation kunaiThrow;
-    
-    public Kunai(Handler handler, float x, float y, int width, int height){
-       super(handler,  x,  y,  width,  height);
-       kunaiThrow = new Animation(100, Assets.kunaiThrow);
-       //creazione del quadrato di collisione per il kunai
-       bounds.x = 118;
-       bounds.y = 125;
-       bounds.width = 23;
-       bounds.height = 10;
+    // private boolean forward;
+
+    public Kunai(Handler handler, float x, float y, int width, int height) {
+        super(handler, x, y, width, height);
+        kunaiThrow = new Animation(100, Assets.kunaiThrow);
+        //creazione del quadrato di collisione per il kunai
+        bounds.x = 118;
+        bounds.y = 125;
+        bounds.width = 23;
+        bounds.height = 10;
+        //this.forward = forward;
     }
 
     @Override
-    public void tick(){
-      
-       move();
-       
+    public void tick() {
+        //move(forward);
+        move();
         kunaiThrow.tick();
     }
 
     //@Override
     public void render(Graphics g) {
- 
-         g.drawImage(getCurrentAnimationFrame(), (int) x+40, (int) y-15, null);
-         //g.setColor(Color.red);
-         //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
-       
+
+        g.drawImage(getCurrentAnimationFrame(), (int) x + 40, (int) y - 15, null);
+        //g.setColor(Color.red);
+        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
+
     }
-    
-    private BufferedImage getCurrentAnimationFrame(){
-        return kunaiThrow.getCurrentFrame();   
+
+    private BufferedImage getCurrentAnimationFrame() {
+//        if(forward)
+        return kunaiThrow.getCurrentFrame();
+//        else
+//            return kunaiThrow.getCurrentFrame();
     }
-    
-    public void move(){
-        x+=17;
+
+//    public void move(boolean ) {
+//        if (forward) {
+//            x += 17;
+//        } else {
+//            x -= 17;
+//        }
+//    }
+    public void move() {
+        x += 17;
     }
-     
-    
 }

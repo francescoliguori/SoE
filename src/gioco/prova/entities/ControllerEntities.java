@@ -28,24 +28,13 @@ public class ControllerEntities {
     private long lastTime=System.nanoTime() ; //used for generation of enemies 
     private Fireball fireball;
     private Kunai kunai;
+    private Enemy3 enemy3;
     
     public ControllerEntities(Handler handler) {
         this.handler = handler;
     }
     
     public void tick(){
-    /*    for(int i = 0; i < e.size(); i++){
-            tempEnemy = e.get(i);
-            tempEnemy.tick();
-        }
-        for(int i = 0; i < f.size(); i++)
-        {
-            
-            fireball = f.get(i);
-            fireball.tick();
-        
-            
-       }*/
     for(int i = 0; i < e.size(); i++){
       
             tempEnemy = e.get(i);
@@ -54,7 +43,7 @@ public class ControllerEntities {
             tempEnemy.tick();
         }
     for(int i = 0; i < f.size(); i++){
-            System.out.println(f.size());
+//            System.out.println(f.size());
            fireball = f.get(i);          
             if(fireball.getX()> handler.getWidth()){               
                 removeFireball(fireball);
@@ -62,7 +51,7 @@ public class ControllerEntities {
             fireball.tick();   
          }
     for(int i = 0; i < k.size(); i++){
-                System.out.println(k.size());
+//                System.out.println(k.size());
            kunai =k.get(i);          
             if(kunai.getX()> handler.getWidth()){               
                 removeKunai(kunai);
@@ -121,6 +110,10 @@ public class ControllerEntities {
         e.remove(enemy);
     }
     
+    public void jumpEnemy(Enemies enemy) {
+        enemy3.jump(15);
+    }
+    
     public LinkedList<Fireball> getF(){
         return f;
     }
@@ -133,19 +126,25 @@ public class ControllerEntities {
         return e;
     }
     
+    private void enemyJump() {
+        jumpEnemy(chooseEnemy(1));
+    }
+    
     private void enemyGenerator(){
          long now=System.nanoTime() ; //used for time generation of enemies        
          if(now - lastTime > 2000000000){           //every 2 seconds at the moment
-             addEnemy(chooseEnemy((int)(Math.random()*3)));
+             addEnemy(chooseEnemy((int)(Math.random()*2)));
              lastTime=System.nanoTime();
          }
     }  
+    
    private Enemies chooseEnemy(int n){
        if(n==1){
-           return new  Enemy1(handler,handler.getWidth(), 150);
+           return new Enemy3(handler,handler.getWidth(), 330, this);
        }
-        else if(n == 0)return new Enemy2(handler,handler.getWidth(), 300);
-       return new Enemy3(handler,handler.getWidth(), 300);
+       else{
+            return new Enemy2(handler,handler.getWidth(), 330);
+       }
    }
    
 }

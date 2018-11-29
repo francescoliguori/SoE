@@ -43,13 +43,8 @@ public class ScrollBackground {
     }
     
     public void render(Graphics g) {
-        try {
-            Thread.currentThread().sleep(scrolling);
-            for(int i = 0; i < bg.length; i++) {
+        for(int i = 0; i < bg.length; i++) {
                 g.drawImage(bg[i].getImage(), bg[i].getX(), 0, null);
-            }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ScrollBackground.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

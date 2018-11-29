@@ -7,6 +7,7 @@ package gioco.prova.display;
 
 import java.awt.image.BufferedImage;
 import gioco.prova.gfx.ImageLoader;
+import java.awt.Graphics;
 
 /**
  *
@@ -31,5 +32,9 @@ public class Background {
 
     public BufferedImage getImage() {
         return image;
+    }
+    
+    public void render(Graphics g) {
+        g.drawImage(image, 0, 0, null);
     }
 }
