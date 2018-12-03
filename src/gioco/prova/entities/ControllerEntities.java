@@ -182,11 +182,11 @@ public class ControllerEntities {
     }
 
     private Enemies chooseEnemy(int n) {
-//        if (n == 1) {
+        if (n == 1) {
             return new Enemy3(handler, handler.getWidth(), 330, this);
-//        } else {
-//            return new Enemy2(handler, handler.getWidth(), 330);
-//        }
+        } else {
+            return new Enemy2(handler, handler.getWidth(), 330);
+        }
     }
 
 }
