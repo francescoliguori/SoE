@@ -39,7 +39,8 @@ public class GameState extends State
         paths[1] = "/background/tree3.png";
         //paths[2] = "/background/tree2.png";
         paths[2] = "/background/0red.png";
-        parallax = new ParallaxBackground(paths, (int)player.getSpeed()/2);
+        //parallax = new ParallaxBackground(paths, (int)player.getSpeed());
+        parallax = new ParallaxBackground(paths, (int)(player.getSpeed()/2));
         fixBg = new Background(0, "/background/bgMoon.png");
        
     }

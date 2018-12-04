@@ -30,7 +30,7 @@ public class Enemy1 extends Enemies  {
     }
         
         
-      @Override
+    @Override
     public void tick() {
        enemyRunning1.tick();
        getInput();

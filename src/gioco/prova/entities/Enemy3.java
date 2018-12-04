@@ -106,13 +106,20 @@ public class Enemy3 extends Enemies {
 
         xMove -= speed;
 
-        if (!isDead()) {
+        //if (!isDead()) {
+        //if (!isDead() || (isDead() && !this.collisionWithGround(this.getY()))) {
             fall();
-            jump(jumpStep);
+            if(!isDead()){
+                jump(jumpStep);
+            }
+            
             now = System.nanoTime(); //used for time generation of enemies        
 
             //System.out.println(yDelta);
-            enemyBehavior();
+             if(!isDead()){
+             enemyBehavior();    
+             }
+            
 //            now = System.currentTimeMillis();
 //            if (y == groundHeight && now - lastTimeJump > Math.random()) {
 //                yMove -= jumpStep;
@@ -125,12 +132,12 @@ public class Enemy3 extends Enemies {
 //                c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
 //                lastTimeKunai = System.currentTimeMillis();
 //            }
-        }
+        //}
 
     }
 
     private void enemyBehavior() {
-        if (now - lastTime > 1500000000) {           //every 2 seconds at the moment
+        if (now - lastTime > 500000000) {           //every 2 seconds at the moment
             if ((int) (Math.random() * 2) == 1) {
                 if (y == groundHeight) {
                     yMove -= jumpStep;
@@ -141,10 +148,15 @@ public class Enemy3 extends Enemies {
 
             } else {
                 c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
+                
                 //lastTimeKunai = System.currentTimeMillis();
                 lastTime = System.nanoTime();
             }
         }
+        /* if (y == groundHeight) {
+                    yMove -= jumpStep;
+                    jumping = true;
+         }*/
     }
 
 //    public boolean checkPlayerColliion(float xOffset, float yOffset) {
@@ -162,18 +174,29 @@ public class Enemy3 extends Enemies {
 //    }
     @Override
     public void render(Graphics g) {
-        if (jumping == false && falling == false) {
-            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-        } else if (jumping == true) {
-            g.drawImage(enemyJump3.getFrame(3), (int) x, (int) y, null);
+       
+        g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+        /* else if (jumping == true) {
+            //g.drawImage(enemyJump3.getFrame(3), (int) x, (int) y, null);
+            
+                g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+            
+           
         } else if (falling == true && jumping == false) {
-            g.drawImage(enemyJump3.getFrame(2), (int) x, (int) y, null);
-        }
+            //g.drawImage(enemyJump3.getFrame(2), (int) x, (int) y, null);
+                g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+            
+            //g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+        }*/
+        //g.setColor(Color.red);
+        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
     }
 
     private BufferedImage getCurrentAnimationFrame() {
         if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
             dead = true;
+            falling = true;
+            //System.out.println("Nemico colpito");
             //handler.getGame().getGameState().getController().removeEnemy(this);
             return this.enemyDead3.getCurrentFrame();
         }
@@ -187,6 +210,13 @@ public class Enemy3 extends Enemies {
                 lastDeadFrame = true;
             }
             return this.enemyDead3.getCurrentFrame();
+        }
+        if (jumping == true) {
+            return this.enemyJump3.getFrame(3);
+        }
+        if (falling == true && jumping == false) {
+            return this.enemyJump3.getFrame(2);
+            
         }
 
         return this.enemyRunning3.getCurrentFrame();

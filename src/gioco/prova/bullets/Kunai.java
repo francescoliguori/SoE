@@ -49,10 +49,19 @@ public class Kunai extends Entity {
 
     }
 
+    public boolean isForward() {
+        return forward;
+    }
+
     //@Override
     public void render(Graphics g) {
-
-        g.drawImage(getCurrentAnimationFrame(), (int) x + 40, (int) y - 15, null);
+        if(isForward()){
+        g.drawImage(getCurrentAnimationFrame(), (int) x + 57, (int) y +1, null);
+            
+        }else{
+        g.drawImage(getCurrentAnimationFrame(), (int) x +35, (int) y +6, null);
+            
+        }
         //g.setColor(Color.red);
         //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
 
