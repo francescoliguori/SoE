@@ -70,7 +70,7 @@ public abstract class Creature extends Entity
         return DEAFULT_SPEED;
     }
     public static void changeDefaultSpeed(){
-        DEAFULT_SPEED += 2;
+        DEAFULT_SPEED += 1.5;
     }
 //    public void setSpeed(float speed) {
 //        

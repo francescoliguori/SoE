@@ -76,9 +76,9 @@ public class ControllerEntities {
         }
 
         enemyGenerator();
-        
+
         if (System.nanoTime() - TimeToUp > 5000000000L) {
-            System.out.println(TimeToUp+ countDifficulty);
+            System.out.println(TimeToUp + countDifficulty);
             checkDifficulty();
             countDifficulty += 1;
             TimeToUp = System.nanoTime();
@@ -111,50 +111,39 @@ public class ControllerEntities {
 //        if (handler.getKeyManager().j) {
         switch (countDifficulty) {
             case 0:
-//                    for (int i = 0; i <= e.size(); i++) {
-//                        e.get(i).setSpeed(12.0f);
-//                    }
                 Creature.changeDefaultSpeed();
-//                    countDifficulty++;
-//                System.err.println("diffuculty" + countDifficulty);
+//              countDifficulty++;
+//              System.err.println("diffuculty" + countDifficulty);
                 break;
             case 1:
                 Creature.changeDefaultSpeed();
                 this.TimeEnemyGenerator -= 0.5f; //1.5 sec
-//                    countDifficulty++;
-//                System.err.println("diffuculty" + countDifficulty);
+//              countDifficulty++;
+//              System.err.println("diffuculty" + countDifficulty);
                 break;
             case 2:
                 Creature.changeDefaultSpeed();
-//                    for (Enemies e: getEnemies()) {
-//                        if (e instanceof Enemy3) {
                 Enemy3.setTimeBehavior(1.0f); //1 sec
-//                        }
-//                    }
-//                    countDifficulty++;
-//                System.err.println("diffuculty" + countDifficulty);
+//              countDifficulty++;
+//              System.err.println("diffuculty" + countDifficulty);
                 break;
             case 3:
                 Creature.changeDefaultSpeed();
-                this.TimeEnemyGenerator -= 0.5f; // 1 sec
-//                    countDifficulty++;
-//                System.err.println("diffuculty" + countDifficulty);
+                this.TimeEnemyGenerator -= 0.7f; // 0.8 sec
+//              countDifficulty++;
+//              System.err.println("diffuculty" + countDifficulty);
                 break;
             case 4:
                 Creature.changeDefaultSpeed();
-//                    for (Enemies e: getEnemies()) {
-//                        if (e instanceof Enemy3) {
                 Enemy3.setTimeBehavior(0.5f); //1 sec
-//                        }
-//                    }
-//                    countDifficulty++;
-//                System.err.println("diffuculty" + countDifficulty);
+//              countDifficulty++;
+//              System.err.println("diffuculty" + countDifficulty);
                 break;
             default:
-//                System.err.println("diffuculty" + countDifficulty);
+//              System.err.println("diffuculty" + countDifficulty);
                 break;
         }
-//        }
+//    }
     }
 
     //public boolean collisionKunai(Kunai kunai){
