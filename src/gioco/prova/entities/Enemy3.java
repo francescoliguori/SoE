@@ -40,7 +40,10 @@ public class Enemy3 extends Enemies {
     private float jumpStep = 15;
 
     private float groundHeight;
+    
+    private static float timeBehavior = 1.5f;
 
+    
     public Enemy3(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y);
         enemyRunning3 = new Animation(100, Assets.enemies3);
@@ -49,7 +52,6 @@ public class Enemy3 extends Enemies {
 
         this.c = c;
         groundHeight = y;
-
         bounds.x = 20;
         bounds.y = 80;
         bounds.height = 80;
@@ -108,18 +110,17 @@ public class Enemy3 extends Enemies {
 
         //if (!isDead()) {
         //if (!isDead() || (isDead() && !this.collisionWithGround(this.getY()))) {
-            fall();
-            if(!isDead()){
-                jump(jumpStep);
-            }
-            
-            now = System.nanoTime(); //used for time generation of enemies        
+        fall();
+        if (!isDead()) {
+            jump(jumpStep);
+        }
 
-            //System.out.println(yDelta);
-             if(!isDead()){
-             enemyBehavior();    
-             }
-            
+        now = System.nanoTime(); //used for time generation of enemies        
+
+        //System.out.println(yDelta);
+        if (!isDead()) {
+            enemyBehavior();
+        }
 //            now = System.currentTimeMillis();
 //            if (y == groundHeight && now - lastTimeJump > Math.random()) {
 //                yMove -= jumpStep;
@@ -133,11 +134,15 @@ public class Enemy3 extends Enemies {
 //                lastTimeKunai = System.currentTimeMillis();
 //            }
         //}
+    }
 
+   public static void setTimeBehavior(float time) {
+        timeBehavior = time;
     }
 
     private void enemyBehavior() {
-        if (now - lastTime > 500000000) {           //every 2 seconds at the moment
+        if (now - lastTime > timeBehavior*1000000000) {           //every 2 seconds at the moment
+            System.out.println(timeBehavior);
             if ((int) (Math.random() * 2) == 1) {
                 if (y == groundHeight) {
                     yMove -= jumpStep;
@@ -148,7 +153,7 @@ public class Enemy3 extends Enemies {
 
             } else {
                 c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
-                
+
                 //lastTimeKunai = System.currentTimeMillis();
                 lastTime = System.nanoTime();
             }
@@ -174,8 +179,14 @@ public class Enemy3 extends Enemies {
 //    }
     @Override
     public void render(Graphics g) {
-       
-        g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+
+        if(lastDeadFrame){
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y+8, null);
+        }
+        else{
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+        }
+            
         /* else if (jumping == true) {
             //g.drawImage(enemyJump3.getFrame(3), (int) x, (int) y, null);
             
@@ -216,7 +227,7 @@ public class Enemy3 extends Enemies {
         }
         if (falling == true && jumping == false) {
             return this.enemyJump3.getFrame(2);
-            
+
         }
 
         return this.enemyRunning3.getCurrentFrame();

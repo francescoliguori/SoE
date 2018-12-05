@@ -16,7 +16,7 @@ public abstract class Creature extends Entity
 {
     public static final int DEFAULT_HEALTH = 10;
     protected int health;
-    public static final float DEAFULT_SPEED = 10.0f;
+    protected static float DEAFULT_SPEED = 10.0f;
     protected float speed;
     public static final int DEFAULT_CREATURE_WIDTH = 155;
     public static final int DEFAULT_CREATURE_HEIGHT = 187;
@@ -66,8 +66,15 @@ public abstract class Creature extends Entity
         return speed;
     }
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
+    public static float getDEAFULT_SPEED() {
+        return DEAFULT_SPEED;
     }
+    public static void changeDefaultSpeed(){
+        DEAFULT_SPEED += 2;
+    }
+//    public void setSpeed(float speed) {
+//        
+//        this.speed = DEAFULT_SPEED;
+//    }
     
 }

@@ -168,7 +168,7 @@ public class Player extends Creature {
     public boolean checkKunaiEnemyCollisions(float xOffset, float yOffset){
         for (Kunai k : handler.getGame().getGameState().getController().getListKunaiEnemies()) {
             if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
-            System.out.println("Collisione con kunai nemico");
+//            System.out.println("Collisione con kunai nemico");
                 return true;
             }
             

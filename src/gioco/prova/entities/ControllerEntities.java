@@ -31,6 +31,11 @@ public class ControllerEntities {
     private Kunai kunai;
     private Enemy3 enemy3;
 
+    private int countDifficulty = 0;
+    private float TimeEnemyGenerator = 2.0f;
+
+    private float TimeToUp = System.nanoTime();
+
     public ControllerEntities(Handler handler) {
         this.handler = handler;
     }
@@ -53,16 +58,16 @@ public class ControllerEntities {
             fireball.tick();
         }
         for (int i = 0; i < kunaiPlayer.size(); i++) {
-                //System.out.println(kunaiPlayer.size());
+            //System.out.println(kunaiPlayer.size());
             kunai = kunaiPlayer.get(i);
             if (kunai.getX() > handler.getWidth()) {
                 removeKunaiPlayer(kunai);
             }
             kunai.tick();
         }
-        
+
         for (int i = 0; i < kunaiEnemies.size(); i++) {
-               //System.out.println(kunaiEnemies.size());
+            //System.out.println(kunaiEnemies.size());
             kunai = kunaiEnemies.get(i);
             if (kunai.getX() < -kunai.getWidth()) {
                 removeKunaiEnemies(kunai);
@@ -71,6 +76,13 @@ public class ControllerEntities {
         }
 
         enemyGenerator();
+        
+        if (System.nanoTime() - TimeToUp > 5000000000L) {
+            System.out.println(TimeToUp+ countDifficulty);
+            checkDifficulty();
+            countDifficulty += 1;
+            TimeToUp = System.nanoTime();
+        }
     }
 
     public void render(Graphics g) {
@@ -86,18 +98,68 @@ public class ControllerEntities {
             kunai = kunaiPlayer.get(i);
             kunai.render(g);
         }
-        
+
         for (int i = 0; i < kunaiEnemies.size(); i++) {
             kunai = kunaiEnemies.get(i);
             kunai.render(g);
         }
 
     }
-    
-    //public boolean collisionKunai(Kunai kunai){
-        // metodo che implementerà la collisione del kunai nemico con il player
-    //}
 
+    private void checkDifficulty() {
+        //check the difficulty
+//        if (handler.getKeyManager().j) {
+        switch (countDifficulty) {
+            case 0:
+//                    for (int i = 0; i <= e.size(); i++) {
+//                        e.get(i).setSpeed(12.0f);
+//                    }
+                Creature.changeDefaultSpeed();
+//                    countDifficulty++;
+//                System.err.println("diffuculty" + countDifficulty);
+                break;
+            case 1:
+                Creature.changeDefaultSpeed();
+                this.TimeEnemyGenerator -= 0.5f; //1.5 sec
+//                    countDifficulty++;
+//                System.err.println("diffuculty" + countDifficulty);
+                break;
+            case 2:
+                Creature.changeDefaultSpeed();
+//                    for (Enemies e: getEnemies()) {
+//                        if (e instanceof Enemy3) {
+                Enemy3.setTimeBehavior(1.0f); //1 sec
+//                        }
+//                    }
+//                    countDifficulty++;
+//                System.err.println("diffuculty" + countDifficulty);
+                break;
+            case 3:
+                Creature.changeDefaultSpeed();
+                this.TimeEnemyGenerator -= 0.5f; // 1 sec
+//                    countDifficulty++;
+//                System.err.println("diffuculty" + countDifficulty);
+                break;
+            case 4:
+                Creature.changeDefaultSpeed();
+//                    for (Enemies e: getEnemies()) {
+//                        if (e instanceof Enemy3) {
+                Enemy3.setTimeBehavior(0.5f); //1 sec
+//                        }
+//                    }
+//                    countDifficulty++;
+//                System.err.println("diffuculty" + countDifficulty);
+                break;
+            default:
+//                System.err.println("diffuculty" + countDifficulty);
+                break;
+        }
+//        }
+    }
+
+    //public boolean collisionKunai(Kunai kunai){
+    // metodo che implementerà la collisione del kunai nemico con il player
+    //}
     public LinkedList<Enemies> getEnemies() {
         return e;
     }
@@ -109,7 +171,6 @@ public class ControllerEntities {
 //    public LinkedList<Kunai> getKunaiEnemies() {
 //        return kunaiEnemies;
 //    }
-
     public boolean isNotShooting() {
         return f.isEmpty();
     }
@@ -125,6 +186,7 @@ public class ControllerEntities {
     public void addKunaiPlayer(Kunai kunai) {
         kunaiPlayer.add(kunai);
     }
+
     public void addKunaiEnemies(Kunai kunai) {
         kunaiEnemies.add(kunai);
     }
@@ -132,7 +194,7 @@ public class ControllerEntities {
     public void removeKunaiPlayer(Kunai kunai) {
         kunaiPlayer.remove(kunai);
     }
-    
+
     public void removeKunaiEnemies(Kunai kunai) {
         kunaiEnemies.remove(kunai);
     }
@@ -145,10 +207,9 @@ public class ControllerEntities {
         e.remove(enemy);
     }
 
-    public void jumpEnemy(Enemies enemy) {
-        enemy3.jump(15);
-    }
-
+//    public void jumpEnemy(Enemies enemy) {
+//        enemy3.jump(15);
+//    }
     public LinkedList<Fireball> getF() {
         return f;
     }
@@ -156,7 +217,7 @@ public class ControllerEntities {
     public LinkedList<Kunai> getListKunaiPlayer() {
         return kunaiPlayer;
     }
-    
+
     public LinkedList<Kunai> getListKunaiEnemies() {
         return kunaiEnemies;
     }
@@ -165,13 +226,12 @@ public class ControllerEntities {
         return e;
     }
 
-    private void enemyJump() {
-        jumpEnemy(chooseEnemy(1));
-    }
-
+//    private void enemyJump() {
+//        jumpEnemy(chooseEnemy(1));
+//    }
     private void enemyGenerator() {
         long now = System.nanoTime(); //used for time generation of enemies        
-        if (now - lastTime > 2000000000) {           //every 2 seconds at the moment
+        if (now - lastTime > TimeEnemyGenerator * 1000000000) {           //every 2 seconds at the moment
             addEnemy(chooseEnemy((int) (Math.random() * 2)));
             lastTime = System.nanoTime();
         }

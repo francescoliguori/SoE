@@ -16,7 +16,7 @@ import java.awt.Graphics;
  * @author Utente
  */
 public class Enemy1 extends Enemies  {
-     private Animation enemyRunning1;    
+    private Animation enemyRunning1;    
 
     public Enemy1(Handler handler, float x, float y) {
         super(handler, x, y);
@@ -54,5 +54,7 @@ public class Enemy1 extends Enemies  {
                 xMove -= speed;
             //}                 
     }
+
+   
    
 }

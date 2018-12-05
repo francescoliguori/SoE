@@ -48,8 +48,12 @@ public class Enemy2 extends Enemies {
     @Override
     public void render(Graphics g) {
         //g.drawImage(enemyRunning2.getCurrentFrame(), (int) x, (int) y, null);
-        g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-
+        if(lastDeadFrame){
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y+15, null);
+        }
+        else{
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+        }
         //g.setColor(Color.red);
         //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
     }
@@ -84,5 +88,7 @@ public class Enemy2 extends Enemies {
 
         return this.enemyRunning2.getCurrentFrame();
     }
+
+    
 
 }

@@ -6,6 +6,7 @@
 package gioco.prova.bullets;
 
 import gioco.prova.Handler;
+import gioco.prova.entities.Creature;
 import gioco.prova.entities.Entity;
 import java.awt.Graphics;
 import gioco.prova.gfx.Animation;
@@ -79,7 +80,7 @@ public class Kunai extends Entity {
         if (forward) {
             x += 17;
         } else {
-            x -= 17;
+            x -= 17 + (Creature.getDEAFULT_SPEED()-10);
         }
     }
 //    public void move() {
