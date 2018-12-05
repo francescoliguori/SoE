@@ -54,7 +54,7 @@ public class ScrollBackgroundTest {
      */
     @Test
     public void testTick() {
-        //System.out.println("tick");
+        System.out.println("tick");
         ScrollBackground instance = scrollbg;
         int scrolling = scrollbg.getScrolling();
         Background[] bg = scrollbg.getBg();
@@ -70,6 +70,6 @@ public class ScrollBackgroundTest {
             after[i] = bg[i].getX();
         
         //Check if the background is scrolling
-        assertNotSame(before, after);
+        assertNotEquals(before, after);
     }
 }

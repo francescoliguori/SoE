@@ -187,7 +187,7 @@ public class ControllerEntitiesTest {
      * Test of addKunai method, of class ControllerEntities.
      */
     @Test
-    public void testAddKunai() {
+    public void testAddKunaiPlayer() {
         System.out.println("addKunai");
         int expNumKunai = 1;
         int numKunai = 0;
@@ -198,12 +198,24 @@ public class ControllerEntitiesTest {
         //Check if the kunai has been added to the controller's kunai list.
         assertEquals(expNumKunai, numKunai);
     }
+    @Test
+    public void testAddKunaiEnemy() {
+        System.out.println("addKunai");
+        int expNumKunai = 1;
+        int numKunai = 0;
+        Kunai kunai = new Kunai(handler, 40, 40, 155, 187, false);
+        ControllerEntities instance = controller;
+        instance.addKunaiEnemies(kunai);
+        numKunai = instance.getListKunaiEnemies().size();
+        //Check if the kunai has been added to the controller's kunai list.
+        assertEquals(expNumKunai, numKunai);
+    }
 
     /**
      * Test of removeKunai method, of class ControllerEntities.
      */
     @Test
-    public void testRemoveKunai() {
+    public void testRemoveKunaiPlayer() {
         System.out.println("removeKunai");
         int expNumKunai = 0;
         int numKunai = 0;
@@ -220,6 +232,27 @@ public class ControllerEntitiesTest {
         expNumKunai = 0;
         instance.removeKunaiPlayer(kunai);
         numKunai = instance.getListKunaiPlayer().size();
+        assertEquals(expNumKunai, numKunai);
+    }
+    
+    @Test
+    public void testRemoveKunaiEnemy() {
+        System.out.println("removeKunai");
+        int expNumKunai = 0;
+        int numKunai = 0;
+        Kunai kunai = new Kunai(handler, 40, 40, 155, 187, false);
+        ControllerEntities instance = controller;
+        
+        //Check if the kunai has been added to the controller's kunai list.
+        expNumKunai = 1;
+        instance.addKunaiEnemies(kunai);
+        numKunai = instance.getListKunaiEnemies().size();
+        assertEquals(expNumKunai, numKunai);
+        
+        //Check if the kunai has been removed from the controller's kunai list.
+        expNumKunai = 0;
+        instance.removeKunaiEnemies(kunai);
+        numKunai = instance.getListKunaiEnemies().size();
         assertEquals(expNumKunai, numKunai);
     }
 
@@ -289,7 +322,7 @@ public class ControllerEntitiesTest {
      * Test of getK method, of class ControllerEntities.
      */
     @Test
-    public void testGetK() {
+    public void testgetListKunaiPlayer() {
         System.out.println("getK");
         ControllerEntities instance = controller;
         LinkedList<Kunai> expResult = new LinkedList<>();
@@ -302,6 +335,25 @@ public class ControllerEntitiesTest {
         }
         
         LinkedList<Kunai> result = instance.getListKunaiPlayer();
+        
+        //Check if the fireballs list are the same.
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testgetListKunaiEnemies() {
+        System.out.println("getK");
+        ControllerEntities instance = controller;
+        LinkedList<Kunai> expResult = new LinkedList<>();
+        Kunai tempKunai;
+        
+        for (int i=0; i<2; i++) {
+            tempKunai = new Kunai(handler, 40, 40, 155, 187, false); 
+            expResult.add(tempKunai);
+            instance.addKunaiEnemies(tempKunai);
+        }
+        
+        LinkedList<Kunai> result = instance.getListKunaiEnemies();
         
         //Check if the fireballs list are the same.
         assertEquals(expResult, result);
