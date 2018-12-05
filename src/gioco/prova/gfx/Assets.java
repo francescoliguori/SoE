@@ -35,8 +35,8 @@ public class Assets {
     public static void init()
     {   
         //si crea lo spritesheet da utilizzare
-        SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi_jump_piccolo.png"));
-        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies8.png"));
+        SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi.png"));
+        SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies.png"));
 //        SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
 //        SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
         SpriteSheet sheetBullets= new SpriteSheet(ImageLoader.loadImage("/bullets.png"));
