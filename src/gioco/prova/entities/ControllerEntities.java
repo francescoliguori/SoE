@@ -78,7 +78,7 @@ public class ControllerEntities {
         enemyGenerator();
 
         if (System.nanoTime() - TimeToUp > 5000000000L) {
-            System.out.println(TimeToUp + countDifficulty);
+//            System.out.println(TimeToUp + countDifficulty);
             checkDifficulty();
             countDifficulty += 1;
             TimeToUp = System.nanoTime();

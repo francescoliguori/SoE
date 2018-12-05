@@ -14,7 +14,7 @@ import gioco.prova.Handler;
  */
 public abstract class Creature extends Entity
 {
-    public static final int DEFAULT_HEALTH = 10;
+    public static final int DEFAULT_HEALTH = 3;
     protected int health;
     protected static float DEAFULT_SPEED = 10.0f;
     protected float speed;

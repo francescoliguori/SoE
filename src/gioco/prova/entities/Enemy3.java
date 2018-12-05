@@ -142,7 +142,7 @@ public class Enemy3 extends Enemies {
 
     private void enemyBehavior() {
         if (now - lastTime > timeBehavior*1000000000) {           //every 2 seconds at the moment
-            System.out.println(timeBehavior);
+//            System.out.println(timeBehavior);
             if ((int) (Math.random() * 2) == 1) {
                 if (y == groundHeight) {
                     yMove -= jumpStep;
@@ -181,7 +181,7 @@ public class Enemy3 extends Enemies {
     public void render(Graphics g) {
 
         if(lastDeadFrame){
-            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y+8, null);
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y+12, null);
         }
         else{
             g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);

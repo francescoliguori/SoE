@@ -14,6 +14,8 @@ import gioco.prova.gfx.Assets;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,6 +46,8 @@ public class Player extends Creature {
     private float slideStepX = 50; //15
 
     private float groundHeight;
+    private float collisionTime = System.nanoTime();
+    private boolean isCollision = false;
 
     public Player(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -80,6 +84,11 @@ public class Player extends Creature {
         //movimento
         getInput();
         move();
+
+        if (System.nanoTime() - collisionTime > 2000000000) { //2 sec
+            isCollision = false;
+            collisionTime = System.nanoTime();
+        }
 
         /*if (y < 100){
          //y -= jumpStrength/3;
@@ -154,27 +163,27 @@ public class Player extends Creature {
     public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
-                if(e.isDead()){
+                if (e.isDead()) {
                     //jumping = true;
                     //jump(jumpStep, groundHeight+100);
                     return false;
-                 } 
+                }
                 return true;
             }
         }
         return false;
-
     }
-    public boolean checkKunaiEnemyCollisions(float xOffset, float yOffset){
+
+    public boolean checkKunaiEnemyCollisions(float xOffset, float yOffset) {
         for (Kunai k : handler.getGame().getGameState().getController().getListKunaiEnemies()) {
             if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
 //            System.out.println("Collisione con kunai nemico");
                 return true;
             }
-            
+
         }
         return false;
-        
+
     }
 
     public void getInput() {
@@ -227,7 +236,7 @@ public class Player extends Creature {
             c.addFireball(new Fireball(handler, this.getX(), this.getY(), width, height));
         }
 
-        //lo facciamo sparare solo se premiamo V e
+        //lo facciamo sparare solo se premiamo V e non ci sono altri kunai
         if (handler.getKeyManager().v && c.getListKunaiPlayer().isEmpty()) {
             //canShoot=false;
             c.addKunaiPlayer(new Kunai(handler, this.getX(), this.getY(), width, height, true));
@@ -255,7 +264,9 @@ public class Player extends Creature {
     private BufferedImage getCurrentAnimationFrame() {
         if (jumping) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-
+                if(!isCollision)
+                    this.setHealth(this.getHealth() - 1);
+                isCollision = true;
                 return animDown.getCurrentFrame();
             }
             if (y >= groundHeight - (jumpStrength * 2 / 4)) {
@@ -269,7 +280,9 @@ public class Player extends Creature {
 
         } else if (falling && y >= (groundHeight - jumpStrength)) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-
+                if(!isCollision)
+                    this.setHealth(this.getHealth() - 1);
+                isCollision = true;
                 return animDown.getCurrentFrame();
             }
             return animJump.getFrame(6);
@@ -277,7 +290,9 @@ public class Player extends Creature {
         }
         if (xMove < 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-
+                if(!isCollision)
+                    this.setHealth(this.getHealth() - 1);
+                isCollision = true;
                 return animDown.getCurrentFrame();
             }
 
@@ -285,16 +300,20 @@ public class Player extends Creature {
         }
         if (xMove > 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-
+                if(!isCollision)
+                    this.setHealth(this.getHealth() - 1);
+                isCollision = true;
                 return animDown.getCurrentFrame();
             }
             return animRunningRight.getCurrentFrame();
         }
-        if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0))  {
-
+        if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if(!isCollision)
+                    this.setHealth(this.getHealth() - 1);
+                isCollision = true;
             //return animDown.getCurrentFrame();
             return animDown.getFrame(2);
-            
+
         }
 
         return animRunning.getCurrentFrame();
