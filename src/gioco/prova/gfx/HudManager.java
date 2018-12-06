@@ -13,16 +13,11 @@ import java.awt.image.BufferedImage;
  * @author Vincenzo
  */
 public class HudManager {
-    private BufferedImage[] lives;
+    private BufferedImage life;
     private int currLife;
     
-    public HudManager(String[] path, int currLife) {
-        lives = new BufferedImage[path.length];
-        
-        for (int i = 0; i < path.length; i++) {
-            lives[i] = ImageLoader.loadImage(path[i]);
-        }
-        
+    public HudManager(String path, int currLife) {
+        life = ImageLoader.loadImage(path);
         this.currLife = currLife;
     }
 
@@ -35,10 +30,22 @@ public class HudManager {
     }
     
     public void render(Graphics g) {
-        if (currLife > 0) {
-            g.drawImage(lives[currLife], 1050, 15, null);
-        } else {
-            g.drawImage(lives[0], 1050, 15, null);
+        int margin = 40;
+        int offset = 20;
+        
+        switch(currLife) {
+            case 1:
+                g.drawImage(life, 1200 - (life.getWidth() + margin), margin, null);
+                break;
+            case 2:
+                g.drawImage(life, 1200 - (2*life.getWidth() + margin + offset), margin, null);
+                g.drawImage(life, 1200 - (life.getWidth() + margin), margin, null);
+                break;
+            case 3:
+                g.drawImage(life, 1200 - (3*life.getWidth() + margin + offset*2), margin, null);
+                g.drawImage(life, 1200 - (2*life.getWidth() + margin + offset), margin, null);
+                g.drawImage(life, 1200 - (life.getWidth() + margin), margin, null);
+                break;
         }
     }
     
