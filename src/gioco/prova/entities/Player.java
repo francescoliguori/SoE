@@ -11,6 +11,8 @@ import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
+import gioco.prova.states.GameOverState;
+import gioco.prova.states.State;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -35,15 +37,16 @@ public class Player extends Creature {
     protected double gravity;
     protected boolean falling = true;
     protected boolean jumping = false;
-    protected boolean down = false; //added
+    protected boolean canSlide = true; //added
     protected boolean slidingUp = false;
     protected boolean slidingDown = true;
-
+    float xstart; //addddd
+    float xfin;
     private float jumpStrength = 200;
 
     private float jumpStep = 15;
-    private float slideStepY = 80; //10
-    private float slideStepX = 50; //15
+    private float slideStepY = 8; //80
+    private float slideStepX = 5; //50
 
     private float groundHeight;
     private float collisionTime = System.nanoTime();
@@ -131,36 +134,44 @@ public class Player extends Creature {
     }
 
     private void slide(float stepY, float stepX) {  //funzione per lo sliding in discesa 
+        xfin = xstart + 90; //adddddd
+            if (!slidingUp && !slidingDown) {
+                yMove += stepY;
+                xMove += stepX;
+            if(handler.getKeyManager().left){  
+                yMove -= stepY;
+                xMove=0;
+                }
+                if (y > (groundHeight + getHeight() * 0.5)) { // /3
+                    y = (float) (groundHeight + getHeight() * 0.5);
+                    yMove = 0;//addddddd
+                    xMove += stepX;
+                    //slidingUp = true;
 
-        if (!slidingUp && !slidingDown) {
-            yMove += stepY;
-            xMove += stepX;
-            if (y > (groundHeight + getHeight() / 3)) {
-                y = groundHeight + getHeight() / 3;
-                slidingUp = true;
+                }
+                if (this.getX() > xfin || x > handler.getWidth() - 200 || this.getX() < xstart) {//
+//                    System.out.println(this.getX() < xstart);
+                    slidingUp = true;
+                }
+            } else if (slidingUp && !slidingDown) {
+                yMove -= stepY;
+                xMove += stepX;
+                if (y <= groundHeight) {
+                    yMove = 0;
 
-                //down=false;
-            }
-        } else if (slidingUp && !slidingDown) {
-            yMove -= stepY;
-            xMove += stepX;
-            if (y <= groundHeight) {
-                yMove = 0;
-
-                //System.out.println("Entrato nell'if");
-                yMove += groundHeight - y;
-                slidingUp = false;
-                slidingDown = true;
-
+                    //System.out.println("Entrato nell'if");
+                    yMove += groundHeight - y;
+                    slidingUp = false;
+                    slidingDown = true;
 //                System.out.println(slidingUp + " " + slidingDown);
+                }
             }
-        }
 
     }
 
-    //questo metodo è utilizzato per controllare se il player 
-    //entra in collisione con un nemico
-    public boolean checkEnemyCollisions(float xOffset, float yOffset) {
+//questo metodo è utilizzato per controllare se il player 
+//entra in collisione con un nemico
+public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 if (e.isDead()) {
@@ -215,21 +226,30 @@ public class Player extends Creature {
                 xMove -= speed;
             }
         }
-        if (handler.getKeyManager().down && y == groundHeight) {
+        if (handler.getKeyManager().down && y == groundHeight && canSlide && !handler.getKeyManager().left ) {
+            canSlide=false;
             if (slidingDown) {
+                xstart=this.getX();
                 yMove += slideStepY;
                 xMove += slideStepX;
-                if ((x + xMove) >= handler.getWidth() - 400) {  //250
+                if ((x + xMove) >= handler.getWidth() - 250) {  //400
                     //x = 375;
-                    x = handler.getWidth() - 400;
+                    x = handler.getWidth() - 250;
                 }
-
                 slidingDown = false;
                 jumping = false;
-
             }
         }
-
+        if(x > handler.getWidth() -250){
+            canSlide=false;   
+        }else{
+            canSlide=true;
+        }  
+        
+        if ((x + xMove) >= handler.getWidth() - 155) {  //250
+            //x = 375;
+            x = handler.getWidth() - 155;
+        }  
         //lo facciamo sparare solo se premiamo space e il personaggio è a terra
         if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty()) {
             //canShoot=false;
@@ -249,7 +269,7 @@ public class Player extends Creature {
     }
 
     @Override
-    public void render(Graphics g) {
+        public void render(Graphics g) {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
@@ -275,8 +295,8 @@ public class Player extends Creature {
                 return animJump.getFrame(4);
             }
 
-        } else if (!slidingDown) {
-            return animDown.getCurrentFrame();
+//        } else if (!slidingDown) {
+//            return animDown.getCurrentFrame();
 
         } else if (falling && y >= (groundHeight - jumpStrength)) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
@@ -317,6 +337,14 @@ public class Player extends Creature {
         }
 
         return animRunning.getCurrentFrame();
+    }
+    
+    @Override
+        public void setHealth(int health) {
+       this.health=health;
+        if(health<=0){
+            State.setState(new GameOverState(handler));
+        }
     }
 
 }

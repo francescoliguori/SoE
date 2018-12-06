@@ -88,4 +88,9 @@ public class GameState extends State {
         controller.render(g);
     }
 
+    public void setController(ControllerEntities controller) {
+        this.controller = controller;
+    }
+    
+    
 }

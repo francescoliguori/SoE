@@ -32,6 +32,8 @@ public class Assets {
     public static BufferedImage[] fireballJutsu;
     public static BufferedImage[] kunaiThrowForward;
     public static BufferedImage[] kunaiThrowBackward;
+    public static BufferedImage gameOver;
+    public static BufferedImage gameOverLogo;
     public static void init()
     {   
         //si crea lo spritesheet da utilizzare
@@ -40,6 +42,8 @@ public class Assets {
 //        SpriteSheet sheetFireball = new SpriteSheet(ImageLoader.loadImage("/fireball.png"));
 //        SpriteSheet sheetKunai = new SpriteSheet(ImageLoader.loadImage("/kunai1.png"));
         SpriteSheet sheetBullets= new SpriteSheet(ImageLoader.loadImage("/bullets.png"));
+        SpriteSheet sheetgameOver=new SpriteSheet(ImageLoader.loadImage("/gameover.jpg"));
+        SpriteSheet sheetgameOverLogo=new SpriteSheet(ImageLoader.loadImage("/gameoverlogo.png"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
@@ -55,6 +59,8 @@ public class Assets {
         kunaiThrowForward= new BufferedImage[3];
         kunaiThrowBackward= new BufferedImage[3];
         player = sheet.crop(0, 0 , width, height);
+        gameOver=sheetgameOver.crop(0,0,1280,720);
+        gameOverLogo=sheetgameOverLogo.crop(0,0,1280,1280);
         
         for(int i=0;i<=5;i++){
             playerRunning[i] = sheet.crop(width*i, height, width, height);

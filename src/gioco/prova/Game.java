@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import gioco.prova.display.ScrollBackground;
 import gioco.prova.gfx.ImageLoader;
+import gioco.prova.states.GameOverState;
 
 /**
  *
@@ -47,8 +48,8 @@ public class Game implements Runnable {
     private BufferedImage background;
 
     private GameState gameState;
-    private State menuState;
-
+    private MenuState menuState;
+    private GameOverState gameOverState;
    
 
     // Input
@@ -193,4 +194,23 @@ public class Game implements Runnable {
         }
     }
 
+    public void setGameState(GameState gameState) {
+        this.gameState=gameState;
+    }
+    public void setMenuState(MenuState menuState) {
+        this.menuState = menuState;
+    }
+
+    public void setGameoverState(GameOverState gameoverState) {
+        this.gameOverState = gameoverState;
+    }
+
+    public GameOverState getGameoverState() {
+        return gameOverState;
+    }
+
+    public MenuState getMenuState() {
+        return menuState;
+    }
+    
 }

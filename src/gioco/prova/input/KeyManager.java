@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener{
     
     private boolean [] keys;
-    public boolean up, down, left, right,space, v;
+    public boolean up, down, left, right,space, v,enter,esc;
     
     public KeyManager()
     {
@@ -30,6 +30,8 @@ public class KeyManager implements KeyListener{
         right = keys[KeyEvent.VK_RIGHT];
         space = keys[KeyEvent.VK_SPACE];
         v = keys[KeyEvent.VK_V];
+        enter=keys[KeyEvent.VK_ENTER];
+        esc=keys[KeyEvent.VK_ESCAPE];
         
     }
     @Override

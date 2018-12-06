@@ -41,6 +41,11 @@ public class ControllerEntities {
     }
 
     public void tick() {
+        if(countDifficulty==-1){
+            setTimeEnemyGenerator(2.0f);
+            Creature.setDEAFULT_SPEED();
+            TimeToUp = System.nanoTime();
+        }
         for (int i = 0; i < e.size(); i++) {
 
             tempEnemy = e.get(i);
@@ -76,9 +81,10 @@ public class ControllerEntities {
         }
 
         enemyGenerator();
-
+        
         if (System.nanoTime() - TimeToUp > 5000000000L) {
 //            System.out.println(TimeToUp + countDifficulty);
+//            System.out.println(countDifficulty);
             checkDifficulty();
             countDifficulty += 1;
             TimeToUp = System.nanoTime();
@@ -142,6 +148,7 @@ public class ControllerEntities {
             default:
 //              System.err.println("diffuculty" + countDifficulty);
                 break;
+
         }
 //    }
     }
@@ -234,4 +241,20 @@ public class ControllerEntities {
         }
     }
 
+    public int getCountDifficulty() {
+        return countDifficulty;
+    }
+
+    public void setCountDifficulty(int countDifficulty) {
+        this.countDifficulty = countDifficulty;
+    }
+
+    public void setTimeEnemyGenerator(float TimeEnemyGenerator) {
+        this.TimeEnemyGenerator = TimeEnemyGenerator;
+    }
+
+    public void setTimeToUp(float TimeToUp) {
+        this.TimeToUp = TimeToUp;
+    }
+    
 }
