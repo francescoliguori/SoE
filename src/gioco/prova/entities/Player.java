@@ -135,43 +135,43 @@ public class Player extends Creature {
 
     private void slide(float stepY, float stepX) {  //funzione per lo sliding in discesa 
         xfin = xstart + 90; //adddddd
-            if (!slidingUp && !slidingDown) {
-                yMove += stepY;
-                xMove += stepX;
-            if(handler.getKeyManager().left){  
+        if (!slidingUp && !slidingDown) {
+            yMove += stepY;
+            xMove += stepX;
+            if (handler.getKeyManager().left) {
                 yMove -= stepY;
-                xMove=0;
-                }
-                if (y > (groundHeight + getHeight() * 0.5)) { // /3
-                    y = (float) (groundHeight + getHeight() * 0.5);
-                    yMove = 0;//addddddd
-                    xMove += stepX;
-                    //slidingUp = true;
-
-                }
-                if (this.getX() > xfin || x > handler.getWidth() - 200 || this.getX() < xstart) {//
-//                    System.out.println(this.getX() < xstart);
-                    slidingUp = true;
-                }
-            } else if (slidingUp && !slidingDown) {
-                yMove -= stepY;
-                xMove += stepX;
-                if (y <= groundHeight) {
-                    yMove = 0;
-
-                    //System.out.println("Entrato nell'if");
-                    yMove += groundHeight - y;
-                    slidingUp = false;
-                    slidingDown = true;
-//                System.out.println(slidingUp + " " + slidingDown);
-                }
+                xMove = 0;
             }
+            if (y > (groundHeight + getHeight() * 0.55)) { // /3
+                y = (float) (groundHeight + getHeight() * 0.55);
+                yMove = 0;//addddddd
+                xMove += stepX;
+                //slidingUp = true;
+
+            }
+            if (this.getX() > xfin || x > handler.getWidth() - 200 || this.getX() < xstart) {//
+//                    System.out.println(this.getX() < xstart);
+                slidingUp = true;
+            }
+        } else if (slidingUp && !slidingDown) {
+            yMove -= stepY;
+            xMove += stepX;
+            if (y <= groundHeight) {
+                yMove = 0;
+
+                //System.out.println("Entrato nell'if");
+                yMove += groundHeight - y;
+                slidingUp = false;
+                slidingDown = true;
+//                System.out.println(slidingUp + " " + slidingDown);
+            }
+        }
 
     }
 
 //questo metodo è utilizzato per controllare se il player 
 //entra in collisione con un nemico
-public boolean checkEnemyCollisions(float xOffset, float yOffset) {
+    public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 if (e.isDead()) {
@@ -226,10 +226,10 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
                 xMove -= speed;
             }
         }
-        if (handler.getKeyManager().down && y == groundHeight && canSlide && !handler.getKeyManager().left ) {
-            canSlide=false;
+        if (handler.getKeyManager().down && y == groundHeight && canSlide && !handler.getKeyManager().left) {
+            canSlide = false;
             if (slidingDown) {
-                xstart=this.getX();
+                xstart = this.getX();
                 yMove += slideStepY;
                 xMove += slideStepX;
                 if ((x + xMove) >= handler.getWidth() - 250) {  //400
@@ -240,16 +240,16 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
                 jumping = false;
             }
         }
-        if(x > handler.getWidth() -250){
-            canSlide=false;   
-        }else{
-            canSlide=true;
-        }  
-        
+        if (x > handler.getWidth() - 250) {
+            canSlide = false;
+        } else {
+            canSlide = true;
+        }
+
         if ((x + xMove) >= handler.getWidth() - 155) {  //250
             //x = 375;
             x = handler.getWidth() - 155;
-        }  
+        }
         //lo facciamo sparare solo se premiamo space e il personaggio è a terra
         if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty()) {
             //canShoot=false;
@@ -269,7 +269,7 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
     }
 
     @Override
-        public void render(Graphics g) {
+    public void render(Graphics g) {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
@@ -277,15 +277,16 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         //g.clearRect((int)x,(int) y, 187, 155);
         //g.setColor(Color.red);
         //g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
-        //g.setColor(Color.red);
-        //g.fillRect((int)(x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
+//        g.setColor(Color.red);
+//        g.fillRect((int)(x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
     }
 
     private BufferedImage getCurrentAnimationFrame() {
         if (jumping) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-                if(!isCollision)
+                if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
+                }
                 isCollision = true;
                 return animDown.getCurrentFrame();
             }
@@ -297,11 +298,11 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
 
 //        } else if (!slidingDown) {
 //            return animDown.getCurrentFrame();
-
         } else if (falling && y >= (groundHeight - jumpStrength)) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-                if(!isCollision)
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) && !slidingDown) {
+                if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
+                }
                 isCollision = true;
                 return animDown.getCurrentFrame();
             }
@@ -310,8 +311,9 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         }
         if (xMove < 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-                if(!isCollision)
+                if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
+                }
                 isCollision = true;
                 return animDown.getCurrentFrame();
             }
@@ -320,17 +322,19 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         }
         if (xMove > 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-                if(!isCollision)
+                if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
+                }
                 isCollision = true;
                 return animDown.getCurrentFrame();
             }
             return animRunningRight.getCurrentFrame();
         }
         if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
-            if(!isCollision)
-                    this.setHealth(this.getHealth() - 1);
-                isCollision = true;
+            if (!isCollision) {
+                this.setHealth(this.getHealth() - 1);
+            }
+            isCollision = true;
             //return animDown.getCurrentFrame();
             return animDown.getFrame(2);
 
@@ -338,11 +342,11 @@ public boolean checkEnemyCollisions(float xOffset, float yOffset) {
 
         return animRunning.getCurrentFrame();
     }
-    
+
     @Override
-        public void setHealth(int health) {
-       this.health=health;
-        if(health<=0){
+    public void setHealth(int health) {
+        this.health = health;
+        if (health <= 0) {
             State.setState(new GameOverState(handler));
         }
     }

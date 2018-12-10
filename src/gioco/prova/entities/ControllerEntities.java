@@ -41,11 +41,12 @@ public class ControllerEntities {
     }
 
     public void tick() {
-        if(countDifficulty==-1){
-            setTimeEnemyGenerator(2.0f);
-            Creature.setDEAFULT_SPEED();
-            TimeToUp = System.nanoTime();
-        }
+//        if(countDifficulty==-1){
+//            Creature.setDEAFULT_SPEED();
+//            setTimeEnemyGenerator(2.0f);
+//            
+//            TimeToUp = System.nanoTime();
+//        }
         for (int i = 0; i < e.size(); i++) {
 
             tempEnemy = e.get(i);
