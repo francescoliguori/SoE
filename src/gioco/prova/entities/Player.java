@@ -7,6 +7,7 @@ package gioco.prova.entities;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
+import gioco.prova.bullets.Arrow;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import gioco.prova.gfx.Animation;
@@ -87,7 +88,7 @@ public class Player extends Creature {
         //movimento
         getInput();
         move();
-        checkRamenCollisions(0, 0);
+
         if (System.nanoTime() - collisionTime > 2000000000) { //2 sec
             isCollision = false;
             collisionTime = System.nanoTime();
@@ -194,13 +195,18 @@ public class Player extends Creature {
 
         }
         return false;
+
     }
-    public void checkRamenCollisions(float xOffset, float yOffset) {
-        for (Ramen ramen : handler.getGame().getGameState().getController().getRamen()) {
-            if (health != 3 && ramen.checkPlayerCollisions(xOffset, yOffset)) {
-                this.setHealth(this.getHealth() + 1);               
+    
+    public boolean checkArrowEnemyCollisions(float xOffset, float yOffset) {
+        for (Arrow a : handler.getGame().getGameState().getController().getListArrowEnemies()) {
+            if (a.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
+//            System.out.println("Collisione con kunai nemico");
+                return true;
             }
         }
+        return false;
+
     }
 
     public void getInput() {
@@ -289,7 +295,7 @@ public class Player extends Creature {
 
     private BufferedImage getCurrentAnimationFrame() {
         if (jumping) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
                 }
@@ -305,7 +311,7 @@ public class Player extends Creature {
 //        } else if (!slidingDown) {
 //            return animDown.getCurrentFrame();
         } else if (falling && y >= (groundHeight - jumpStrength)) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) && !slidingDown) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) && !slidingDown || checkArrowEnemyCollisions(0, 0)) {
                 if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
                 }
@@ -316,7 +322,7 @@ public class Player extends Creature {
 
         }
         if (xMove < 0) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
                 }
@@ -327,7 +333,7 @@ public class Player extends Creature {
             return animRunningLeft.getCurrentFrame();
         }
         if (xMove > 0) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 if (!isCollision) {
                     this.setHealth(this.getHealth() - 1);
                 }
@@ -336,7 +342,7 @@ public class Player extends Creature {
             }
             return animRunningRight.getCurrentFrame();
         }
-        if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+        if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
             if (!isCollision) {
                 this.setHealth(this.getHealth() - 1);
             }
@@ -354,6 +360,7 @@ public class Player extends Creature {
         this.health = health;
         if (health <= 0) {
             State.setState(new GameOverState(handler));
+            Game.stopSountrack();
         }
     }
 

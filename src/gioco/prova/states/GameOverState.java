@@ -48,6 +48,7 @@ public class GameOverState extends State {
             Creature.setDEAFULT_SPEED();
             handler.getGame().getGameState().getController().setTimeEnemyGenerator(2.0f);
             handler.getGame().setGameState(new GameState(handler));
+            Game.playSoundtrack();
             //handler.getGame().getGameState().getController().setTimeToUp(System.nanoTime());
 
             State.setState(handler.getGame().getGameState());

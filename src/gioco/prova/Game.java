@@ -25,6 +25,12 @@ import gioco.prova.display.ScrollBackground;
 import gioco.prova.gfx.ImageLoader;
 import gioco.prova.states.GameOverState;
 
+import sun.audio.*;
+import java.io.*;
+import java.nio.file.Path;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 /**
  *
  * @author marcoruggiero
@@ -50,7 +56,8 @@ public class Game implements Runnable {
     private GameState gameState;
     private MenuState menuState;
     private GameOverState gameOverState;
-   
+
+    private static Clip clip;
 
     // Input
     private KeyManager keyManager;
@@ -83,8 +90,14 @@ public class Game implements Runnable {
         menuState = new MenuState(handler);
         State.setState(gameState);
 
-        //background
-        //background = ImageLoader.loadImage("/pattern.png");
+        try {
+            File ost = new File("res/ost.wav");
+            clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(ost));
+            this.playSoundtrack();
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
     }
 
     private void tick() {
@@ -105,10 +118,9 @@ public class Game implements Runnable {
 
         g.clearRect(0, 0, width, height);
         //Draw here
-        
+
         //Start Drawing
         //Draw the background image into the Graphic referenc g
-        
         //drawImage prendee in ingresso l'immagine da disegnare, le coordinate 
         //x ed y e infine un observer, in questo caso posto a null.
         //An asynchronous update interface for receiving notifications about 
@@ -168,7 +180,7 @@ public class Game implements Runnable {
     public KeyManager getKeyManager() {
         return keyManager;
     }
-    
+
     public GameState getGameState() {
         return gameState;
     }
@@ -195,8 +207,9 @@ public class Game implements Runnable {
     }
 
     public void setGameState(GameState gameState) {
-        this.gameState=gameState;
+        this.gameState = gameState;
     }
+
     public void setMenuState(MenuState menuState) {
         this.menuState = menuState;
     }
@@ -212,5 +225,13 @@ public class Game implements Runnable {
     public MenuState getMenuState() {
         return menuState;
     }
-    
+
+    public static void playSoundtrack() {
+        clip.setMicrosecondPosition(0);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public static void stopSountrack() {
+        clip.stop();
+    }
 }

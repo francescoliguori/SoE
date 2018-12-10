@@ -121,19 +121,6 @@ public class Enemy3 extends Enemies {
         if (!isDead()) {
             enemyBehavior();
         }
-//            now = System.currentTimeMillis();
-//            if (y == groundHeight && now - lastTimeJump > Math.random()) {
-//                yMove -= jumpStep;
-//                jumping = true;
-//                lastTimeJump = System.currentTimeMillis();
-//            }
-//
-//            //sparare dopo un certo tempo
-//            if (now - lastTimeKunai > 2000) {
-//                c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
-//                lastTimeKunai = System.currentTimeMillis();
-//            }
-        //}
     }
 
    public static void setTimeBehavior(float time) {

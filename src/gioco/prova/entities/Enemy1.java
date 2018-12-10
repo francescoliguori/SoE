@@ -6,55 +6,115 @@
 package gioco.prova.entities;
 
 import gioco.prova.Handler;
+import gioco.prova.bullets.Arrow;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
+import static gioco.prova.gfx.Assets.enemies1Shot;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 /**
  *
  * @author Utente
  */
-public class Enemy1 extends Enemies  {
-    private Animation enemyRunning1;    
+public class Enemy1 extends Enemies {
 
-    public Enemy1(Handler handler, float x, float y) {
+    private Animation enemyRunning1;
+    private Animation enemyDead1;
+    private Animation enemyShot1;
+    private boolean lastDeadFrame = false;
+    private ControllerEntities c;
+
+    //varibili per il tempo
+    private long lastTime = System.nanoTime();
+    private long now;
+    private static float timeBehavior = 1.5f;
+    private boolean shot = false;
+
+    //inizialmente è possibile fare una collisione con il nemico, una volta colpito 
+    //si annulla la possibilità di collidere con esso.
+    public Enemy1(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y);
-        enemyRunning1 = new Animation(90, Assets.enemies1);
-   
-        bounds.x=20;
-        bounds.y=80;
-        bounds.height=90;
-        bounds.width=90;
-    
+        enemyRunning1 = new Animation(150, Assets.enemies1);
+        enemyShot1 = new Animation(150, Assets.enemies1Shot);
+        enemyDead1 = new Animation(70, Assets.enemies1Dead);
+        this.c = c;
+
+        bounds.x = 20;
+        bounds.y = 80;
+        bounds.height = 90;
+        bounds.width = 90;
     }
-        
-        
+
     @Override
     public void tick() {
-       enemyRunning1.tick();
-       getInput();
-       move();
+        enemyRunning1.tick();
+        
+        if (dead) {
+            enemyDead1.tick();
+        } 
+        
+        if (shot) {
+            enemyShot1.tick();
+        } else {
+            move();
+        }
+        
+        getInput();
     }
 
     @Override
     public void render(Graphics g) {
-       g.drawImage(enemyRunning1.getCurrentFrame(), (int) x, (int) y, null);
-       g.setColor(Color.red);
-       g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
-    
+        if (lastDeadFrame) {
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y + 15, null);
+        } else {
+            g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+        }
     }
-    
+
     private void getInput() {
         xMove = 0;
         yMove = 0;
-          /* if ((x - xMove) <= 0) {
-                x = 0;
-            } else {*/
-                xMove -= speed;
-            //}                 
+        xMove -= speed;
+        
+        now = System.nanoTime();
+
+        if (!dead) {
+            enemyBehavior();
+        }
     }
 
-   
-   
+    private BufferedImage getCurrentAnimationFrame() {
+        if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
+            dead = true;
+            //handler.getGame().getGameState().getController().removeEnemy(this);
+            return this.enemyDead1.getCurrentFrame();
+        }
+
+        if (dead && lastDeadFrame) {
+            return this.enemyDead1.getFrame(7);
+        }
+
+        if (dead) {
+            if (enemyDead1.getCurrentFrame() == enemyDead1.getFrame(3)) {
+                lastDeadFrame = true;
+            }
+            return this.enemyDead1.getCurrentFrame();
+        }
+
+        return this.enemyRunning1.getCurrentFrame();
+    }
+
+    public static void setTimeBehavior(float time) {
+        timeBehavior = time;
+    }
+
+    private void enemyBehavior() {
+        if (now - lastTime > timeBehavior * 500000000) {
+            c.addArrowEnemies(new Arrow(handler, this.getX() - this.width, this.getY(), width, height, false));
+            lastTime = System.nanoTime();
+        }
+    }
+
 }
