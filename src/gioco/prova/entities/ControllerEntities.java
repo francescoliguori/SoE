@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -25,15 +25,18 @@ public class ControllerEntities {
     private LinkedList<Fireball> f = new LinkedList<Fireball>();
     private LinkedList ball;
     private LinkedList<Kunai> kunaiPlayer = new LinkedList<Kunai>();
+    private LinkedList<Ramen> r=new LinkedList<Ramen>();
     private LinkedList<Kunai> kunaiEnemies = new LinkedList<Kunai>();
-    private long lastTime = System.nanoTime(); //used for generation of enemies 
+    private long lastTime = System.nanoTime(); //used for generation of enemies
+    private long lastTime2 = System.nanoTime(); //used for generation of ramen 
     private Fireball fireball;
     private Kunai kunai;
     private Enemy3 enemy3;
-
+    private Ramen ramen;
+    
     private int countDifficulty = 0;
     private float TimeEnemyGenerator = 2.0f;
-
+    private int timeRamen=0;
     private float TimeToUp = System.nanoTime();
 
     public ControllerEntities(Handler handler) {
@@ -80,8 +83,17 @@ public class ControllerEntities {
             }
             kunai.tick();
         }
+        for (int i = 0; i < r.size(); i++) {
+            //System.out.println(kunaiEnemies.size());
+            ramen = r.get(i);
+            if (ramen.checkPlayerCollisions(0f,0f)) {
+                removeRamen(ramen);
+            }
+            ramen.tick();
+        }
 
         enemyGenerator();
+        spawnRamen();
         
         if (System.nanoTime() - TimeToUp > 5000000000L) {
 //            System.out.println(TimeToUp + countDifficulty);
@@ -110,6 +122,11 @@ public class ControllerEntities {
             kunai = kunaiEnemies.get(i);
             kunai.render(g);
         }
+        for (int i = 0; i < r.size(); i++) {
+            ramen = r.get(i);
+            ramen.render(g);
+        }
+
 
     }
 
@@ -187,7 +204,15 @@ public class ControllerEntities {
     public void addKunaiEnemies(Kunai kunai) {
         kunaiEnemies.add(kunai);
     }
-
+    
+    public void addRamen(Ramen ramen) {
+        r.add(ramen);
+    }
+    
+    public void removeRamen(Ramen ramen){
+        r.remove(ramen);
+    }
+    
     public void removeKunaiPlayer(Kunai kunai) {
         kunaiPlayer.remove(kunai);
     }
@@ -209,6 +234,9 @@ public class ControllerEntities {
 //    }
     public LinkedList<Fireball> getF() {
         return f;
+    }
+    public LinkedList<Ramen> getRamen() {
+        return r;
     }
 
     public LinkedList<Kunai> getListKunaiPlayer() {
@@ -241,6 +269,26 @@ public class ControllerEntities {
             return new Enemy2(handler, handler.getWidth(), 400);
         }
     }
+    
+    private void spawnRamen(){
+        long now=System.nanoTime();       
+        if(timeRamen==0){           
+            timeRamen=timeSpawnRamen();                      
+        }
+        if (now - lastTime2 > timeRamen * 1000000000L) { 
+             //System.out.println("sono qui");//every 2 seconds at the moment
+            addRamen(new Ramen(handler,posSpawnX()*100,posSpawnY()*100));
+            lastTime2 = System.nanoTime();
+            timeRamen=0;
+        }
+    }
+    private int timeSpawnRamen(){
+       int time=(int) (Math.random() * 15);
+       if(time<=10)
+           time=10;
+       //System.out.println(time);
+       return time;
+    }
 
     public int getCountDifficulty() {
         return countDifficulty;
@@ -258,4 +306,15 @@ public class ControllerEntities {
         this.TimeToUp = TimeToUp;
     }
     
+    private int  posSpawnX(){
+        return (int) (Math.random() * 10);
+    }
+    
+    private int  posSpawnY(){
+        int pos=(int) (Math.random() * 6);
+           if(pos<=3)
+               pos=3;
+           //System.out.println(pos);
+           return pos;
+    }
 }

@@ -34,8 +34,10 @@ public class Assets {
     public static BufferedImage[] kunaiThrowBackward;
     public static BufferedImage gameOver;
     public static BufferedImage gameOverLogo;
-    public static void init()
-    {   
+    public static BufferedImage ramen;
+    
+    
+    public static void init()   {   
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi.png"));
         SpriteSheet sheetEnemy= new SpriteSheet(ImageLoader.loadImage("/enemies.png"));
@@ -61,6 +63,7 @@ public class Assets {
         player = sheet.crop(0, 0 , width, height);
         gameOver=sheetgameOver.crop(0,0,1200,700);
         gameOverLogo=sheetgameOverLogo.crop(0,0,1200,700);
+        ramen=sheetBullets.crop(0,height*3,width,height);
         
         for(int i=0;i<=5;i++){
             playerRunning[i] = sheet.crop(width*i, height, width, height);
