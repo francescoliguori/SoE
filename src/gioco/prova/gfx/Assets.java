@@ -59,8 +59,8 @@ public class Assets {
         kunaiThrowForward= new BufferedImage[3];
         kunaiThrowBackward= new BufferedImage[3];
         player = sheet.crop(0, 0 , width, height);
-        gameOver=sheetgameOver.crop(0,0,1280,720);
-        gameOverLogo=sheetgameOverLogo.crop(0,0,1280,1280);
+        gameOver=sheetgameOver.crop(0,0,1200,700);
+        gameOverLogo=sheetgameOverLogo.crop(0,0,1200,700);
         
         for(int i=0;i<=5;i++){
             playerRunning[i] = sheet.crop(width*i, height, width, height);
