@@ -55,12 +55,8 @@ public class GameState extends State {
         }
         
         //Setting HUD
-        String[] pathsHud = new String[4];
-        pathsHud[0] = "/hudBg/phase_base.png";
-        pathsHud[1] = "/hudBg/phase_1.png";
-        pathsHud[2] = "/hudBg/phase_2.png";
-        pathsHud[3] = "/hudBg/phase_3.png";
-        hudmngr = new HudManager(pathsHud, player.getHealth());
+        String pathHud = "/hudBg/lifeicon.png";
+        hudmngr = new HudManager(pathHud, player.getHealth());
     }
 
     public Player getPlayer() {
