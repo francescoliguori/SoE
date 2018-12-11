@@ -64,7 +64,9 @@ public class Game implements Runnable {
 
     // Handler
     private Handler handler;
-
+    
+    //istanza di Game, privata e statica. E' utilizzata per rendere Game singleton
+    static private Game instance = null;
     public int getWidth() {
         return width;
     }
@@ -72,8 +74,17 @@ public class Game implements Runnable {
     public int getHeight() {
         return height;
     }
-
-    public Game(String title, int width, int height) {
+    
+    //metodo che restituisce l'istanza di game
+    public static Game getGameIstance(){
+        if (instance == null){
+            instance = new Game("Itachi's Rush", 1200, 700);
+        }
+        return instance;
+    }
+    //il costruttore viene reso privato in modo tale da poter essere invocato solo 
+    //dall'interno della classe. 
+    private Game(String title, int width, int height) {
         this.width = width;
         this.height = height;
         this.title = title;

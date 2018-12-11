@@ -13,7 +13,9 @@ public class Launcher
 {
     public static void main (String[] args)
     {
-        Game game = new Game("Itachi's Rush", 1200, 700);
+        //Game game = new Game("Itachi's Rush", 1200, 700);
+        //La classe Game è singleton
+        Game game = Game.getGameIstance();
         game.start();
         
     }
