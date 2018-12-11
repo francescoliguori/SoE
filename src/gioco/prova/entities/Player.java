@@ -7,6 +7,7 @@ package gioco.prova.entities;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
+import gioco.prova.bullets.Arrow;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import gioco.prova.gfx.Animation;
@@ -51,7 +52,17 @@ public class Player extends Creature {
     private float groundHeight;
     private float collisionTime = System.nanoTime();
     private boolean isCollision = false;
-
+    private static Player instance = null;
+    
+    public static Player getPlayerInstance(Handler handler, float x, float y, ControllerEntities c){
+        if(instance == null){
+            instance = new Player(handler,  x, y,  c);
+        }
+        return instance;
+    }
+    public static void restartPlayer(){
+        instance = null;
+    }
     public Player(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         gravity = 0.5;
@@ -203,6 +214,17 @@ public class Player extends Creature {
             }
         }
     }*/
+	
+	public boolean checkArrowEnemyCollisions(float xOffset, float yOffset) {
+        for (Arrow a : handler.getGame().getGameState().getController().getListArrowEnemies()) {
+            if (a.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
+//            System.out.println("Collisione con kunai nemico");
+                return true;
+            }
+        }
+        return false;
+
+    }
 
     public void getInput() {
         xMove = 0;
@@ -295,7 +317,7 @@ public class Player extends Creature {
             return animDown.getCurrentFrame();
         }
         if (jumping) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0))  {
                 checkCollision();
                 //isCollision = true;
                 //return animDown.getCurrentFrame();
@@ -309,7 +331,7 @@ public class Player extends Creature {
 //        } else if (!slidingDown) {
 //            return animDown.getCurrentFrame();
         } else if (falling && y >= (groundHeight - jumpStrength)) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) && !slidingDown) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)  && !slidingDown) {
                 checkCollision();
                 //isCollision = true;
                 //return animDown.getCurrentFrame();
@@ -318,7 +340,7 @@ public class Player extends Creature {
 
         }
         if (xMove < 0) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0))  {
                 checkCollision();
                 //isCollision = true;
                 //return animDown.getCurrentFrame();
@@ -327,14 +349,14 @@ public class Player extends Creature {
             return animRunningLeft.getCurrentFrame();
         }
         if (xMove > 0) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0))  {
                 checkCollision();
                 //isCollision = true;
                 //return animDown.getCurrentFrame();
             }
             return animRunningRight.getCurrentFrame();
         }
-        if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0)) {
+        if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0))  {
             checkCollision();
             //isCollision = true;
             //return animDown.getCurrentFrame();
