@@ -33,7 +33,7 @@ public class GameState extends State {
         super(handler);
 
         controller = new ControllerEntities(handler);
-        player = new Player(handler, 100, 400, controller);
+        player =  Player.getPlayerInstance(handler, 100, 400, controller);
 
         //Setting background image paths
         String[] pathsNight = new String[3];
