@@ -102,7 +102,7 @@ public class Game implements Runnable {
         State.setState(gameState);
 
         try {
-            File ost = new File("res/ost.wav");
+            File ost = new File("res/sounds/ost2.wav");
             clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(ost));
             this.playSoundtrack();
