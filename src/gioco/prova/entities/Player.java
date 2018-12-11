@@ -193,7 +193,7 @@ public class Player extends Creature {
     //entra in collisione con un nemico
     public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
-            if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && (slidingDown || slidingUp)) {
+            if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && canSlide) {
                 if (e.isDead()) {
                     //jumping = true;
                     //jump(jumpStep, groundHeight+100);
@@ -207,8 +207,9 @@ public class Player extends Creature {
     
     public boolean checkKunaiEnemyCollisions(float xOffset, float yOffset) {
         for (Kunai k : handler.getGame().getGameState().getController().getListKunaiEnemies()) {
-            if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && (slidingDown || slidingUp)) {
+            if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && canSlide) {
                 //            System.out.println("Collisione con kunai nemico");
+                c.removeKunaiEnemies(k);
                 return true;
             }
         }
@@ -225,8 +226,10 @@ public class Player extends Creature {
     
     public boolean checkArrowEnemyCollisions(float xOffset, float yOffset) {
         for (Arrow a : handler.getGame().getGameState().getController().getListArrowEnemies()) {
-            if (a.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
+            if (a.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && canSlide) {
                 //            System.out.println("Collisione con kunai nemico");
+                c.removeArrowEnemies(a);
+                
                 return true;
             }
         }
@@ -257,7 +260,7 @@ public class Player extends Creature {
             
         }
         if (handler.getKeyManager().left && canSlide) {
-            System.err.println("sx");
+           
             if ((x - xMove) <= 0) {
                 x = 0;
             } else {
@@ -282,16 +285,7 @@ public class Player extends Creature {
                 jumping = false;
             }
         }
-        //        if (x > handler.getWidth() - 250) {
-        //            canSlide = false;
-        //        } else {
-        //            canSlide = true;
-        //        }
         
-        //        if ((x + xMove) >= handler.getWidth() - 155) {  //250
-        //            //x = 375;
-        //            x = handler.getWidth() - 155;
-        //        }
         //lo facciamo sparare solo se premiamo space e il personaggio è a terra
         if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty() && c.getListKunaiPlayer().isEmpty()) {
             //canShoot=false;
@@ -346,7 +340,7 @@ public class Player extends Creature {
             //        } else if (!slidingDown) {
             //            return animDown.getCurrentFrame();
         } else if (falling && y >= (groundHeight - jumpStrength)) {
-            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)  && !slidingDown) {
+            if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 checkCollision();
                 //isCollision = true;
                 //return animDown.getCurrentFrame();
