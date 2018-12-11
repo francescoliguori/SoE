@@ -96,7 +96,7 @@ public class Game implements Runnable {
         display = new Display(title, width, height);
         display.getFrame().addKeyListener(keyManager);
         Assets.init();
-        handler = new Handler(this);
+        handler = Handler.getHandlerInstance(this);
         gameState = new GameState(handler);
         menuState = new MenuState(handler);
         State.setState(gameState);
