@@ -38,7 +38,7 @@ public class Ramen extends Entity {
     @Override
     public void render(Graphics g) {
 //         if (spawn){
-        g.drawImage(Assets.ramen, (int) this.x, (int) this.y, null);
+        //g.drawImage(Assets.ramen, (int) this.x, (int) this.y, null);
         //g.setColor(Color.red);
         //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
 //        }
