@@ -26,7 +26,7 @@ public class TestPlayer {
     private ControllerEntities controller;
 
     public TestPlayer() {
-        this.game = new Game("Itachi's Rush", 1200, 700);
+        game = Game.getGameIstance();
         handler = new Handler(game);
     }
 

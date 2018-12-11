@@ -25,10 +25,12 @@ public class Enemy1Test {
     private Game game;
     private Handler handler;
     private Enemy1 enemy;
+    private ControllerEntities controller;
     
     public Enemy1Test() {
-        game = new Game("Itachi's Rush", 1200, 700);
+        game = Game.getGameIstance();
         handler = new Handler(game);
+        controller = new ControllerEntities(handler);
     }
     
     @BeforeClass
@@ -41,7 +43,7 @@ public class Enemy1Test {
     
     @Before
     public void setUp() {
-        enemy = new Enemy1(handler, game.getWidth(), 0);
+        enemy = new Enemy1(handler, game.getWidth(), 0, controller);
         enemy.setX(enemy.getX() + enemy.getWidth());
     }
     
