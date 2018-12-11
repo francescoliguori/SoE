@@ -264,11 +264,11 @@ public class Player extends Creature {
                 xMove -= speed;
             }
         }
-        System.out.println(canSlide);
+       
         if (handler.getKeyManager().down && canSlide && y == groundHeight
             && !handler.getKeyManager().left && x < handler.getWidth() - 330) { // 330 = xpersonaggio 155 + grandezza slide 175
             canSlide = false;
-            System.err.println("ciao");
+            
             if (slidingDown) {
                 xStart = this.getX();
                 //System.out.println(xstart);
@@ -385,7 +385,7 @@ public class Player extends Creature {
     private void checkCollision() {
         health -= 1;
         if (health <= 0) {
-            //State.setState(new GameOverState(handler));
+            State.setState(new GameOverState(handler));
             Game.stopSountrack();
         }
         isCollision = true;
