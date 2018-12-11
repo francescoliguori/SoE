@@ -69,7 +69,7 @@ public class Player extends Creature {
     public static void restartPlayer(){
         instance = null;
     }
-    public Player(Handler handler, float x, float y, ControllerEntities c) {
+    private Player(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         gravity = 0.5;
         
@@ -385,12 +385,5 @@ public class Player extends Creature {
         isCollision = true;
         collisionTime = System.nanoTime();
     }
-    //    @Override
-    //    public void setHealth(int health) {
-    //        this.health = health;
-    //        if (health <= 0) {
-    //            State.setState(new GameOverState(handler));
-    //        }
-    //    }
     
 }
