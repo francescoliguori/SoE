@@ -37,7 +37,7 @@ public class TestCollisionEntities {
     private ControllerEntities controller;
 
     public TestCollisionEntities() {
-        game = new Game("Itachi's Rush", 1200, 700);
+        game = Game.getGameIstance();
         handler = new Handler(game);
     }
 
