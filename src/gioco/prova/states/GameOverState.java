@@ -7,15 +7,14 @@ package gioco.prova.states;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
-import gioco.prova.entities.ControllerEntities;
 import gioco.prova.entities.Creature;
+import gioco.prova.entities.Player;
 import gioco.prova.gfx.Assets;
 import gioco.prova.input.KeyManager;
 import java.awt.Graphics;
 
 public class GameOverState extends State {
 
-    private GameState gameState;
     private KeyManager k;
 
     public GameOverState(Handler handler) {
@@ -46,6 +45,9 @@ public class GameOverState extends State {
 
             handler.getGame().getGameState().getController().setCountDifficulty(0);
             Creature.setDEAFULT_SPEED();
+            //questo metodo è stato utilizzato per inizializzare nuovamente le variabili del player
+            //una volta morti. Questo porta ad avere un'istanza di player per sessione di gioco
+            Player.restartPlayer();
             handler.getGame().getGameState().getController().setTimeEnemyGenerator(2.0f);
             handler.getGame().setGameState(new GameState(handler));
             Game.playSoundtrack();
