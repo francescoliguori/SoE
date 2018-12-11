@@ -10,11 +10,14 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Arrow;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
+import gioco.prova.display.Score;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
+import gioco.prova.gfx.FontLoader;
 import gioco.prova.states.GameOverState;
 import gioco.prova.states.State;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -25,7 +28,7 @@ import java.util.logging.Logger;
  * @author marcoruggiero
  */
 public class Player extends Creature {
-
+    
     private ControllerEntities c;
     private Handler handler;
     private Animation animRunningLeft;
@@ -34,7 +37,10 @@ public class Player extends Creature {
     private Animation animStop;
     private Animation animJump;
     private Animation animDown;
-
+    
+    protected Score score;
+    private Font font;
+    
     protected double gravity;
     protected boolean falling = true;
     protected boolean jumping = false;
@@ -44,11 +50,11 @@ public class Player extends Creature {
     float xStart; //addddd
     float xFin;
     private float jumpStrength = 200;
-
+    
     private float jumpStep = 15;
     private float slideStepY = 8; //80
     private float slideStepX = 5; //50
-
+    
     private float groundHeight;
     private float collisionTime = System.nanoTime();
     private boolean isCollision = false;
@@ -66,7 +72,7 @@ public class Player extends Creature {
     public Player(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
         gravity = 0.5;
-
+        
         //Animazione
         animRunningLeft = new Animation(90, Assets.playerRunning);
         animRunningRight = new Animation(50, Assets.playerRunning);
@@ -78,13 +84,15 @@ public class Player extends Creature {
         //si aggiunge un controller entities: sarà usato per sparare
         this.c = c;
         this.handler = handler;
-
+        
+        score = new Score();
+        
         bounds.x = 40;
         bounds.y = 100;
         bounds.width = 95;
         bounds.height = 90;
     }
-
+    
     @Override
     public void tick() {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -103,7 +111,7 @@ public class Player extends Creature {
             isCollision = false;
             //collisionTime = System.nanoTime();
         }
-
+        
         /*if (y < 100){
          //y -= jumpStrength/3;
          y += weight;
@@ -111,24 +119,24 @@ public class Player extends Creature {
         /*System.out.println("ground: height" + groundHeight);
          System.out.println(" y " + y);*/
     }
-
+    
     private void fall() {
-
+        
         if (falling) {
             bounds.y = 100;
             bounds.height = 90;
             y += gravity;
             gravity += 1;
             if (collisionWithGround(y)) {
-
+                
                 y = groundHeight;
                 falling = false;
                 gravity = 0.5;
             }
         }
-
+        
     }
-
+    
     private void jump(float step, float groundH) {
         if (jumping) {
             bounds.height = 120;
@@ -138,13 +146,13 @@ public class Player extends Creature {
             if (y <= groundH - jumpStrength) {
                 jumping = false;
                 falling = true;
-
+                
                 jumpStep = 15;
             }
         }
     }
-
-    private void slide(float stepY, float stepX) {  //funzione per lo sliding in discesa 
+    
+    private void slide(float stepY, float stepX) {  //funzione per lo sliding in discesa
         xFin = xStart + 90; //adddddd
         if (!slidingUp && !slidingDown) {
             yMove += stepY;
@@ -158,10 +166,10 @@ public class Player extends Creature {
                 yMove = 0;//addddddd
                 xMove += stepX;
                 //slidingUp = true;
-
+                
             }
             if (this.getX() > xFin || x > handler.getWidth() - 200 || this.getX() < xStart) {//
-//                    System.out.println(this.getX() < xstart);
+                //                    System.out.println(this.getX() < xstart);
                 slidingUp = true;
             }
         } else if (slidingUp && !slidingDown) {
@@ -169,20 +177,20 @@ public class Player extends Creature {
             xMove += stepX;
             if (y <= groundHeight) {
                 yMove = 0;
-
+                
                 //System.out.println("Entrato nell'if");
                 yMove += groundHeight - y;
                 slidingUp = false;
                 slidingDown = true;
                 canSlide = true;
-//                System.out.println(slidingUp + " " + slidingDown);
+                //                System.out.println(slidingUp + " " + slidingDown);
             }
         }
-
+        
     }
-
-//questo metodo è utilizzato per controllare se il player 
-//entra in collisione con un nemico
+    
+    //questo metodo è utilizzato per controllare se il player
+    //entra in collisione con un nemico
     public boolean checkEnemyCollisions(float xOffset, float yOffset) {
         for (Enemies e : handler.getGame().getGameState().getController().getEnemies()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && (slidingDown || slidingUp)) {
@@ -196,40 +204,40 @@ public class Player extends Creature {
         }
         return false;
     }
-
+    
     public boolean checkKunaiEnemyCollisions(float xOffset, float yOffset) {
         for (Kunai k : handler.getGame().getGameState().getController().getListKunaiEnemies()) {
             if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && (slidingDown || slidingUp)) {
-//            System.out.println("Collisione con kunai nemico");
+                //            System.out.println("Collisione con kunai nemico");
                 return true;
             }
         }
         return false;
     }
-
+    
     /*public void checkRamenCollisions(float xOffset, float yOffset) {
-        for (Ramen ramen : handler.getGame().getGameState().getController().getRamen()) {
-            if (health != 3 && ramen.checkPlayerCollisions(xOffset, yOffset)) {
-                health += 1;
-            }
-        }
-    }*/
-	
-	public boolean checkArrowEnemyCollisions(float xOffset, float yOffset) {
+     for (Ramen ramen : handler.getGame().getGameState().getController().getRamen()) {
+     if (health != 3 && ramen.checkPlayerCollisions(xOffset, yOffset)) {
+     health += 1;
+     }
+     }
+     }*/
+    
+    public boolean checkArrowEnemyCollisions(float xOffset, float yOffset) {
         for (Arrow a : handler.getGame().getGameState().getController().getListArrowEnemies()) {
             if (a.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
-//            System.out.println("Collisione con kunai nemico");
+                //            System.out.println("Collisione con kunai nemico");
                 return true;
             }
         }
         return false;
-
+        
     }
-
+    
     public void getInput() {
         xMove = 0;
         yMove = 0;
-
+        
         fall();
         jump(jumpStep, groundHeight);
         slide(slideStepY, slideStepX);
@@ -237,7 +245,7 @@ public class Player extends Creature {
         if (y == groundHeight && handler.getKeyManager().up) {
             yMove -= jumpStep;
             jumping = true;
-
+            
         }
         if (handler.getKeyManager().right && canSlide) {
             if ((x + xMove) >= handler.getWidth() - 155) {
@@ -246,7 +254,7 @@ public class Player extends Creature {
             } else {
                 xMove += speed;
             }
-
+            
         }
         if (handler.getKeyManager().left) {
             if ((x - xMove) <= 0) {
@@ -256,7 +264,7 @@ public class Player extends Creature {
             }
         }
         if (handler.getKeyManager().down && canSlide
-                && !handler.getKeyManager().left && x < handler.getWidth() - 330) { // 330 = xpersonaggio 155 + grandezza slide 175
+            && !handler.getKeyManager().left && x < handler.getWidth() - 330) { // 330 = xpersonaggio 155 + grandezza slide 175
             canSlide = false;
             if (slidingDown) {
                 xStart = this.getX();
@@ -271,47 +279,51 @@ public class Player extends Creature {
                 jumping = false;
             }
         }
-//        if (x > handler.getWidth() - 250) {
-//            canSlide = false;
-//        } else {
-//            canSlide = true;
-//        }
-
-//        if ((x + xMove) >= handler.getWidth() - 155) {  //250
-//            //x = 375;
-//            x = handler.getWidth() - 155;
-//        }
+        //        if (x > handler.getWidth() - 250) {
+        //            canSlide = false;
+        //        } else {
+        //            canSlide = true;
+        //        }
+        
+        //        if ((x + xMove) >= handler.getWidth() - 155) {  //250
+        //            //x = 375;
+        //            x = handler.getWidth() - 155;
+        //        }
         //lo facciamo sparare solo se premiamo space e il personaggio è a terra
         if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty() && c.getListKunaiPlayer().isEmpty()) {
             //canShoot=false;
             c.addFireball(new Fireball(handler, this.getX(), this.getY(), width, height));
         }
-
+        
         //lo facciamo sparare solo se premiamo V e non ci sono altri kunai
         if (handler.getKeyManager().v && c.getListKunaiPlayer().isEmpty() && c.getF().isEmpty()) {
             //canShoot=false;
             c.addKunaiPlayer(new Kunai(handler, this.getX(), this.getY(), width, height, true));
         }
-
+        
     }
-
+    
     public boolean collisionWithGround(float y) {
         return y >= groundHeight;
     }
-
+    
     @Override
     public void render(Graphics g) {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
-
+        
+        font = FontLoader.load("res/fonts/naruto.ttf", 40);
+        g.setFont(font);
+        g.setColor(Color.white);
+        g.drawString(Integer.toString(score.getCount()), 600, 80);
         //g.clearRect((int)x,(int) y, 187, 155);
         //g.setColor(Color.red);
         //g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
-//        g.setColor(Color.red);
-//        g.fillRect((int)(x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
+        //        g.setColor(Color.red);
+        //        g.fillRect((int)(x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
     }
-
+    
     private BufferedImage getCurrentAnimationFrame() {
         if (isCollision) {
             return animDown.getCurrentFrame();
@@ -327,9 +339,9 @@ public class Player extends Creature {
             } else {
                 return animJump.getFrame(4);
             }
-
-//        } else if (!slidingDown) {
-//            return animDown.getCurrentFrame();
+            
+            //        } else if (!slidingDown) {
+            //            return animDown.getCurrentFrame();
         } else if (falling && y >= (groundHeight - jumpStrength)) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)  && !slidingDown) {
                 checkCollision();
@@ -337,7 +349,7 @@ public class Player extends Creature {
                 //return animDown.getCurrentFrame();
             }
             return animJump.getFrame(6);
-
+            
         }
         if (xMove < 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0))  {
@@ -345,7 +357,7 @@ public class Player extends Creature {
                 //isCollision = true;
                 //return animDown.getCurrentFrame();
             }
-
+            
             return animRunningLeft.getCurrentFrame();
         }
         if (xMove > 0) {
@@ -361,12 +373,12 @@ public class Player extends Creature {
             //isCollision = true;
             //return animDown.getCurrentFrame();
             return animDown.getFrame(2);
-
+            
         }
-
+        
         return animRunning.getCurrentFrame();
     }
-
+    
     private void checkCollision() {
         health -= 1;
         if (health <= 0) {
@@ -376,12 +388,12 @@ public class Player extends Creature {
         isCollision = true;
         collisionTime = System.nanoTime();
     }
-//    @Override
-//    public void setHealth(int health) {
-//        this.health = health;
-//        if (health <= 0) {
-//            State.setState(new GameOverState(handler));
-//        }
-//    }
-
+    //    @Override
+    //    public void setHealth(int health) {
+    //        this.health = health;
+    //        if (health <= 0) {
+    //            State.setState(new GameOverState(handler));
+    //        }
+    //    }
+    
 }
