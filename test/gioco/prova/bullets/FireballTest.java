@@ -28,10 +28,9 @@ public class FireballTest {
     private Handler  handler;
     private Fireball f;
     
-    private int width = 1200, height = 700;
     public FireballTest() 
     {
-        game = new Game("game", width, height);
+        game = Game.getGameIstance();
         handler = new Handler(game);
         f = new Fireball(handler,  200,  200,  50,  60);
     }
