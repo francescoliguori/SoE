@@ -380,7 +380,7 @@ public class Player extends Creature {
         health -= 1;
         if (health <= 0) {
             State.setState(new GameOverState(handler));
-            Game.stopSountrack();
+            handler.getGame().st.stop();
         }
         isCollision = true;
         collisionTime = System.nanoTime();

@@ -8,6 +8,7 @@ package gioco.prova;
 import gioco.prova.display.Display;
 import gioco.prova.gfx.Assets;
 import gioco.prova.gfx.ImageLoader;
+import gioco.prova.gfx.Soundtrack;
 import gioco.prova.gfx.SpriteSheet;
 import gioco.prova.input.KeyManager;
 import gioco.prova.states.GameState;
@@ -40,6 +41,7 @@ public class Game implements Runnable {
     private Display display;
     public int width, height;
     public String title;
+    public Soundtrack st;
 
     private boolean running = false;
     private Thread thread;
@@ -89,7 +91,7 @@ public class Game implements Runnable {
         this.height = height;
         this.title = title;
         keyManager = new KeyManager();
-
+        st = new Soundtrack();
     }
 
     private void init() {
@@ -100,15 +102,7 @@ public class Game implements Runnable {
         gameState = new GameState(handler);
         menuState = new MenuState(handler);
         State.setState(gameState);
-
-        try {
-            File ost = new File("res/sounds/ost2.wav");
-            clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(ost));
-            this.playSoundtrack();
-        } catch (Exception exc) {
-            exc.printStackTrace(System.out);
-        }
+        st.play();
     }
 
     private void tick() {

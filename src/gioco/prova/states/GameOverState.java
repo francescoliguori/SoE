@@ -50,7 +50,7 @@ public class GameOverState extends State {
             Player.restartPlayer();
             handler.getGame().getGameState().getController().setTimeEnemyGenerator(2.0f);
             handler.getGame().setGameState(new GameState(handler));
-            Game.playSoundtrack();
+            handler.getGame().st.play();
             //handler.getGame().getGameState().getController().setTimeToUp(System.nanoTime());
 
             State.setState(handler.getGame().getGameState());
