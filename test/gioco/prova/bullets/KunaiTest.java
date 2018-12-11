@@ -26,7 +26,7 @@ public class KunaiTest {
     
     public KunaiTest() {
         game = Game.getGameIstance();
-        handler = new Handler(game);
+        handler = Handler.getHandlerInstance(game);
         k = new Kunai(handler,  200,  200,  50,  60, true);
     
     }

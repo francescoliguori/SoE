@@ -31,7 +31,7 @@ public class FireballTest {
     public FireballTest() 
     {
         game = Game.getGameIstance();
-        handler = new Handler(game);
+        handler = Handler.getHandlerInstance(game);
         f = new Fireball(handler,  200,  200,  50,  60);
     }
     

@@ -30,7 +30,7 @@ public class ControllerEntitiesTest {
     
     public ControllerEntitiesTest() {
         game = Game.getGameIstance();
-        handler = new Handler(game);
+        handler = Handler.getHandlerInstance(game);
         controller = new ControllerEntities(handler);
     }
     

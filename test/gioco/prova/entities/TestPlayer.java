@@ -27,13 +27,15 @@ public class TestPlayer {
 
     public TestPlayer() {
         game = Game.getGameIstance();
-        handler = new Handler(game);
-    }
+        handler = Handler.getHandlerInstance(game);
+        }
 
     @Before
     public void setUp() {
         controller = new ControllerEntities(handler);
-        player = new Player(handler, 100, 325, controller);
+        //player = new Player(handler, 100, 325, controller);
+        player = Player.getPlayerInstance(handler, 100, 400, controller);
+        
     }
 
     @Test

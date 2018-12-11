@@ -38,8 +38,8 @@ public class TestCollisionEntities {
 
     public TestCollisionEntities() {
         game = Game.getGameIstance();
-        handler = new Handler(game);
-    }
+        handler = Handler.getHandlerInstance(game);
+         }
 
     @Before
     public void setUp() {
@@ -50,7 +50,9 @@ public class TestCollisionEntities {
         enemy2.setX(enemy2.getX() + enemy2.getWidth());
         controller.addEnemy(enemy1);
         controller.addEnemy(enemy2);
-        player = new Player(handler, 100, 325, controller);
+        //player = new Player(handler, 100, 325, controller);
+        player = Player.getPlayerInstance(handler, 100, 325, controller);
+        
     }
 
     @After

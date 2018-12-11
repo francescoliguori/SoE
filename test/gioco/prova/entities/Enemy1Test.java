@@ -29,7 +29,7 @@ public class Enemy1Test {
     
     public Enemy1Test() {
         game = Game.getGameIstance();
-        handler = new Handler(game);
+        handler = Handler.getHandlerInstance(game);
         controller = new ControllerEntities(handler);
     }
     
