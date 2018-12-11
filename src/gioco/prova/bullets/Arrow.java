@@ -27,8 +27,8 @@ public class Arrow extends Entity {
         arrowThrowBackward = new Animation(100, Assets.arrowThrowBackward);
         //creazione del quadrato di collisione per la freccia
         bounds.x = 118;
-        bounds.y = 125;
-        bounds.width = 23;
+        bounds.y = 110;
+        bounds.width = 40;
         bounds.height = 10;
     }
 
@@ -42,8 +42,8 @@ public class Arrow extends Entity {
     //@Override
     public void render(Graphics g) {
         g.drawImage(getCurrentAnimationFrame(), (int) x + 35, (int) y + 20, null);
-        //g.setColor(Color.red);
-        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height)
+        g.setColor(Color.red);
+        g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
     }
 
     private BufferedImage getCurrentAnimationFrame() {
