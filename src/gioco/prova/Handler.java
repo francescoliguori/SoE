@@ -12,13 +12,19 @@ import gioco.prova.input.KeyManager;
  *
  * @author Chris
  */
+//anche l'handler viene reso singleton
 public class Handler {
     private Game game;
-    //private World world;
-
-    public Handler(Game game) {
+    static private Handler instance = null;
+    
+    public static Handler getHandlerInstance(Game game){
+        if(instance == null){
+            instance = new Handler(game);
+        }
+        return instance;
+    }
+    private Handler(Game game) {
         this.game = game;
-       
     }
 
     public Game getGame() {
