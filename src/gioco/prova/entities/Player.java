@@ -157,10 +157,10 @@ public class Player extends Creature {
         if (!slidingUp && !slidingDown) {
             yMove += stepY;
             xMove += stepX;
-            if (handler.getKeyManager().left) {
-                yMove -= stepY;
-                xMove = 0;
-            }
+//            if (handler.getKeyManager().left) {
+//                yMove -= stepY;
+//                xMove = 0;
+//            }
             if (y > (groundHeight + getHeight() * 0.55)) { // /3
                 y = (float) (groundHeight + getHeight() * 0.55);
                 yMove = 0;//addddddd
@@ -256,16 +256,19 @@ public class Player extends Creature {
             }
             
         }
-        if (handler.getKeyManager().left) {
+        if (handler.getKeyManager().left && canSlide) {
+            System.err.println("sx");
             if ((x - xMove) <= 0) {
                 x = 0;
             } else {
                 xMove -= speed;
             }
         }
-        if (handler.getKeyManager().down && canSlide
+        System.out.println(canSlide);
+        if (handler.getKeyManager().down && canSlide && y == groundHeight
             && !handler.getKeyManager().left && x < handler.getWidth() - 330) { // 330 = xpersonaggio 155 + grandezza slide 175
             canSlide = false;
+            System.err.println("ciao");
             if (slidingDown) {
                 xStart = this.getX();
                 //System.out.println(xstart);
@@ -382,7 +385,7 @@ public class Player extends Creature {
     private void checkCollision() {
         health -= 1;
         if (health <= 0) {
-            State.setState(new GameOverState(handler));
+            //State.setState(new GameOverState(handler));
             Game.stopSountrack();
         }
         isCollision = true;
