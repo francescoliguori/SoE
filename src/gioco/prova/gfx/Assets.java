@@ -38,7 +38,11 @@ public class Assets {
     public static BufferedImage gameOver;
     public static BufferedImage gameOverLogo;
     public static BufferedImage ramen;
-
+    public static BufferedImage menu;
+    public static BufferedImage story;
+    public static BufferedImage credits;
+    public static BufferedImage score;
+    public static BufferedImage commands;
     public static void init() {
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi.png"));
@@ -47,6 +51,11 @@ public class Assets {
         SpriteSheet sheetgameOver = new SpriteSheet(ImageLoader.loadImage("/gameover.jpg"));
         SpriteSheet sheetgameOverLogo = new SpriteSheet(ImageLoader.loadImage("/gameoverlogo.png"));
         SpriteSheet sheetgameramen = new SpriteSheet(ImageLoader.loadImage("/ramenbowl.png"));
+        SpriteSheet sheetStory=new SpriteSheet(ImageLoader.loadImage("/story.png"));
+        SpriteSheet sheetCredits=new SpriteSheet(ImageLoader.loadImage("/credits.jpg"));
+        SpriteSheet sheetMenu=new SpriteSheet(ImageLoader.loadImage("/start1.jpg"));
+        SpriteSheet sheetScore= new SpriteSheet(ImageLoader.loadImage("/score.jpg"));
+        SpriteSheet sheetCommands= new SpriteSheet(ImageLoader.loadImage("/commands.jpg"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
@@ -68,7 +77,11 @@ public class Assets {
         ramen = sheetgameramen.crop(0, 0, 55, 42);
         gameOver = sheetgameOver.crop(0, 0, 1200, 700);
         gameOverLogo = sheetgameOverLogo.crop(0, 0, 1200, 700);
-
+        story=sheetStory.crop(0,0,1200,700);
+        menu=sheetMenu.crop(0,0,1200,700);
+        credits=sheetCredits.crop(0,0,1200,700);
+        score=sheetScore.crop(0,0,1200,700);
+        commands=sheetCommands.crop(0,0,1200,700);
         for (int i = 0; i <= 5; i++) {
             playerRunning[i] = sheet.crop(width * i, height, width, height);
         }

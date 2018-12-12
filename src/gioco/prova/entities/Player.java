@@ -14,6 +14,8 @@ import gioco.prova.display.Score;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
 import gioco.prova.gfx.FontLoader;
+import gioco.prova.score.ReadScore;
+import gioco.prova.score.WriteScore;
 import gioco.prova.states.GameOverState;
 import gioco.prova.states.State;
 import java.awt.Color;
@@ -22,6 +24,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -391,9 +394,22 @@ public class Player extends Creature {
         if (health <= 0) {
             State.setState(new GameOverState(handler));
             handler.getGame().st.stop();
+            HighScore();
         }
         isCollision = true;
         collisionTime = System.nanoTime();
     }
-    
+    private void HighScore() {
+        ReadScore r = new ReadScore();
+        String[] s = null;
+        s = r.read().split(":");
+            if (Integer.parseInt(s[1]) <= score.getCount() || s==null) {
+                WriteScore w = new WriteScore();               
+                String name = JOptionPane.showInputDialog("Enter your name: ");
+                w.write(name, score.getCount());
+            }
+                
+           
+        
+    }
 }

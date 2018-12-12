@@ -58,7 +58,7 @@ public class Game implements Runnable {
     private GameState gameState;
     private MenuState menuState;
     private GameOverState gameOverState;
-
+    private int fps = 60;
     private static Clip clip;
 
     // Input
@@ -101,7 +101,7 @@ public class Game implements Runnable {
         handler = Handler.getHandlerInstance(this);
         gameState = new GameState(handler);
         menuState = new MenuState(handler);
-        State.setState(gameState);
+        State.setState(menuState);
         st.play();
     }
 
@@ -144,7 +144,7 @@ public class Game implements Runnable {
 
         //frame, o tick, per second: quante volte al secondo vengono invocate
         //tick e render
-        int fps = 60;
+        //int fps = 60;
         //un secondo, espresso in nanosecondi, diviso il numero di fps. E' la 
         //massima quantità di tempo che si può dedicare all'esecuzione di tick e render
         //per avere un numero di fps pari a 60.
@@ -169,6 +169,7 @@ public class Game implements Runnable {
                 render();
                 ticks++;
                 delta--;
+                timePerTick = 1000000000 / fps;
             }
 
             if (timer >= 1000000000) {
@@ -239,4 +240,13 @@ public class Game implements Runnable {
     public static void stopSountrack() {
         clip.stop();
     }
+
+    public int getFps() {
+        return fps;
+    }
+
+    public void setFps(int fps) {
+        this.fps = fps;
+    }
+    
 }
