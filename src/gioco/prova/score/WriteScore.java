@@ -34,7 +34,11 @@ public class WriteScore {
 //           b.append(": ");
 //           b.append(score);
 //           b.newLine();
-           b.write(name);
+
+          if(name==null)
+               b.write("unknown");
+           else
+                b.write(name);
            b.write(":");           
            b.write(String.valueOf(score));
            b.flush();        
