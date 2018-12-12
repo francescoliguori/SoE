@@ -299,10 +299,10 @@ public class Player extends Creature {
             }
         }
         
-        //lo facciamo sparare solo se premiamo space e il personaggio è a terra
-        if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty() && c.getListKunaiPlayer().isEmpty()) {
+        if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty() && c.getListKunaiPlayer().isEmpty() && handler.getGame().getGameState().getHudmngr().getCurrPower() == handler.getGame().getGameState().getHudmngr().getMaxPower()) {
             //canShoot=false;
             c.addFireball(new Fireball(handler, this.getX(), this.getY(), width, height));
+            handler.getGame().getGameState().getHudmngr().setCurrPower(0);
         }
         
         //lo facciamo sparare solo se premiamo V e non ci sono altri kunai

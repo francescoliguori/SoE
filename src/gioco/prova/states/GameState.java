@@ -56,13 +56,17 @@ public class GameState extends State {
         
         //Setting HUD
         String pathHud = "/hudBg/lifeicon.png";
-        hudmngr = new HudManager(pathHud, player.getHealth());
+        String pathHud2= "/hudBg/powinactive.png";
+        String pathHud3= "/hudBg/powactive.png";
+        hudmngr = new HudManager(pathHud, pathHud2, pathHud3, player.getHealth());
     }
 
     public Player getPlayer() {
         return player;
     }
-
+    public HudManager getHudmngr() {
+        return hudmngr;
+    }
     @Override
     public void tick() {
         hudmngr.setCurrLife(player.getHealth());
