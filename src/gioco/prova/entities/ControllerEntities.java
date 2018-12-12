@@ -28,13 +28,17 @@ public class ControllerEntities {
     private LinkedList<Kunai> kunaiPlayer = new LinkedList<Kunai>();
     private LinkedList<Kunai> kunaiEnemies = new LinkedList<Kunai>();
     private LinkedList<Arrow> arrowEnemies = new LinkedList<Arrow>();
+    private LinkedList<Ramen> ramenBowl = new LinkedList<Ramen>();
     private long lastTime = System.nanoTime(); //used for generation of enemies 
+    private long lastTime2 = System.nanoTime();
     private Fireball fireball;
     private Kunai kunai;
     private Arrow arrow;
+    private Ramen ramen;
 
     private int countDifficulty = 0;
     private float TimeEnemyGenerator = 2.0f;
+    private float TimeRamenGenerator = 5.0f;
 
     private float TimeToUp = System.nanoTime();
 
@@ -91,9 +95,17 @@ public class ControllerEntities {
             }
             arrow.tick();
         }
-
+        
+        for (int i = 0; i < ramenBowl.size(); i++) {
+            //System.out.println(kunaiEnemies.size());
+            ramen = ramenBowl.get(i);
+            if (ramen.getX() < -ramen.getWidth()) {
+                removeRamen(ramen);
+            }
+            ramen.tick();
+        }
         enemyGenerator();
-
+        ramenGenerator();
         if (System.nanoTime() - TimeToUp > 5000000000L) {
 //            System.out.println(TimeToUp + countDifficulty);
 //            System.out.println(countDifficulty);
@@ -126,7 +138,10 @@ public class ControllerEntities {
             arrow = arrowEnemies.get(i);
             arrow.render(g);
         }
-
+        for (int i = 0; i < ramenBowl.size(); i++) {
+            ramen = ramenBowl.get(i);
+            ramen.render(g);
+        }
     }
 
     private void checkDifficulty() {
@@ -219,6 +234,12 @@ public class ControllerEntities {
     public void removeArrowEnemies(Arrow arrow) {
         arrowEnemies.remove(arrow);
     }
+    public void addRamen(Ramen ramen) {
+        ramenBowl.add(ramen);
+    }
+    public void removeRamen(Ramen ramen) {
+        ramenBowl.remove(ramen);
+    }
 
     public void addEnemy(Enemies enemy) {
         e.add(enemy);
@@ -250,6 +271,10 @@ public class ControllerEntities {
     public LinkedList<Enemies> getE() {
         return e;
     }
+    
+    public LinkedList<Ramen> getListRamen() {
+        return ramenBowl;
+    }
 
 //    private void enemyJump() {
 //        jumpEnemy(chooseEnemy(1));
@@ -261,7 +286,15 @@ public class ControllerEntities {
             lastTime = System.nanoTime();
         }
     }
-
+    private void ramenGenerator() {
+        long now = System.nanoTime(); //used for time generation of enemies 
+        if (handler.getGame().getGameState().getPlayer().getHealth() < 2) {
+             if (now - lastTime2 > TimeRamenGenerator * 1000000000) {
+                 addRamen(new Ramen(handler,handler.getWidth(), 550));
+                 lastTime2 = System.nanoTime();
+        }
+    }
+    }
     private Enemies chooseEnemy(int n) {
         switch (n) {
             case 1:
@@ -284,7 +317,9 @@ public class ControllerEntities {
     public void setTimeEnemyGenerator(float TimeEnemyGenerator) {
         this.TimeEnemyGenerator = TimeEnemyGenerator;
     }
-
+    public void setTimeRamenGenerator(float TimeRamenGenerator) {
+        this.TimeRamenGenerator = TimeRamenGenerator;
+    }
     public void setTimeToUp(float TimeToUp) {
         this.TimeToUp = TimeToUp;
     }

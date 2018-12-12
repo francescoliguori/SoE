@@ -106,7 +106,7 @@ public class Player extends Creature {
         //movimento
         getInput();
         move();
-        //checkRamenCollisions(0, 0);
+        checkRamenCollisions(0, 0);
         if (System.nanoTime() - collisionTime > 2000000000) { //2 sec
             isCollision = false;
             //collisionTime = System.nanoTime();
@@ -236,7 +236,17 @@ public class Player extends Creature {
         return false;
         
     }
-    
+        public void checkRamenCollisions(float xOffset, float yOffset) {
+        for (Ramen ramen : handler.getGame().getGameState().getController().getListRamen()) {
+            if (health != 3 && ramen.checkPlayerCollisions(xOffset, yOffset)) {
+                health += 1;
+                handler.getGame().getGameState().getController().removeRamen(ramen);
+            }
+            
+            
+        }
+    }
+
     public void getInput() {
         xMove = 0;
         yMove = 0;

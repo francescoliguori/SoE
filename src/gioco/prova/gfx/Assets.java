@@ -37,6 +37,7 @@ public class Assets {
     public static BufferedImage[] arrowThrowBackward;
     public static BufferedImage gameOver;
     public static BufferedImage gameOverLogo;
+    public static BufferedImage ramen;
 
     public static void init() {
         //si crea lo spritesheet da utilizzare
@@ -45,7 +46,8 @@ public class Assets {
         SpriteSheet sheetBullets = new SpriteSheet(ImageLoader.loadImage("/bullets.png"));
         SpriteSheet sheetgameOver = new SpriteSheet(ImageLoader.loadImage("/gameover.jpg"));
         SpriteSheet sheetgameOverLogo = new SpriteSheet(ImageLoader.loadImage("/gameoverlogo.png"));
-
+        SpriteSheet sheetgameramen = new SpriteSheet(ImageLoader.loadImage("/ramenbowl.png"));
+        
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
         playerStop = new BufferedImage[3];
@@ -63,6 +65,7 @@ public class Assets {
         kunaiThrowBackward = new BufferedImage[1];
         arrowThrowBackward = new BufferedImage[1];
         player = sheet.crop(0, 0, width, height);
+        ramen = sheetgameramen.crop(0, 0, 55, 42);
         gameOver = sheetgameOver.crop(0, 0, 1200, 700);
         gameOverLogo = sheetgameOverLogo.crop(0, 0, 1200, 700);
 

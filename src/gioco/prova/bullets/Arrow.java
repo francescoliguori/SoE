@@ -42,8 +42,8 @@ public class Arrow extends Entity {
     //@Override
     public void render(Graphics g) {
         g.drawImage(getCurrentAnimationFrame(), (int) x + 35, (int) y + 20, null);
-        g.setColor(Color.red);
-        g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
+        /*g.setColor(Color.red);
+        g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);*/
     }
 
     private BufferedImage getCurrentAnimationFrame() {

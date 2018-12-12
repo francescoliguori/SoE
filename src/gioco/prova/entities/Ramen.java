@@ -10,12 +10,7 @@ import gioco.prova.gfx.Assets;
 import gioco.prova.gfx.ImageLoader;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
-/**
- *
- * @author Utente
- */
 public class Ramen extends Entity {
 
     private long now;
@@ -24,34 +19,28 @@ public class Ramen extends Entity {
 
     public Ramen(Handler handler, float x, float y) {
         super(handler, x, y, 187, 155);
-        bounds.x = 70;
-        bounds.y = 100;
-        bounds.height = 30;
-        bounds.width = 60;
+        bounds.height = 42;
+        bounds.width = 55;
     }
 
     @Override
     public void tick() {
-       
+        move();
     }
 
     @Override
     public void render(Graphics g) {
-//         if (spawn){
-        //g.drawImage(Assets.ramen, (int) this.x, (int) this.y, null);
-        //g.setColor(Color.red);
-        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
-//        }
-//         spawn=false;
+           g.drawImage(Assets.ramen, (int) this.x, (int) this.y, null);
+ 
     }
 
-//    public BufferedImage spawn() {
-//        if (spawn) {
-//            return Assets.ramen;
-//        }
-//        return null;
-//    }
-
+   /* public BufferedImage spawn() {
+        if (spawn) {
+            return Assets.ramen;
+        }
+       return null;
+   }
+*/
     public boolean checkPlayerCollisions(float xOffset, float yOffset) {
         if (handler.getGame().getGameState().getPlayer().getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
             //System.out.println("collision ramen");
@@ -70,4 +59,7 @@ public class Ramen extends Entity {
 //           //System.out.println(pos);
 //           return pos;
 //    }
+        public void move() {
+        x -= 10.0f;
+    }
 }
