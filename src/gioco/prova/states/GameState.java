@@ -26,21 +26,21 @@ public class GameState extends State {
     private ParallaxBackground parallax;
     private Background fixBg;
     private ControllerEntities controller;
-    
+    private boolean story = true;
     private HudManager hudmngr;
 
     public GameState(Handler handler) {
         super(handler);
 
         controller = new ControllerEntities(handler);
-        player =  Player.getPlayerInstance(handler, 100, 400, controller);
+        player = Player.getPlayerInstance(handler, 100, 400, controller);
 
         //Setting background image paths
         String[] pathsNight = new String[3];
         pathsNight[0] = "/background/mountain.png";
         pathsNight[1] = "/background/trees.png";
         pathsNight[2] = "/background/path.png";
-        
+
         String[] pathsDay = new String[3];
         pathsDay[0] = "/background/mountain_day.png";
         pathsDay[1] = "/background/trees_day.png";
@@ -53,26 +53,32 @@ public class GameState extends State {
             parallax = new ParallaxBackground(pathsDay, (int) (player.getSpeed() / 2));
             fixBg = new Background(0, "/background/bg_sky_day.png");
         }
-        
+
         //Setting HUD
         String pathHud = "/hudBg/lifeicon.png";
-        String pathHud2= "/hudBg/powinactive.png";
-        String pathHud3= "/hudBg/powactive.png";
+        String pathHud2 = "/hudBg/powinactive.png";
+        String pathHud3 = "/hudBg/powactive.png";
         hudmngr = new HudManager(pathHud, pathHud2, pathHud3, player.getHealth());
     }
 
     public Player getPlayer() {
         return player;
     }
+
     public HudManager getHudmngr() {
         return hudmngr;
     }
+
     @Override
     public void tick() {
-        hudmngr.setCurrLife(player.getHealth());
-        parallax.tick();
-        player.tick();
-        controller.tick();
+        if (story) {
+            getInput();
+        } else {
+            hudmngr.setCurrLife(player.getHealth());
+            parallax.tick();
+            player.tick();
+            controller.tick();
+        }
     }
 
     public ControllerEntities getController() {
@@ -81,16 +87,26 @@ public class GameState extends State {
 
     @Override
     public void render(Graphics g) {
-        fixBg.render(g);
-        parallax.render(g);
-        hudmngr.render(g);
-        player.render(g);
-        controller.render(g);
+        if (story) {
+            g.drawImage(Assets.story, 0, 0, null);
+        } else {
+            fixBg.render(g);
+            parallax.render(g);
+            hudmngr.render(g);
+            player.render(g);
+            controller.render(g);
+        }
     }
 
     public void setController(ControllerEntities controller) {
         this.controller = controller;
     }
-    
-    
+
+    public void getInput() {
+        if (handler.getKeyManager().esc) {
+            story = false;
+        }
+
+    }
+
 }

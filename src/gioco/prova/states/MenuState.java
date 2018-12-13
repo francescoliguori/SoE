@@ -11,6 +11,7 @@ import gioco.prova.entities.Player;
 import gioco.prova.gfx.Assets;
 import gioco.prova.gfx.FontLoader;
 import gioco.prova.input.KeyManager;
+import gioco.prova.score.ReadScore;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -25,48 +26,78 @@ public class MenuState extends State {
         "START",
         "DEMO",
         "HIGH SCORE",
-        "THE STORY",
+        //"THE STORY",
         "COMMANDS",
         "CREDITS",
         "QUIT"
     };
     private Color noSelected = new Color(166, 20, 20);
     private Color selected = new Color(238, 116, 7);
-    private Font font;
+    private Font font,fontScore;
+    private ReadScore r;
+    private String s;
+    
     private int choice = 0;
     //private GameState gameState;
     private KeyManager k = handler.getKeyManager();
+    private boolean option = false;
 
     public MenuState(Handler handler) {
         super(handler);
         font = FontLoader.load("res/fonts/naruto.ttf", 40);
+        fontScore = FontLoader.load("res/fonts/naruto.ttf", 100);
         handler.getGame().setFps(12);
 
     }
 
     @Override
     public void tick() {
-        getInput();
+        if (!option) {
+            getInputClassic();
+        } else {
+            getInputOption();
+        }
     }
 
     @Override
     public void render(Graphics g) {
+        if (!option) {
+            g.setFont(font);
+            g.drawImage(Assets.menu, 0, 0, null);
+            for (int i = 0; i < menu.length; i++) {
+                if (i == choice) {
+                    //g.setColor(Color.RED);
+                    g.setColor(selected);
+                } else {
+                    //g.setColor(Color.ORANGE);
+                    g.setColor(noSelected);
+                }
+                g.drawString(menu[i], 20, 250 + i * 50);
 
-        g.drawImage(Assets.menu, 0, 0, null);
-        g.setFont(font);
-        for (int i = 0; i < menu.length; i++) {           
-            if (i == choice) {
-                //g.setColor(Color.RED);
-                g.setColor(selected);
-            } else {
-                //g.setColor(Color.ORANGE);
-                g.setColor(noSelected);
             }
-            g.drawString(menu[i], 20, 250 + i * 50);
+        } else {
+            switch (choice) {
+                case 2: //score
+                    g.drawImage(Assets.score, 0, 0, null);
+                    g.setFont(fontScore);
+                    g.setColor(noSelected);
+                    g.drawString(s, 250, 300);
+                    break;
+//                case 3: //story
+//                    g.drawImage(Assets.story, 0, 0, null);
+//                    break;
+                case 3: //commands
+                    g.drawImage(Assets.commands, 0, 0, null);
+                    break;
+                case 4: //credits
+                    g.drawImage(Assets.credits, 0, 0, null);
+                    break;
+
+            }
         }
     }
 
-    public void getInput() {
+    public void getInputClassic() {
         if (k.enter) {
             select();
         }
@@ -82,6 +113,13 @@ public class MenuState extends State {
                 choice = 0;
             }
         }
+
+    }
+
+    public void getInputOption() {
+        if (k.esc) {
+            option = false;
+        }
     }
 
     private void select() {
@@ -92,28 +130,35 @@ public class MenuState extends State {
                 handler.getGame().setFps(60);
                 handler.getGame().setState(handler.getGame().getGameState());
                 break;
-            case 1: //demostate
-                //demoState=new DemoState(handler);
-                //handler.getGame().setFps(60);
-                //handler.getGame().setGameState(demoState);
-                //State.setState(demoState);
-                break;
+//            case 1: //demostate
+//                //demoState=new DemoState(handler);
+//                //handler.getGame().setFps(60);
+//                //handler.getGame().setGameState(demoState);
+//                //State.setState(demoState);
+//                break;
             case 2: //score
-                
-                handler.getGame().setState(new ScoreState(handler));
+                //State.setState(new ScoreState(handler));
+                r = new ReadScore();
+                s = r.read();
+                if (s == null) {
+                    s = "";
+                }
+                option = true;
                 break;
-            case 3: //the story
-                
-                handler.getGame().setState(new StoryState(handler));
+//            case 3: //the story
+//                //State.setState(new StoryState(handler));
+//
+//                option = true;
+//                break;
+            case 3: //commands
+                //State.setState(new CommandsState(handler));
+                option = true;
                 break;
-            case 4: //commands
-                
-                handler.getGame().setState(new CommandsState(handler));
+            case 4: //credits
+                //State.setState(new CreditsState(handler));
+                option = true;
                 break;
-            case 5: //credits
-                handler.getGame().setState(new CreditsState(handler));
-                break;
-            case 6: //exit
+            case 5: //exit
                 System.exit(0);
                 break;
         }

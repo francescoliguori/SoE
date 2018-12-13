@@ -38,22 +38,28 @@ public class GameOverState extends State {
 
     public void getInput() {
         if (k.esc) {
+            handler.getGame().setFps(12);
             handler.getGame().setState(handler.getGame().getMenuState());
+            restoreGame();
         }
         if (k.enter) {
 //                gameState=new GameState(handler);               
-
-            handler.getGame().getGameState().getController().setCountDifficulty(0);
+           restoreGame();
+            handler.getGame().setGameState(new GameState(handler));
+            handler.getGame().setState(handler.getGame().getGameState());
+            //State.setState(handler.getGame().getGameState());
+        }
+    }
+    
+    private void restoreGame(){
+         handler.getGame().getGameState().getController().setCountDifficulty(0);
             Creature.setDEAFULT_SPEED();
             //questo metodo è stato utilizzato per inizializzare nuovamente le variabili del player
             //una volta morti. Questo porta ad avere un'istanza di player per sessione di gioco
             Player.restartPlayer();
             handler.getGame().getGameState().getController().setTimeEnemyGenerator(2.0f);
-            handler.getGame().getGameState().getController().setTimeRamenGenerator(5.0f);
-            handler.getGame().setGameState(new GameState(handler));
+            handler.getGame().getGameState().getController().setTimeRamenGenerator(5.0f);           
             handler.getGame().st.play();
-            handler.getGame().setState(handler.getGame().getGameState());
-            State.setState(handler.getGame().getGameState());
-        }
+           
     }
 }
