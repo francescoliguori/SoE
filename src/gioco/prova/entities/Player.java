@@ -392,7 +392,8 @@ public class Player extends Creature {
     private void checkCollision() {
         health -= 1;
         if (health <= 0) {
-            State.setState(new GameOverState(handler));
+            handler.getGame().setGameoverState(new GameOverState(handler));
+            handler.getGame().setState(handler.getGame().getGameoverState());
             handler.getGame().st.stop();
             HighScore();
         }
