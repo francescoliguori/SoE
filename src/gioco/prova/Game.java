@@ -58,6 +58,9 @@ public class Game implements Runnable {
     private GameState gameState;
     private MenuState menuState;
     private GameOverState gameOverState;
+    //stato del gioco,sarà utilizzato per applicare il design pattern State
+    private State state = null;
+    
     private int fps = 60;
     private static Clip clip;
 
@@ -101,14 +104,14 @@ public class Game implements Runnable {
         handler = Handler.getHandlerInstance(this);
         gameState = new GameState(handler);
         menuState = new MenuState(handler);
-        State.setState(menuState);
+        setState(menuState);
         st.play();
     }
 
     private void tick() {
         keyManager.tick();
-        if (State.getState() != null) {
-            State.getState().tick();
+        if(state != null){
+            state.tick();
         }
     }
 
@@ -130,8 +133,8 @@ public class Game implements Runnable {
         //x ed y e infine un observer, in questo caso posto a null.
         //An asynchronous update interface for receiving notifications about 
         //Image information as the Image is constructed.
-        if (State.getState() != null) {
-            State.getState().render(g);
+        if(state != null){
+            state.render(g);
         }
         //End drawing
         bs.show();
@@ -139,6 +142,17 @@ public class Game implements Runnable {
 
     }
 
+    //metodo per settare lo stato del gioco
+    public void setState(State state){
+        //Visto che lo stato del gioco viene impostato nella classe Game nel refactor finale del codice
+        //set e get State dalla classe State si potrà pensare anche di toglierli. Ora in questa funzione per coerenza si richiama
+        //anche State.setState(state).
+        State.setState(state);
+        this.state = state;
+    }
+    public State getState(){
+        return this.state;
+    }
     public void run() {
         init();
 
