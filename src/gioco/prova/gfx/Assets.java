@@ -55,7 +55,7 @@ public class Assets {
         SpriteSheet sheetCredits=new SpriteSheet(ImageLoader.loadImage("/credits.jpg"));
         SpriteSheet sheetMenu=new SpriteSheet(ImageLoader.loadImage("/start1.jpg"));
         SpriteSheet sheetScore= new SpriteSheet(ImageLoader.loadImage("/score.jpg"));
-        SpriteSheet sheetCommands= new SpriteSheet(ImageLoader.loadImage("/commands.jpg"));
+        SpriteSheet sheetCommands= new SpriteSheet(ImageLoader.loadImage("/keys.png"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];

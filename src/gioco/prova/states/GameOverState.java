@@ -38,7 +38,7 @@ public class GameOverState extends State {
 
     public void getInput() {
         if (k.esc) {
-            System.exit(0);
+            handler.getGame().setState(handler.getGame().getMenuState());
         }
         if (k.enter) {
 //                gameState=new GameState(handler);               
@@ -53,6 +53,7 @@ public class GameOverState extends State {
             handler.getGame().setGameState(new GameState(handler));
             handler.getGame().st.play();
             handler.getGame().setState(handler.getGame().getGameState());
+            State.setState(handler.getGame().getGameState());
         }
     }
 }
