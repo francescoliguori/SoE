@@ -10,6 +10,7 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import java.util.LinkedList;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -37,6 +38,11 @@ public class TestPlayer {
         player = Player.getPlayerInstance(handler, 100, 400, controller);
         
     }
+    
+    @After
+    public void tearDown(){
+        Player.restartPlayer();
+    }
 
     @Test
     public void testPlayerMoveRight() {
@@ -51,6 +57,7 @@ public class TestPlayer {
         player.move();
         //System.out.println(player.getX());
         assertTrue(player.getX() > lastPosition);
+        handler.getKeyManager().right = false;
     }
 
     @Test
@@ -66,6 +73,7 @@ public class TestPlayer {
         player.move();
         //System.out.println(player.getX());
         assertTrue(player.getX() < lastPosition);
+        handler.getKeyManager().left = false;
     }
 
     @Test
@@ -114,6 +122,7 @@ public class TestPlayer {
         assertTrue(listFireball.size() == 1);
         player.getInput();
         assertTrue(listFireball.size() == 1);
+        handler.getKeyManager().space = false;
     }
 
     @Test
@@ -124,6 +133,7 @@ public class TestPlayer {
         assertTrue(listKunai.size() == 1);
         player.getInput();
         assertTrue(listKunai.size() == 1);
+        handler.getKeyManager().v = false;
     }
 
     @Test
@@ -145,5 +155,6 @@ public class TestPlayer {
             //System.out.println(player.getX());
         }
         assertTrue(player.getX() == 0);
+        handler.getKeyManager().left = false;
     }
 }

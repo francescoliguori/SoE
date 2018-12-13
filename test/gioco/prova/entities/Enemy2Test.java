@@ -7,11 +7,6 @@ package gioco.prova.entities;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
-import gioco.prova.bullets.Arrow;
-import gioco.prova.bullets.Kunai;
-import gioco.prova.input.KeyManager;
-import java.awt.Graphics;
-import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,24 +16,23 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Vincenzo
+ * @author Chris
  */
-public class Enemy1Test {
-    
+public class Enemy2Test {
     private Game game;
     private Handler handler;
-    private Enemy1 enemy;
+    private Enemy2 enemy;
     private ControllerEntities controller;
-    
-    public Enemy1Test() {
+
+    public Enemy2Test() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
         controller = new ControllerEntities(handler);
     }
-    
+
     @Before
     public void setUp() {
-        enemy = new Enemy1(handler, game.getWidth(), 0, controller);
+        enemy = new Enemy2(handler, game.getWidth(), 0);
         enemy.setX(enemy.getX() + enemy.getWidth());
         controller.addEnemy(enemy);
     }
@@ -54,12 +48,12 @@ public class Enemy1Test {
         //Check if enemy is positioned on the right side, out of the screen.
         assertTrue(enemy.getX() > game.getWidth());
     }
-    
+
     @Test
     public void enemyLeftMovementTest() {
-//        for (Enemies e : controller.getEnemies()) {
-//            enemy = (Enemy1) e;
-//        }
+        for (Enemies e : controller.getEnemies()) {
+            enemy = (Enemy2) e;
+        }
         float lastPosition = enemy.getX();
         controller.tick();
         assertTrue(enemy.getX() < lastPosition);
@@ -67,24 +61,7 @@ public class Enemy1Test {
         controller.tick();
         assertTrue(enemy.getX() < lastPosition);
     }
-    
-    @Test
-    public void testEnemyArrowShot() {
-        controller.addArrowEnemies(new Arrow(handler, enemy.getX(),
-                enemy.getY(), enemy.getWidth(), enemy.getHeight(), true));
-        LinkedList<Arrow> listArrow = controller.getListArrowEnemies();
-        assertTrue(controller.getListArrowEnemies().size() == 1);
-        Arrow arrow = null;
-        for (Arrow a : controller.getListArrowEnemies()) {
-            arrow = a;
-        }
-        //enemy.setX(500);
-        //System.out.println(enemy1.getX());
-        while(!controller.getListArrowEnemies().isEmpty())
-            controller.tick();
-        assertTrue(controller.getListArrowEnemies().isEmpty());
-    }
-    
+
     @Test
     public void testEnemyDeleteOuterScreen() {
         assertTrue(!controller.getEnemies().isEmpty());
