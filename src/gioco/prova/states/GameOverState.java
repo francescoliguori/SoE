@@ -52,9 +52,7 @@ public class GameOverState extends State {
             handler.getGame().getGameState().getController().setTimeRamenGenerator(5.0f);
             handler.getGame().setGameState(new GameState(handler));
             handler.getGame().st.play();
-            //handler.getGame().getGameState().getController().setTimeToUp(System.nanoTime());
-
-            State.setState(handler.getGame().getGameState());
+            handler.getGame().setState(handler.getGame().getGameState());
         }
     }
 }

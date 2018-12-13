@@ -90,7 +90,7 @@ public class MenuState extends State {
                 Player.restartPlayer();
                 handler.getGame().setGameState(new GameState(handler));
                 handler.getGame().setFps(60);
-                State.setState(handler.getGame().getGameState());
+                handler.getGame().setState(handler.getGame().getGameState());
                 break;
             case 1: //demostate
                 //demoState=new DemoState(handler);
@@ -99,16 +99,19 @@ public class MenuState extends State {
                 //State.setState(demoState);
                 break;
             case 2: //score
-                State.setState(new ScoreState(handler));
+                
+                handler.getGame().setState(new ScoreState(handler));
                 break;
             case 3: //the story
-                State.setState(new StoryState(handler));
+                
+                handler.getGame().setState(new StoryState(handler));
                 break;
             case 4: //commands
-                State.setState(new CommandsState(handler));
+                
+                handler.getGame().setState(new CommandsState(handler));
                 break;
             case 5: //credits
-                State.setState(new CreditsState(handler));
+                handler.getGame().setState(new CreditsState(handler));
                 break;
             case 6: //exit
                 System.exit(0);
