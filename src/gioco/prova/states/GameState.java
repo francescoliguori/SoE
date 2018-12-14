@@ -26,7 +26,7 @@ public class GameState extends State {
     private ParallaxBackground parallax;
     private Background fixBg;
     private ControllerEntities controller;
-    private boolean story = true;
+    private static boolean story = true;
     private HudManager hudmngr;
 
     public GameState(Handler handler) {
@@ -103,7 +103,7 @@ public class GameState extends State {
     }
 
     public void getInput() {
-        if (handler.getKeyManager().esc) {
+        if (handler.getKeyManager().enter) {
             story = false;
         }
 
