@@ -46,7 +46,7 @@ public class MenuState extends State {
         super(handler);
         font = FontLoader.load("res/fonts/naruto.ttf", 40);
         fontScore = FontLoader.load("res/fonts/naruto.ttf", 100);
-        handler.getGame().setFps(12);
+        handler.getGame().setFps(10);
 
     }
 

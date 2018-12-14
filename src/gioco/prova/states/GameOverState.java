@@ -38,7 +38,7 @@ public class GameOverState extends State {
 
     public void getInput() {
         if (k.esc) {
-            handler.getGame().setFps(12);
+            handler.getGame().setFps(10);
             handler.getGame().setState(handler.getGame().getMenuState());
             restoreGame();
         }

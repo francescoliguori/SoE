@@ -19,7 +19,6 @@ import gioco.prova.score.WriteScore;
 import gioco.prova.states.GameOverState;
 import gioco.prova.states.State;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -40,9 +39,8 @@ public class Player extends Creature {
     private Animation animStop;
     private Animation animJump;
     private Animation animDown;
-
-    protected Score score;
-    private Font font;
+    
+    private Score score;
     
     private long lastTime = System.nanoTime(); //used for generation of kunai 
     private int count ;
@@ -94,8 +92,6 @@ public class Player extends Creature {
         this.c = c;
         this.handler = handler;
 
-        score = new Score();
-
         bounds.x = 40;
         bounds.y = 100;
         bounds.width = 95;
@@ -120,13 +116,6 @@ public class Player extends Creature {
             isCollision = false;
             //collisionTime = System.nanoTime();
         }
-
-        /*if (y < 100){
-         //y -= jumpStrength/3;
-         y += weight;
-         }*/
- /*System.out.println("ground: height" + groundHeight);
-         System.out.println(" y " + y);*/
     }
 
     private void fall() {
@@ -166,10 +155,7 @@ public class Player extends Creature {
         if (!slidingUp && !slidingDown) {
             yMove += stepY;
             xMove += stepX;
-//            if (handler.getKeyManager().left) {
-//                yMove -= stepY;
-//                xMove = 0;
-//            }
+
             if (y > (groundHeight + getHeight() * 0.55)) { // /3
                 y = (float) (groundHeight + getHeight() * 0.55);
                 yMove = 0;//addddddd
@@ -332,10 +318,6 @@ public class Player extends Creature {
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
 
-        font = FontLoader.load("res/fonts/naruto.ttf", 40);
-        g.setFont(font);
-        g.setColor(Color.white);
-        g.drawString(Integer.toString(score.getCount()), 600, 80);
         //g.clearRect((int)x,(int) y, 187, 155);
         //g.setColor(Color.red);
         //g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -414,6 +396,8 @@ public class Player extends Creature {
         ReadScore r = new ReadScore();
         String[] s = null;
         s = r.read().split(":");
+        
+        score  = handler.getGame().getGameState().getHudmngr().getScore();
         if (Integer.parseInt(s[1]) <= score.getCount() || s == null) {
             WriteScore w = new WriteScore();
             String name = JOptionPane.showInputDialog("Enter your name: ");

@@ -45,7 +45,7 @@ public abstract class Enemies extends Creature {
             if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 handler.getGame().getGameState().getController().removeKunaiPlayer(k);
                 difficulty = handler.getGame().getGameState().getController().getCountDifficulty();
-                score = handler.getGame().getGameState().getPlayer().score;
+                score = handler.getGame().getGameState().getHudmngr().getScore();
                 score.incrementCount(difficulty);
                 //System.out.println(score.getCount());
                 return true;
@@ -60,7 +60,7 @@ public abstract class Enemies extends Creature {
         for (Fireball f : handler.getGame().getGameState().getController().getF()) {
             if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 difficulty = handler.getGame().getGameState().getController().getCountDifficulty();
-                score = handler.getGame().getGameState().getPlayer().score;
+                score = handler.getGame().getGameState().getHudmngr().getScore();
                 score.incrementCount(difficulty);
                 //System.out.println(score.getCount());
                 return true;

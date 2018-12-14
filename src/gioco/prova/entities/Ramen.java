@@ -34,13 +34,7 @@ public class Ramen extends Entity {
  
     }
 
-   /* public BufferedImage spawn() {
-        if (spawn) {
-            return Assets.ramen;
-        }
-       return null;
-   }
-*/
+
     public boolean checkPlayerCollisions(float xOffset, float yOffset) {
         if (handler.getGame().getGameState().getPlayer().getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
             //System.out.println("collision ramen");
