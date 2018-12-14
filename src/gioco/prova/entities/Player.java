@@ -5,7 +5,6 @@
  */
 package gioco.prova.entities;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.bullets.Arrow;
 import gioco.prova.bullets.Fireball;
@@ -13,16 +12,11 @@ import gioco.prova.bullets.Kunai;
 import gioco.prova.display.Score;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import gioco.prova.gfx.FontLoader;
 import gioco.prova.score.ReadScore;
 import gioco.prova.score.WriteScore;
 import gioco.prova.states.GameOverState;
-import gioco.prova.states.State;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,12 +33,13 @@ public class Player extends Creature {
     private Animation animStop;
     private Animation animJump;
     private Animation animDown;
-    
+
     private Score score;
-    
+
     private long lastTime = System.nanoTime(); //used for generation of kunai 
-    private int count ;
-    private float TimeKunaiGenerator = 15.0f; //15 secondi
+    private final int MAX_KUNAI = 10;
+    private int count;
+    private float TimeKunaiGenerator; //15 secondi
 
     protected double gravity;
     protected boolean falling = true;
@@ -96,6 +91,9 @@ public class Player extends Creature {
         bounds.y = 100;
         bounds.width = 95;
         bounds.height = 90;
+
+        count = MAX_KUNAI;
+        TimeKunaiGenerator = 5; // 5s
     }
 
     @Override
@@ -297,13 +295,12 @@ public class Player extends Creature {
         }
 
         //lo facciamo sparare solo se premiamo V e non ci sono altri kunai
-        if (handler.getKeyManager().v && c.getListKunaiPlayer().isEmpty() && c.getF().isEmpty() && count < 10) {
-            //canShoot=false;
-            c.addKunaiPlayer(new Kunai(handler, this.getX(), this.getY(), width, height, true));
-            count += 1;
+        if (handler.getKeyManager().v && c.getListKunaiPlayer().isEmpty() && c.getF().isEmpty()) {
+            if (count > 0) {
+                c.addKunaiPlayer(new Kunai(handler, this.getX(), this.getY(), width, height, true));
+                count -= 1;
+            }
             System.out.println(count);
-        } else {
-                KunaiGenerator();
         }
 
     }
@@ -317,6 +314,10 @@ public class Player extends Creature {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
+
+        if (count < MAX_KUNAI) {
+            KunaiGenerator();
+        }
 
         //g.clearRect((int)x,(int) y, 187, 155);
         //g.setColor(Color.red);
@@ -396,8 +397,8 @@ public class Player extends Creature {
         ReadScore r = new ReadScore();
         String[] s = null;
         s = r.read().split(":");
-        
-        score  = handler.getGame().getGameState().getHudmngr().getScore();
+
+        score = handler.getGame().getGameState().getHudmngr().getScore();
         if (Integer.parseInt(s[1]) <= score.getCount() || s == null) {
             WriteScore w = new WriteScore();
             String name = JOptionPane.showInputDialog("Enter your name: ");
@@ -408,9 +409,9 @@ public class Player extends Creature {
     private void KunaiGenerator() {
         long now = System.nanoTime(); //used for time generation of kunai
         if (now - lastTime > TimeKunaiGenerator * 1000000000) {
-            count = 0;
+            count += 1;
             lastTime = System.nanoTime();
-            System.out.println(count);
+            //System.out.println(count);
         }
     }
 
