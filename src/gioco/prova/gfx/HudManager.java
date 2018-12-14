@@ -6,6 +6,7 @@
 package gioco.prova.gfx;
 
 import gioco.prova.display.Score;
+import gioco.prova.entities.Player;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -25,6 +26,7 @@ public class HudManager {
 
     private Font font;
     private Score score;
+    private Player player;
 
     public HudManager(String path, String path2, String path3, int currLife) {
         life = ImageLoader.loadImage(path);
@@ -98,7 +100,10 @@ public class HudManager {
             g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10, currPower, powerInactive.getHeight() - 30, 15, 25);
         }
         
-        g.drawImage(kunai, margin, margin + 50, null);
+        font = FontLoader.load("res/fonts/naruto.ttf", 18);
+        g.setFont(font);
+        g.drawImage(kunai, margin, margin + 55, null);
+        g.drawString("x " + Integer.toString(Player.getCount()), 80, 120);
 
         nowTime = System.nanoTime(); //used for time generation of enemies        
         if (nowTime - lastTime > 0.25f * 1000000000 && currPower < maxPower) {

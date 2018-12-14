@@ -38,7 +38,7 @@ public class Player extends Creature {
 
     private long lastTime = System.nanoTime(); //used for generation of kunai 
     private final int MAX_KUNAI = 10;
-    private int count;
+    private static int count;
     private float TimeKunaiGenerator; //15 secondi
 
     protected double gravity;
@@ -417,5 +417,9 @@ public class Player extends Creature {
 
     public void setTimeKunaiGenerator(float TimeKunaiGenerator) {
         this.TimeKunaiGenerator = TimeKunaiGenerator;
+    }
+
+    public static int getCount() {
+        return count;
     }
 }
