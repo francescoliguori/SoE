@@ -16,6 +16,7 @@ public class HudManager {
     private BufferedImage life;
     private BufferedImage powerActive;
     private BufferedImage powerInactive;
+    private BufferedImage kunai;
     private long lastTime;
     private long nowTime;
     private int currLife;
@@ -29,6 +30,7 @@ public class HudManager {
         life = ImageLoader.loadImage(path);
         powerInactive = ImageLoader.loadImage(path2);
         powerActive = ImageLoader.loadImage(path3);
+        kunai = ImageLoader.loadImage("/hudBg/kunai.png");
         this.currLife = currLife;
         currPower = 0;
         maxPower = 210;
@@ -95,6 +97,8 @@ public class HudManager {
             g.drawImage(powerInactive, margin, margin, null);
             g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10, currPower, powerInactive.getHeight() - 30, 15, 25);
         }
+        
+        g.drawImage(kunai, margin, margin + 50, null);
 
         nowTime = System.nanoTime(); //used for time generation of enemies        
         if (nowTime - lastTime > 0.25f * 1000000000 && currPower < maxPower) {
