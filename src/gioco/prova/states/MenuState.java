@@ -11,7 +11,7 @@ import gioco.prova.entities.Player;
 import gioco.prova.gfx.Assets;
 import gioco.prova.gfx.FontLoader;
 import gioco.prova.input.KeyManager;
-import gioco.prova.score.ReadScore;
+import gioco.prova.score.HighScores;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -34,8 +34,8 @@ public class MenuState extends State {
     private Color noSelected = new Color(166, 20, 20);
     private Color selected = new Color(238, 116, 7);
     private Font font,fontScore;
-    private ReadScore r;
-    private String s;
+    private HighScores hs;
+    private String[] s;
     
     private int choice = 0;
     //private GameState gameState;
@@ -45,7 +45,7 @@ public class MenuState extends State {
     public MenuState(Handler handler) {
         super(handler);
         font = FontLoader.load("res/fonts/naruto.ttf", 40);
-        fontScore = FontLoader.load("res/fonts/naruto.ttf", 100);
+        fontScore = FontLoader.load("res/fonts/naruto.ttf", 55);
         handler.getGame().setFps(10);
 
     }
@@ -81,7 +81,9 @@ public class MenuState extends State {
                     g.drawImage(Assets.score, 0, 0, null);
                     g.setFont(fontScore);
                     g.setColor(noSelected);
-                    g.drawString(s, 250, 300);
+                    for(int i=0;i<s.length;i++){
+                        g.drawString(s[i], 250, 300+i*50);
+                    }
                     break;
 //                case 3: //story
 //                    g.drawImage(Assets.story, 0, 0, null);
@@ -138,11 +140,8 @@ public class MenuState extends State {
 //                break;
             case 2: //score
                 //State.setState(new ScoreState(handler));
-                r = new ReadScore();
-                s = r.read();
-                if (s == null) {
-                    s = "";
-                }
+                hs = new HighScores();
+                s = hs.read();
                 option = true;
                 break;
 //            case 3: //the story

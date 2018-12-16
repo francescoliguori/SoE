@@ -12,8 +12,7 @@ import gioco.prova.bullets.Kunai;
 import gioco.prova.display.Score;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import gioco.prova.score.ReadScore;
-import gioco.prova.score.WriteScore;
+import gioco.prova.score.HighScores;
 import gioco.prova.states.GameOverState;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -394,16 +393,10 @@ public class Player extends Creature {
     }
 
     private void HighScore() {
-        ReadScore r = new ReadScore();
-        String[] s = null;
-        s = r.read().split(":");
-
         score = handler.getGame().getGameState().getHudmngr().getScore();
-        if (Integer.parseInt(s[1]) <= score.getCount() || s == null) {
-            WriteScore w = new WriteScore();
-            String name = JOptionPane.showInputDialog("Enter your name: ");
-            w.write(name, score.getCount());
-        }
+        HighScores hs = new HighScores();
+        String name = JOptionPane.showInputDialog("Enter your name: ");
+        hs.write(name, score.getCount());
     }
 
     private void KunaiGenerator() {
