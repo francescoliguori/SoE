@@ -7,6 +7,7 @@ package gioco.prova.states;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
+import gioco.prova.entities.Boss;
 import gioco.prova.entities.Creature;
 import gioco.prova.entities.Player;
 import gioco.prova.gfx.Assets;
@@ -57,6 +58,7 @@ public class GameOverState extends State {
             //questo metodo è stato utilizzato per inizializzare nuovamente le variabili del player
             //una volta morti. Questo porta ad avere un'istanza di player per sessione di gioco
             Player.restartPlayer();
+			Boss.restartBoss();
             handler.getGame().getGameState().getController().setTimeEnemyGenerator(2.0f);
             handler.getGame().getGameState().getController().setTimeRamenGenerator(5.0f);           
             handler.getGame().st.play();

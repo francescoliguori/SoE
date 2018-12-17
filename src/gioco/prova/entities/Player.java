@@ -115,6 +115,10 @@ public class Player extends Creature {
         }
     }
 
+    public int getScore() {
+        return handler.getGame().getGameState().getHudmngr().getScore().getCount();
+    }
+
     private void fall() {
 
         if (falling) {

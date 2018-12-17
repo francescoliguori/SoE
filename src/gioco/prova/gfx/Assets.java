@@ -18,6 +18,9 @@ public class Assets {
     //dimensioni di ogni elemento della "griglia" spritesheet
     private static final int width = 155, height = 187;
     private static final int widthEnemies = 155, heightEnemies = 187;
+	private static final int widthBoss = 100, heightBoss = 160;
+    private static final int widthBossLA = 451;
+	
     public static BufferedImage player;
     public static BufferedImage[] playerRunning;
     public static BufferedImage[] playerJump;
@@ -35,6 +38,11 @@ public class Assets {
     public static BufferedImage[] kunaiThrowForward;
     public static BufferedImage[] kunaiThrowBackward;
     public static BufferedImage[] arrowThrowBackward;
+	public static BufferedImage[] oroJump;
+    public static BufferedImage[] oroDead;
+    public static BufferedImage[] oroHit;
+    public static BufferedImage[] oroAttack;
+    public static BufferedImage[] oroLongAttack;
     public static BufferedImage gameOver;
     public static BufferedImage gameOverLogo;
     public static BufferedImage ramen;
@@ -47,6 +55,8 @@ public class Assets {
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi.png"));
         SpriteSheet sheetEnemy = new SpriteSheet(ImageLoader.loadImage("/enemies.png"));
+		SpriteSheet sheetBoss = new SpriteSheet(ImageLoader.loadImage("/oro.png"));
+        SpriteSheet sheetBossLA = new SpriteSheet(ImageLoader.loadImage("/oroLA.png"));
         SpriteSheet sheetBullets = new SpriteSheet(ImageLoader.loadImage("/bullets.png"));
         SpriteSheet sheetgameOver = new SpriteSheet(ImageLoader.loadImage("/gameover.jpg"));
         SpriteSheet sheetgameOverLogo = new SpriteSheet(ImageLoader.loadImage("/gameoverlogo.png"));
@@ -73,6 +83,11 @@ public class Assets {
         kunaiThrowForward = new BufferedImage[1];
         kunaiThrowBackward = new BufferedImage[1];
         arrowThrowBackward = new BufferedImage[1];
+		oroJump = new BufferedImage[3];
+        oroDead = new BufferedImage[9];
+        oroHit = new BufferedImage[4];
+        oroAttack = new BufferedImage[19];
+        oroLongAttack = new BufferedImage[16];
         player = sheet.crop(0, 0, width, height);
         ramen = sheetgameramen.crop(0, 0, 55, 42);
         gameOver = sheetgameOver.crop(0, 0, 1200, 700);
@@ -94,6 +109,45 @@ public class Assets {
 
         for (int i = 1; i <= 3; i++) {
             playerDown[i] = sheet.crop(width * i, height * 4, width, height);
+        }
+		
+		// boss jump
+        for (int i = 7; i > 4; i--) {
+            oroJump[7 - i] = sheetBoss.crop(widthBoss * i, 0,widthBoss, heightBoss);
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            //boss attack
+            for (int j = 1; j >= 0; j--) {
+                oroAttack[(i * 2) + (1 - j)] = sheetBoss.crop((int) (widthBoss * (1 + (3.5 * j))), heightBoss * (3 + i), (int) (widthBoss * 3.5), heightBoss);
+            }
+        }
+        //adding reverse boss attack
+        for(int i=10; i<19; i++){
+            oroAttack[i]= oroAttack[18-i];
+        }
+        
+        int k = 0;
+        while(k<16){
+            for (int j = 1; j>=0; j--){
+                oroLongAttack[k] = sheetBossLA.crop(widthBossLA * j, heightBoss*(k/2), widthBossLA, heightBoss);
+                k++;
+            }
+        }
+        
+        for (int i = 3; i >= 0; i--) {
+            // boss hit
+            oroHit[3-i] = sheetBoss.crop((int) (widthBoss * (2 + (i * 1.5))), heightBoss, (int) (widthBoss * 1.5), heightBoss);
+        }
+
+        for (int i=0; i<4; i++ ){
+            // boss dead
+            oroDead[i] = oroHit[i];
+        }
+        oroDead[4] = sheetBoss.crop((int) (widthBoss * 0.5), heightBoss, (int) (widthBoss * 1.5), heightBoss);
+        for (int i = 8; i >= 5; i--) {
+            // adding boss dead
+            oroDead[13-i] = sheetBoss.crop((int) (widthBoss * (2 + ((i-5) * 1.5))), heightBoss*2, (int) (widthBoss * 1.5), heightBoss);
         }
 
         for (int i = 0; i < 5; i++) {

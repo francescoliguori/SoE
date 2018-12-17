@@ -35,10 +35,24 @@ public class ControllerEntities {
     private Kunai kunai;
     private Arrow arrow;
     private Ramen ramen;
-
+    private Player player;
+    
     private int countDifficulty = 0;
     private float TimeEnemyGenerator = 2.0f;
     private float TimeRamenGenerator = 5.0f;
+	
+	public boolean finalBoss = false;
+    private Boss boss;
+    private boolean bossMoveSx;
+    private boolean jumpSequence;
+    
+    private boolean longAttackSequence = false;
+    private boolean longAttackJumpSequence = false; 
+    private int countLongAttackJump = 0;
+    
+    private boolean attackSequence = true;
+    private boolean attackJumpSequence = true;
+    private int countAttackJump = 0;
 
     private float TimeToUp = System.nanoTime();
 
@@ -47,12 +61,6 @@ public class ControllerEntities {
     }
 
     public void tick() {
-//        if(countDifficulty==-1){
-//            Creature.setDEAFULT_SPEED();
-//            setTimeEnemyGenerator(2.0f);
-//            
-//            TimeToUp = System.nanoTime();
-//        }
         for (int i = 0; i < e.size(); i++) {
 
             tempEnemy = e.get(i);
@@ -62,7 +70,6 @@ public class ControllerEntities {
             tempEnemy.tick();
         }
         for (int i = 0; i < f.size(); i++) {
-//            System.out.println(f.size());
             fireball = f.get(i);
             if (fireball.getX() > handler.getWidth()) {
                 removeFireball(fireball);
@@ -70,7 +77,6 @@ public class ControllerEntities {
             fireball.tick();
         }
         for (int i = 0; i < kunaiPlayer.size(); i++) {
-            //System.out.println(kunaiPlayer.size());
             kunai = kunaiPlayer.get(i);
             if (kunai.getX() > handler.getWidth()) {
                 removeKunaiPlayer(kunai);
@@ -79,7 +85,6 @@ public class ControllerEntities {
         }
 
         for (int i = 0; i < kunaiEnemies.size(); i++) {
-            //System.out.println(kunaiEnemies.size());
             kunai = kunaiEnemies.get(i);
             if (kunai.getX() < -kunai.getWidth()) {
                 removeKunaiEnemies(kunai);
@@ -88,7 +93,6 @@ public class ControllerEntities {
         }
 
         for (int i = 0; i < arrowEnemies.size(); i++) {
-            //System.out.println(kunaiEnemies.size());
             arrow = arrowEnemies.get(i);
             if (arrow.getX() < -arrow.getWidth()) {
                 removeArrowEnemies(arrow);
@@ -97,24 +101,144 @@ public class ControllerEntities {
         }
 
         for (int i = 0; i < ramenBowl.size(); i++) {
-            //System.out.println(kunaiEnemies.size());
             ramen = ramenBowl.get(i);
             if (ramen.getX() < -ramen.getWidth()) {
                 removeRamen(ramen);
             }
             ramen.tick();
         }
-        enemyGenerator();
-        ramenGenerator();
-        if (System.nanoTime() - TimeToUp > 5000000000L) {
-//            System.out.println(TimeToUp + countDifficulty);
-//            System.out.println(countDifficulty);
-            checkDifficulty();
-            countDifficulty += 1;
-            TimeToUp = System.nanoTime();
+		if (!finalBoss) {
+            enemyGenerator();
+			ramenGenerator();
+            if (System.nanoTime() - TimeToUp > 5 * 1000000000L) { //every 5 sec
+                checkDifficulty();
+                countDifficulty += 1;
+                TimeToUp = System.nanoTime();
+            }
+        }else if (e.isEmpty()) {
+                player = handler.getGame().getGameState().getPlayer();
+                boss = handler.getGame().getGameState().getBoss();
+                addEnemy(boss);
+                bossMoveSx = true;
+            } else if (boss != null) {
+                bossBattle();
+                double rand = (Math.random() * 6);  
+				
+                if (!longAttackJumpSequence && !attackJumpSequence && !jumpSequence) {
+                    if (rand <= 1) {
+                        longAttackJumpSequence = true;
+                        longAttackSequence = true;
+                        System.out.println("luuuingo");
+                    } else if (rand <= 3) {
+                        System.out.println("avvio corto");
+                        attackJumpSequence = true;
+                        attackSequence = true;
+                    } else if (rand <= 6) {
+                        jumpSequence = true;
+                        System.out.println("Juuuummpo");
+                    }
+                }
+
+            }
+		
+    }
+	
+	public void setFinalBoss(boolean finalBoss) {
+        this.finalBoss = finalBoss;
+    }
+	
+	private void bossBattle() {
+        if (boss.reachedB()) {
+
+            if (jumpSequence) {
+                bossJumpSequence();
+            }
+
+            if (longAttackJumpSequence) {
+                bossLongAttackSequence();
+            }
+            if (attackJumpSequence) {
+                bossAttackSequence();
+            }
+        }
+    }
+	
+	private void bossLongAttackJumpSequence() {
+        if (countLongAttackJump < 2 && boss.bossOnTheGround() && !boss.isLongAttack()) {
+            longAttackSequence = true;
+            boss.setX(boss.getX() + 351);
+            countLongAttackJump++;
+            boss.jumpOne(true);
+        } else if (countLongAttackJump > 1 && boss.bossOnTheGround() && !boss.isLongAttack()) {
+            boss.setX(boss.getX() + 351);
+            countLongAttackJump++;
+            longAttackSequence = true;
+            boss.jumpOne(false);
+            if (countLongAttackJump > 3) {
+                countLongAttackJump = 0;
+                longAttackJumpSequence = false;
+            }
         }
     }
 
+	private void bossLongAttackSequence() {
+        if (longAttackSequence && boss.bossOnTheGround()) {
+            boss.longAttack();
+        } else {
+            bossLongAttackJumpSequence();
+        }
+    }
+	
+	private void bossJumpSequence() {
+        if (boss.getX() >= 0 && boss.bossOnTheGround() && bossMoveSx && jumpSequence) {
+            if (boss.getX() <= 0) {
+                bossMoveSx = false;
+            }
+            boss.jumpOne(bossMoveSx);
+        } else if (boss.getX() <= handler.getWidth() - boss.getWidth() && boss.bossOnTheGround() && !bossMoveSx) {
+            if (boss.getX() >= handler.getWidth() - boss.getWidth()) {
+                bossMoveSx = true;
+                jumpSequence = false;
+                return;
+            }
+            boss.jumpOne(bossMoveSx);
+        }
+    }
+	
+	private void bossAttackJumpSequence() {
+        if (countAttackJump < 2 && boss.bossOnTheGround() && !boss.isAttack()) {
+            attackSequence = true;
+            boss.setX(boss.getX() + 250);
+            countAttackJump++;
+            boss.jumpOne(true);
+        } else if (countAttackJump > 1 && boss.bossOnTheGround() && !boss.isAttack()) {
+            boss.setX(boss.getX() + 250);
+            countAttackJump++;
+            attackSequence = true;
+            boss.jumpOne(false);
+            if (countAttackJump > 3) {
+                countAttackJump = 0;
+                attackJumpSequence = false;
+            }
+        }
+    }
+	
+	private void bossAttackSequence() {
+        if (attackSequence && boss.bossOnTheGround()) {
+            boss.attack();
+        } else {
+            bossAttackJumpSequence();
+        }
+    }
+	
+	public void setAttackSequence(boolean attackSequence) {
+        this.attackSequence = attackSequence;
+    }
+
+    public void setLongAttackSequence(boolean longAttackSequence) {
+        this.longAttackSequence = longAttackSequence;
+    }
+	
     public void render(Graphics g) {
         for (int i = 0; i < e.size(); i++) {
             tempEnemy = e.get(i);

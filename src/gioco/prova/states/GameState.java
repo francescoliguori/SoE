@@ -9,6 +9,7 @@ import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.display.Background;
 import gioco.prova.display.ParallaxBackground;
+import gioco.prova.entities.Boss;
 import gioco.prova.entities.ControllerEntities;
 import gioco.prova.entities.Player;
 import gioco.prova.gfx.HudManager;
@@ -22,7 +23,7 @@ import java.awt.Graphics;
 public class GameState extends State {
 
     private Player player;
-
+    private Boss boss;
     private ParallaxBackground parallax;
     private Background fixBg;
     private ControllerEntities controller;
@@ -65,6 +66,10 @@ public class GameState extends State {
         return player;
     }
 
+    public Boss getBoss() {
+        return boss;
+    }
+
     public HudManager getHudmngr() {
         return hudmngr;
     }
@@ -78,6 +83,9 @@ public class GameState extends State {
             parallax.tick();
             player.tick();
             controller.tick();
+            if ((player.getScore() >= 10)) {
+                createBoss();
+            }
         }
     }
 
@@ -100,6 +108,12 @@ public class GameState extends State {
 
     public void setController(ControllerEntities controller) {
         this.controller = controller;
+    }
+
+    private void createBoss() {
+        boss = Boss.getBossInstance(handler, handler.getWidth(), 427, controller); //in modo da dare
+        //la stessa altezza del player! Perchè gli sprite hanno altezze diverse
+        controller.setFinalBoss(true);
     }
 
     public void getInput() {
