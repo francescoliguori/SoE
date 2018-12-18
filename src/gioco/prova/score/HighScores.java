@@ -72,8 +72,9 @@ public class HighScores {
 
     public void write(String name, int score) {
         int line=0;
-        if (name == null) {
+        if (name == null || "".equals(name)) {
             name = "unknown";
+        } else {
         }
         orderScore(name, score);
         try {

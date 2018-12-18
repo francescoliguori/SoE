@@ -113,6 +113,9 @@ public class Player extends Creature {
             isCollision = false;
             //collisionTime = System.nanoTime();
         }
+        if (count < MAX_KUNAI) {
+            KunaiGenerator();
+        }
     }
 
     public int getScore() {
@@ -318,10 +321,6 @@ public class Player extends Creature {
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
 
-        if (count < MAX_KUNAI) {
-            KunaiGenerator();
-        }
-
         //g.clearRect((int)x,(int) y, 187, 155);
         //g.setColor(Color.red);
         //g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -397,10 +396,10 @@ public class Player extends Creature {
     }
 
     private void HighScore() {
-        score = handler.getGame().getGameState().getHudmngr().getScore();
+
         HighScores hs = new HighScores();
         String name = JOptionPane.showInputDialog("Enter your name: ");
-        hs.write(name, score.getCount());
+        hs.write(name, getScore());
     }
 
     private void KunaiGenerator() {
