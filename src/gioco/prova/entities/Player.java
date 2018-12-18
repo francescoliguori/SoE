@@ -1,9 +1,4 @@
-﻿/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package gioco.prova.entities;
+﻿package gioco.prova.entities;
 
 import gioco.prova.Handler;
 import gioco.prova.bullets.Arrow;
