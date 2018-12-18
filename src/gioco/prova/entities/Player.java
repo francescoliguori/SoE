@@ -1,4 +1,4 @@
-﻿package gioco.prova.entities;
+package gioco.prova.entities;
 
 import gioco.prova.Handler;
 import gioco.prova.bullets.Arrow;
