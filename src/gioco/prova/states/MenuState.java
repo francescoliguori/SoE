@@ -82,7 +82,7 @@ public class MenuState extends State {
                     g.setFont(fontScore);
                     g.setColor(noSelected);
                     for(int i=0;i<s.length;i++){
-                        g.drawString(s[i], 250, 300+i*50);
+                        g.drawString(s[i], 250, 300+i*65);
                     }
                     break;
 //                case 3: //story

@@ -36,20 +36,20 @@ public class ControllerEntities {
     private Arrow arrow;
     private Ramen ramen;
     private Player player;
-    
+
     private int countDifficulty = 0;
     private float TimeEnemyGenerator = 2.0f;
     private float TimeRamenGenerator = 5.0f;
-	
-	public boolean finalBoss = false;
+
+    public boolean finalBoss = false;
     private Boss boss;
     private boolean bossMoveSx;
     private boolean jumpSequence;
-    
+
     private boolean longAttackSequence = false;
-    private boolean longAttackJumpSequence = false; 
+    private boolean longAttackJumpSequence = false;
     private int countLongAttackJump = 0;
-    
+
     private boolean attackSequence = true;
     private boolean attackJumpSequence = true;
     private int countAttackJump = 0;
@@ -107,47 +107,51 @@ public class ControllerEntities {
             }
             ramen.tick();
         }
-		if (!finalBoss) {
+        if (!finalBoss) {
             enemyGenerator();
-			ramenGenerator();
+            ramenGenerator();
             if (System.nanoTime() - TimeToUp > 5 * 1000000000L) { //every 5 sec
                 checkDifficulty();
                 countDifficulty += 1;
                 TimeToUp = System.nanoTime();
             }
-        }else if (e.isEmpty()) {
-                player = handler.getGame().getGameState().getPlayer();
-                boss = handler.getGame().getGameState().getBoss();
-                addEnemy(boss);
-                bossMoveSx = true;
-            } else if (boss != null) {
-                bossBattle();
-                double rand = (Math.random() * 6);  
-				
-                if (!longAttackJumpSequence && !attackJumpSequence && !jumpSequence) {
-                    if (rand <= 1) {
-                        longAttackJumpSequence = true;
-                        longAttackSequence = true;
-                        System.out.println("luuuingo");
-                    } else if (rand <= 3) {
-                        System.out.println("avvio corto");
-                        attackJumpSequence = true;
-                        attackSequence = true;
-                    } else if (rand <= 6) {
-                        jumpSequence = true;
-                        System.out.println("Juuuummpo");
-                    }
-                }
+        } else if (e.isEmpty()) {
+            player = handler.getGame().getGameState().getPlayer();
+            boss = handler.getGame().getGameState().getBoss();
+            addEnemy(boss);
+            bossMoveSx = true;
+        } else if (boss != null) {
+            bossBattle();
+            double rand = (Math.random() * 3);
 
+            if (!longAttackJumpSequence && !attackJumpSequence && !jumpSequence) {
+                if (rand <= 1) {
+                    longAttackJumpSequence = true;
+                    longAttackSequence = true;
+                    System.out.println("luuuingo");
+                } else if (rand <= 2) {
+                    System.out.println("avvio corto");
+                    attackJumpSequence = true;
+                    attackSequence = true;
+                } else if (rand <= 3) {
+                    jumpSequence = true;
+                    System.out.println("Juuuummpo");
+                }
             }
-		
+
+        }
+
     }
-	
-	public void setFinalBoss(boolean finalBoss) {
+
+    public void setFinalBoss(boolean finalBoss) {
         this.finalBoss = finalBoss;
     }
-	
-	private void bossBattle() {
+    
+    public boolean getFinalBoss(){
+        return finalBoss;
+    }
+
+    private void bossBattle() {
         if (boss.reachedB()) {
 
             if (jumpSequence) {
@@ -162,8 +166,8 @@ public class ControllerEntities {
             }
         }
     }
-	
-	private void bossLongAttackJumpSequence() {
+
+    private void bossLongAttackJumpSequence() {
         if (countLongAttackJump < 2 && boss.bossOnTheGround() && !boss.isLongAttack()) {
             longAttackSequence = true;
             boss.setX(boss.getX() + 351);
@@ -181,15 +185,15 @@ public class ControllerEntities {
         }
     }
 
-	private void bossLongAttackSequence() {
+    private void bossLongAttackSequence() {
         if (longAttackSequence && boss.bossOnTheGround()) {
             boss.longAttack();
         } else {
             bossLongAttackJumpSequence();
         }
     }
-	
-	private void bossJumpSequence() {
+
+    private void bossJumpSequence() {
         if (boss.getX() >= 0 && boss.bossOnTheGround() && bossMoveSx && jumpSequence) {
             if (boss.getX() <= 0) {
                 bossMoveSx = false;
@@ -204,8 +208,8 @@ public class ControllerEntities {
             boss.jumpOne(bossMoveSx);
         }
     }
-	
-	private void bossAttackJumpSequence() {
+
+    private void bossAttackJumpSequence() {
         if (countAttackJump < 2 && boss.bossOnTheGround() && !boss.isAttack()) {
             attackSequence = true;
             boss.setX(boss.getX() + 250);
@@ -222,23 +226,23 @@ public class ControllerEntities {
             }
         }
     }
-	
-	private void bossAttackSequence() {
+
+    private void bossAttackSequence() {
         if (attackSequence && boss.bossOnTheGround()) {
             boss.attack();
         } else {
             bossAttackJumpSequence();
         }
     }
-	
-	public void setAttackSequence(boolean attackSequence) {
+
+    public void setAttackSequence(boolean attackSequence) {
         this.attackSequence = attackSequence;
     }
 
     public void setLongAttackSequence(boolean longAttackSequence) {
         this.longAttackSequence = longAttackSequence;
     }
-	
+
     public void render(Graphics g) {
         for (int i = 0; i < e.size(); i++) {
             tempEnemy = e.get(i);
@@ -410,11 +414,18 @@ public class ControllerEntities {
         }
     }
 
-    private void ramenGenerator() {
+    private void ramenGenerator() {         
         long now = System.nanoTime(); //used for time generation of ramen
         if (handler.getGame().getGameState().getPlayer().getHealth() < 2) {
             if (now - lastTime2 > TimeRamenGenerator * 1000000000) {
-                addRamen(new Ramen(handler, handler.getWidth(), 550));
+                 double rand = (Math.random() * 3);          
+                if (rand <= 1) { // altezza ground
+                      addRamen(new Ramen(handler, handler.getWidth(), 550));
+                } else if (rand <= 2) { //jump
+                    addRamen(new Ramen(handler, handler.getWidth(), 350));                  
+                } else if (rand <= 3) { //slide
+                    addRamen(new Ramen(handler, handler.getWidth(), 620));       
+            }
                 lastTime2 = System.nanoTime();
             }
         }
@@ -446,7 +457,6 @@ public class ControllerEntities {
     public void setTimeRamenGenerator(float TimeRamenGenerator) {
         this.TimeRamenGenerator = TimeRamenGenerator;
     }
-
 
     public void setTimeToUp(float TimeToUp) {
         this.TimeToUp = TimeToUp;

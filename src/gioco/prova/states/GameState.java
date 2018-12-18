@@ -59,7 +59,7 @@ public class GameState extends State {
         String pathHud = "/hudBg/lifeicon.png";
         String pathHud2 = "/hudBg/powinactive.png";
         String pathHud3 = "/hudBg/powactive.png";
-        hudmngr = new HudManager(pathHud, pathHud2, pathHud3, player.getHealth());
+        hudmngr = new HudManager(pathHud, pathHud2, pathHud3, player.getHealth(), controller);
     }
 
     public Player getPlayer() {

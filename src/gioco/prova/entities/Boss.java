@@ -70,6 +70,7 @@ public class Boss extends Enemies {
         oroLongAttack = new Animation(130, Assets.oroLongAttack);
         gravity = 0.5;
         groundHeight = y;
+        health = 100;
 
         setWidth(100);
         setHeight(160);
@@ -220,7 +221,7 @@ public class Boss extends Enemies {
 
     public boolean checkCollsionKunaiPlayer(float xOffset, float yOffset) {
         for (Kunai k : c.getListKunaiPlayer()) {
-            if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !longAttack) {
+            if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !longAttack && !attack) {
                 c.removeKunaiPlayer(k);
                 return true;
             }
@@ -230,7 +231,7 @@ public class Boss extends Enemies {
 
     public boolean checkCollsionFireballPlayer(float xOffset, float yOffset) {
         for (Fireball f : c.getF()) {
-            if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !longAttack) {
+            if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !longAttack && !attack) {
                 return true;
             }
         }
@@ -251,24 +252,34 @@ public class Boss extends Enemies {
         }
         if (longAttack) {
             if (lastIndex != oroLongAttack.getIndex()) {
-                if (oroLongAttack.getIndex() > 6 && oroLongAttack.getIndex() < 9) {
-                    bounds.width += 156;
-                    bounds.x -= 156;
+//                if (oroLongAttack.getIndex() > 6 && oroLongAttack.getIndex() < 9) {
+//                    bounds.width += 156;
+//                    bounds.x -= 156;
 //                    System.out.println(bounds.width);
 //                    System.out.println(bounds.x);
-                } else if (oroLongAttack.getIndex() == 9){
+                if (oroLongAttack.getIndex() == 6){
+                    bounds.width += 160;
+                    bounds.x -= 160;
+                } else if (oroLongAttack.getIndex() == 7){
+                    bounds.width += 158;
+                    bounds.x -= 158;
+                } else if (oroLongAttack.getIndex() == 8){
                     bounds.width += 50;
                     bounds.x -= 50;
-                }else if(oroLongAttack.getIndex() == 10) {
-                    bounds.x += 50;
-                    bounds.width -= 50;
-                }else if(oroLongAttack.getIndex() == 11){
-                    bounds.x += 156;
-                    bounds.width -= 156;
+                }else if(oroLongAttack.getIndex() == 9) {
+                    bounds.x += 59;
+                    bounds.width -= 59;
+                }else if(oroLongAttack.getIndex() == 10){
+                    bounds.x += 171;
+                    bounds.width -= 171;
+                }
+                else if(oroLongAttack.getIndex() == 11){
+                    bounds.x += 100;
+                    bounds.width -= 100;
                 }
                 else if(oroLongAttack.getIndex() == 12){
-                    bounds.x += 156;
-                    bounds.width -= 156;
+                    bounds.x += 36;
+                    bounds.width -= 36;
                 }
                 lastIndex = oroLongAttack.getIndex();
             }
@@ -277,15 +288,39 @@ public class Boss extends Enemies {
         }
         if (attack) {
             if (lastIndex != oroAttack.getIndex()) {
-                if (oroAttack.getIndex() > 0 && oroAttack.getIndex() < 10) {
-                    bounds.x -= 29;
-                    bounds.width += 29;
-
-                } else if (oroAttack.getIndex() < 19) {
-                    bounds.x += 29;
-                    bounds.width -= 29;
-
+                if (oroAttack.getIndex() == 6){
+                    bounds.width += 31;
+                    bounds.x -= 31;
                 }
+                else if (oroAttack.getIndex() == 7){
+                    bounds.width += 68;
+                    bounds.x -= 68;
+                }
+                else if (oroAttack.getIndex() == 8){
+                    bounds.width += 127;
+                    bounds.x -= 127;
+                }
+                else if (oroAttack.getIndex() == 11){
+                    bounds.x += 127;
+                    bounds.width -= 127;
+                }
+                else if (oroAttack.getIndex() == 12){
+                    bounds.x += 68;
+                    bounds.width -= 68;
+                }
+                else if (oroAttack.getIndex() == 13){
+                    bounds.x += 31;
+                    bounds.width -= 31;
+                }
+//                if (oroAttack.getIndex() > 6 && oroAttack.getIndex() < 10) {
+//                    bounds.x -= 78;
+//                    bounds.width += 78;
+//
+//                } else if (oroAttack.getIndex() > 11 && oroAttack.getIndex() < 15) {
+//                    bounds.x += 78;
+//                    bounds.width -= 78;
+//
+//                }
                 lastIndex = oroAttack.getIndex();
             }
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -36,7 +36,7 @@ public class Player extends Creature {
     private Score score;
 
     private long lastTime = System.nanoTime(); //used for generation of kunai 
-    private final int MAX_KUNAI = 10;
+    private final int MAX_KUNAI = 5;
     private static int count;
     private float TimeKunaiGenerator; //15 secondi
 
@@ -58,6 +58,7 @@ public class Player extends Creature {
     private float collisionTime = System.nanoTime();
     private boolean isCollision = false;
     private static Player instance = null;
+    
 
     public static Player getPlayerInstance(Handler handler, float x, float y, ControllerEntities c) {
         if (instance == null) {
@@ -90,6 +91,7 @@ public class Player extends Creature {
         bounds.y = 100;
         bounds.width = 95;
         bounds.height = 90;
+        health = 3;
 
         count = MAX_KUNAI;
         TimeKunaiGenerator = 5; // 5s
@@ -113,7 +115,7 @@ public class Player extends Creature {
             isCollision = false;
             //collisionTime = System.nanoTime();
         }
-        if (count < MAX_KUNAI) {
+	if (count < MAX_KUNAI) {
             KunaiGenerator();
         }
     }
@@ -320,7 +322,6 @@ public class Player extends Creature {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);
-
         //g.clearRect((int)x,(int) y, 187, 155);
         //g.setColor(Color.red);
         //g.fillRect(100, 300, Creature.DEFAULT_CREATURE_WIDTH / 2, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -389,17 +390,17 @@ public class Player extends Creature {
             handler.getGame().setGameoverState(new GameOverState(handler));
             handler.getGame().setState(handler.getGame().getGameoverState());
             handler.getGame().st.stop();
-            HighScore();
+            //HighScore();
         }
         isCollision = true;
         collisionTime = System.nanoTime();
     }
 
     private void HighScore() {
-
+        score = handler.getGame().getGameState().getHudmngr().getScore();
         HighScores hs = new HighScores();
         String name = JOptionPane.showInputDialog("Enter your name: ");
-        hs.write(name, getScore());
+        hs.write(name, score.getCount());
     }
 
     private void KunaiGenerator() {
