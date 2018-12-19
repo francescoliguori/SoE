@@ -48,7 +48,6 @@ public class Boss extends Enemies {
     private long startAttack = 0;
     private boolean hitFireball = false;
     private int lastIndex = 0;
-    private int bossLife;
 
     public static Boss getBossInstance(Handler handler, float x, float y, ControllerEntities c) {
         if (instance == null) {
@@ -71,7 +70,7 @@ public class Boss extends Enemies {
         oroLongAttack = new Animation(130, Assets.oroLongAttack);
         gravity = 0.5;
         groundHeight = y;
-        health = 115;
+        health = 100;
 
         setWidth(100);
         setHeight(160);
@@ -79,8 +78,7 @@ public class Boss extends Enemies {
         bounds.y = 100;
         bounds.height = 160;
         bounds.width = 80;
-        this.c = c;
-        bossLife = 100;
+        this.c = c;      
     }
 
     @Override
@@ -255,32 +253,29 @@ public class Boss extends Enemies {
         if (c.getFinalBoss()) {
                 if (jumping || falling){
                     //boss life
-                    g.drawRoundRect((int) x - 15, (int) y - 5, 3 * 40, 20, 25, 35);
-                    g.fillRoundRect((int) x - 10, (int) y - 3, c.getBoss().getHealth(), 15, 25, 35);  
-                    bossLife = c.getBoss().getHealth();
+                    g.drawRoundRect((int) x , (int) y - 5, 105, 20, 25, 35);
+                    g.fillRoundRect((int) x +5, (int) y - 3, health, 15, 25, 35);  
+                  
                 } else if(longAttack){
                     //boss life
-                    g.drawRoundRect((int) x + 350, (int) y - 12, 3 * 40, 20, 25, 35);
-                    g.fillRoundRect((int) x + 353, (int) y - 10, c.getBoss().getHealth(), 15, 25, 35); 
-                    bossLife=c.getBoss().getHealth();
+                    g.drawRoundRect((int) x + 365, (int) y - 12, 105, 20, 25, 35);
+                    g.fillRoundRect((int) x + 368, (int) y - 10, health, 15, 25, 35); 
+                  
                 }else {
                     //boss life
-                    g.drawRoundRect((int) x + 220, (int) y, 3 * 40, 20, 25, 35);
-                    g.fillRoundRect((int) x + 223, (int) y  + 3, c.getBoss().getHealth(), 15, 25, 35);
-                    bossLife=c.getBoss().getHealth();
-                }
-            
+                    g.drawRoundRect((int) x + 235, (int) y, 105, 20, 25, 35);
+                    g.fillRoundRect((int) x + 238, (int) y  + 3, health, 15, 25, 35);                  
+                }            
         }
     }
+
 
     private BufferedImage getCurrentAnimationFrame() {
         if (!dead && (checkCollsionKunaiPlayer(0, 0) || checkCollsionFireballPlayer(0, 0))) {
             if (health <= 0) {
                 dead = true;
-                handler.getGame().getGameState().getHudmngr().getScore().incrementCount(200);
-                //falling = true;
-//                System.out.println(attack);
-//                System.out.println(longAttack);
+                handler.getGame().getGameState().getHudmngr().getScore().setCount
+                    (handler.getGame().getGameState().getHudmngr().getScore().getCount() +200);
                 if(longAttack){
                     x+=351;
                 }
@@ -289,9 +284,7 @@ public class Boss extends Enemies {
                 }
                 return oroDead.getCurrentFrame();
             }
-            //System.out.println("Colpito");
-            //System.out.println(health);
-            //return this.oroJump.getFrame(0);
+
         }
         if (dead && lastDeadFrame) {
             return oroDead.getFrame(8);
@@ -303,32 +296,8 @@ public class Boss extends Enemies {
             }
             return oroDead.getCurrentFrame();
         }
-//        if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
-//            dead = true;
-//            falling = true;
-//            //System.out.println("Nemico colpito");
-//            //handler.getGame().getGameState().getController().removeEnemy(this);
-//            return this.enemyDead3.getCurrentFrame();
-//        }
-//
-//        if (dead && lastDeadFrame) {
-//            return this.enemyDead3.getFrame(7);
-//        }
-//
-//        if (dead) {
-//            if (enemyDead3.getCurrentFrame() == enemyDead3.getFrame(6)) {
-//                lastDeadFrame = true;
-        // c.setFinalBoss();
-//            }
-//            return this.enemyDead3.getCurrentFrame();
-//        }
         if (longAttack) {
             if (lastIndex != oroLongAttack.getIndex()) {
-//                if (oroLongAttack.getIndex() > 6 && oroLongAttack.getIndex() < 9) {
-//                    bounds.width += 156;
-//                    bounds.x -= 156;
-//                    System.out.println(bounds.width);
-//                    System.out.println(bounds.x);
                 if (oroLongAttack.getIndex() == 6) {
                     bounds.width += 160;
                     bounds.x -= 160;
@@ -377,15 +346,6 @@ public class Boss extends Enemies {
                     bounds.x += 31;
                     bounds.width -= 31;
                 }
-//                if (oroAttack.getIndex() > 6 && oroAttack.getIndex() < 10) {
-//                    bounds.x -= 78;
-//                    bounds.width += 78;
-//
-//                } else if (oroAttack.getIndex() > 11 && oroAttack.getIndex() < 15) {
-//                    bounds.x += 78;
-//                    bounds.width -= 78;
-//
-//                }
                 lastIndex = oroAttack.getIndex();
             }
 
@@ -412,6 +372,6 @@ public class Boss extends Enemies {
     private void bossDead() {
 
         handler.getGame().getGameState().destroyBoss();
-        c.getEnemies().clear();
+        c.getE().clear();
     }
 }

@@ -28,22 +28,22 @@ public class Enemy1 extends Enemies {
     //varibili per il tempo
     private long lastTime = System.nanoTime();
     private long now;
-    private static float timeBehavior = 1.5f;
+    private static float timeBehavior = 2f;
     private boolean shot = false;
 
     //inizialmente è possibile fare una collisione con il nemico, una volta colpito 
     //si annulla la possibilità di collidere con esso.
     public Enemy1(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y);
-        enemyRunning1 = new Animation(150, Assets.enemies1);
+        enemyRunning1 = new Animation(200, Assets.enemies1);
         enemyShot1 = new Animation(150, Assets.enemies1Shot);
         enemyDead1 = new Animation(70, Assets.enemies1Dead);
         this.c = c;
 
-        bounds.x = 20;
+        bounds.x = 50;
         bounds.y = 80;
         bounds.height = 90;
-        bounds.width = 90;
+        bounds.width = 65;
     }
 
     @Override
@@ -75,8 +75,12 @@ public class Enemy1 extends Enemies {
     private void getInput() {
         xMove = 0;
         yMove = 0;
-        xMove -= speed;
         
+        if(dead){
+            xMove-=speed;
+        }else{
+            xMove -= speed-5;
+        }
         now = System.nanoTime();
 
         if (!dead) {

@@ -34,11 +34,11 @@ public class ControllerEntities {
     private Arrow arrow;
     private Ramen ramen;
     private Player player;
+    private int goalScore = 10;
 
     private int countDifficulty = 0;
     private float TimeEnemyGenerator = 2.0f;
     private float TimeRamenGenerator = 5.0f;
-    private float TimeToUp = System.nanoTime();
 
     //This variables regard the Boss
     private boolean finalBoss = false;
@@ -140,11 +140,11 @@ public class ControllerEntities {
             Boss.restartBoss();
             enemyGenerator();
             ramenGenerator();
-            if (System.nanoTime() - TimeToUp > 5 * 1000000000L) { //every 5 sec
+            if(handler.getGame().getGameState().getHudmngr().getScore().getCount() > goalScore && countDifficulty < 5){
                 checkDifficulty();
-                countDifficulty += 1;
-                TimeToUp = System.nanoTime();
-            }
+                Player.setCount(handler.getGame().getGameState().getPlayer().MAX_KUNAI); //restore kunai after each level of difficulty
+                countDifficulty += 1;            
+            }           
         } else if (e.isEmpty()) {
             player = handler.getGame().getGameState().getPlayer();
             boss = handler.getGame().getGameState().getBoss();
@@ -328,54 +328,51 @@ public class ControllerEntities {
         renderRamenBowl(g);
     }
     
+
+
     private void checkDifficulty() {
         //check the difficulty
-//        if (handler.getKeyManager().j) {
         switch (countDifficulty) {
             case 0:
                 Creature.changeDefaultSpeed();
-//              countDifficulty++;
-//              System.err.println("diffuculty" + countDifficulty);
+
                 break;
             case 1:
                 Creature.changeDefaultSpeed();
                 this.TimeEnemyGenerator -= 0.5f; //1.5 sec
-//              countDifficulty++;
-//              System.err.println("diffuculty" + countDifficulty);
+                goalScore = 20;//190;
+
                 break;
             case 2:
                 Creature.changeDefaultSpeed();
                 Enemy3.setTimeBehavior(1.0f); //1 sec
-//              countDifficulty++;
-//              System.err.println("diffuculty" + countDifficulty);
+                goalScore = 30;//290;
+
                 break;
             case 3:
                 Creature.changeDefaultSpeed();
                 this.TimeEnemyGenerator -= 0.7f; // 0.8 sec
-//              countDifficulty++;
-//              System.err.println("diffuculty" + countDifficulty);
+                goalScore = 40;//380;
+
                 break;
             case 4:
                 Creature.changeDefaultSpeed();
                 Enemy3.setTimeBehavior(0.5f); //1 sec
-//              countDifficulty++;
-//              System.err.println("diffuculty" + countDifficulty);
+                goalScore = 50;//450;
+
                 break;
             default:
-//              System.err.println("diffuculty" + countDifficulty);
+
                 break;
 
         }
-//    }
+
     }
+
 
     //public boolean collisionKunai(Kunai kunai){
     // metodo che implementerà la collisione del kunai nemico con il player
     //}
-    public LinkedList<Enemies> getEnemies() {
-        return e;
-    }
-
     public LinkedList<Ramen> getRamenBowl() {
         return ramenBowl;
     }
@@ -521,10 +518,6 @@ public class ControllerEntities {
 
     public void setTimeRamenGenerator(float TimeRamenGenerator) {
         this.TimeRamenGenerator = TimeRamenGenerator;
-    }
-
-    public void setTimeToUp(float TimeToUp) {
-        this.TimeToUp = TimeToUp;
     }
 
     public Boss getBoss() {

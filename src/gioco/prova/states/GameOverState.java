@@ -38,7 +38,8 @@ public class GameOverState extends State {
 
     public void getInput() {
         if (k.esc) {
-           handler.getGame().setState(new MenuState(handler));
+           //handler.getGame().setState(new MenuState(handler));
+           System.exit(0);
         }
         if (k.enter) {             
             restoreGame();

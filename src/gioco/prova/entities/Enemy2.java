@@ -26,11 +26,12 @@ public class Enemy2 extends Enemies {
         super(handler, x, y);
         enemyRunning2 = new Animation(100, Assets.enemies2);
         enemyDead2 = new Animation(70, Assets.enemies2Dead);
-
-        bounds.x = 20;
+        
+        bounds.x = 25;
         bounds.y = 80;
         bounds.height = 90;
         bounds.width = 90;
+
 
     }
 

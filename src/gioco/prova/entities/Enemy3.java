@@ -29,7 +29,7 @@ public class Enemy3 extends Enemies {
     private long lastTimeJump = System.currentTimeMillis();
     private long lastTime = System.nanoTime();
     private long lastTimeKunai = System.currentTimeMillis();
-
+    private boolean firstAttack=true;
     private long now;
 
     protected double gravity;
@@ -40,7 +40,7 @@ public class Enemy3 extends Enemies {
 
     private float groundHeight;
     
-    private static float timeBehavior = 1.5f;
+    private static float timeBehavior = 1f;
 
     
     public Enemy3(Handler handler, float x, float y, ControllerEntities c) {
@@ -51,7 +51,7 @@ public class Enemy3 extends Enemies {
 
         this.c = c;
         groundHeight = y;
-        bounds.x = 20;
+        bounds.x = 25;
         bounds.y = 80;
         bounds.height = 80;
         bounds.width = 80;
@@ -127,8 +127,10 @@ public class Enemy3 extends Enemies {
     }
 
     private void enemyBehavior() {
-        if (now - lastTime > timeBehavior*1000000000) {           //every 2 seconds at the moment
+        if ((firstAttack && x <= handler.getWidth() - width) || now - lastTime > timeBehavior*1000000000) {           //every 2 seconds at the moment
 //            System.out.println(timeBehavior);
+            if(firstAttack)
+                firstAttack = false;
             if ((int) (Math.random() * 2) == 1) {
                 if (y == groundHeight) {
                     yMove -= jumpStep;
@@ -171,6 +173,8 @@ public class Enemy3 extends Enemies {
         }
         else{
             g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
+//            g.setColor(Color.red);
+//            g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
         }
             
         /* else if (jumping == true) {
@@ -185,8 +189,7 @@ public class Enemy3 extends Enemies {
             
             //g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
         }*/
-        //g.setColor(Color.red);
-        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
+        
     }
 
     private BufferedImage getCurrentAnimationFrame() {

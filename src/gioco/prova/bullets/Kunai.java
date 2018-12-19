@@ -29,9 +29,15 @@ public class Kunai extends Entity {
         kunaiThrowForward = new Animation(100, Assets.kunaiThrowForward);
         kunaiThrowBackward = new Animation(100, Assets.kunaiThrowBackward);
         //creazione del quadrato di collisione per il kunai
-        bounds.x = 118;
+        if(!forward){
+            bounds.x = 128;
+            bounds.width = 23;
+        }
+        else{
+            bounds.x = 143;
+            bounds.width = 23;
+        }
         bounds.y = 125;
-        bounds.width = 23;
         bounds.height = 10;
         this.forward = forward;
     }
@@ -63,9 +69,6 @@ public class Kunai extends Entity {
         g.drawImage(getCurrentAnimationFrame(), (int) x +35, (int) y +6, null);
             
         }
-        //g.setColor(Color.red);
-        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
-
     }
 
     private BufferedImage getCurrentAnimationFrame() {

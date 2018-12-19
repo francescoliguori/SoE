@@ -64,7 +64,7 @@ public class GameState extends State {
             hudmngr.tick();
             player.tick();
             controller.tick();
-            if (player.getScore() >= 0 && !winBoss) {
+            if (player.getScore() >= 50 && !winBoss) {//450 def
                 createBoss();
             }
         }
@@ -101,6 +101,8 @@ public class GameState extends State {
         boss = null;
         controller.setFinalBoss(false);
         winBoss = true;
+        Player.setCount(player.MAX_KUNAI);
+        player.setHealth(player.MAX_HEALTH);
     }
 
     public void getInput() {

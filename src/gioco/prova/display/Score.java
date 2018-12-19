@@ -11,7 +11,6 @@ package gioco.prova.display;
  */
 public class Score {
 
-    private int GROWING_DELTA = 1;
     private int count;
 
     public Score() {
@@ -27,7 +26,7 @@ public class Score {
     }
     
     public void incrementCount(int multiplier) {
-        this.count += GROWING_DELTA * (multiplier + 1);
+        this.count += multiplier + 1;
     }
 
 }
