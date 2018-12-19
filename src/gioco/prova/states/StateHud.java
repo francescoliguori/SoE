@@ -107,6 +107,9 @@ public class StateHud extends State implements StateDemo {
         }
         
         if (showMsgFinal) {
+            hud.updateFireballBar();
+            controller.kunaiPlayerMovement();
+            controller.fireballMovement();
             updateHud(6, 4.0f);
         }
         
