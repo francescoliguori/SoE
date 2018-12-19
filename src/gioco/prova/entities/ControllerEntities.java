@@ -158,14 +158,11 @@ public class ControllerEntities {
                 if (rand <= 1) {
                     longAttackJumpSequence = true;
                     longAttackSequence = true;
-                    System.out.println("luuuingo");
                 } else if (rand <= 2) {
-                    System.out.println("avvio corto");
                     attackJumpSequence = true;
                     attackSequence = true;
                 } else if (rand <= 3) {
                     jumpSequence = true;
-                    System.out.println("Juuuummpo");
                 }
             }
 
@@ -376,7 +373,9 @@ public class ControllerEntities {
     public LinkedList<Ramen> getRamenBowl() {
         return ramenBowl;
     }
-    
+        public LinkedList<Enemies> getEnemies() {
+        return e;
+    }
 //    public LinkedList<Kunai> getKunaiPlayer() {
 //        return kunaiPlayer;
 //    }

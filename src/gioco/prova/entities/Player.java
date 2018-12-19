@@ -310,7 +310,6 @@ public class Player extends Creature {
                 c.addKunaiPlayer(new Kunai(handler, this.getX(), this.getY(), width, height, true));
                 count -= 1;
             }
-            System.out.println(count);
         }
 
     }

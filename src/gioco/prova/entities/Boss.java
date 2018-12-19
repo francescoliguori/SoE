@@ -250,7 +250,7 @@ public class Boss extends Enemies {
         
         g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
         
-        if (c.getFinalBoss()) {
+        if (c.getFinalBoss() && !isDead()) {
                 if (jumping || falling){
                     //boss life
                     g.drawRoundRect((int) x , (int) y - 5, 105, 20, 25, 35);

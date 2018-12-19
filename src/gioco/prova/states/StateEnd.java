@@ -6,6 +6,7 @@
 package gioco.prova.states;
 
 import gioco.prova.Handler;
+import gioco.prova.input.KeyManager;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
@@ -22,6 +23,7 @@ public class StateEnd extends State implements StateDemo {
     private float videoTime;
     private long nowTime, lastTime;
     private Image image;
+    private KeyManager k;
     
     public StateEnd(Handler handler, Context ctx) {
         super(handler);
@@ -54,6 +56,6 @@ public class StateEnd extends State implements StateDemo {
     }
     
     private void nextState() {
-        handler.getGame().setState(handler.getGame().getMenuState());
+        handler.getGame().setState(new MenuState(handler));
     }
 }
