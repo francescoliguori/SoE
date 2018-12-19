@@ -61,7 +61,7 @@ public class Assets {
         SpriteSheet sheetgameOver = new SpriteSheet(ImageLoader.loadImage("/gameover.jpg"));
         SpriteSheet sheetgameOverLogo = new SpriteSheet(ImageLoader.loadImage("/gameoverlogo.png"));
         SpriteSheet sheetgameramen = new SpriteSheet(ImageLoader.loadImage("/ramenbowl.png"));
-        SpriteSheet sheetStory=new SpriteSheet(ImageLoader.loadImage("/story.png"));
+        SpriteSheet sheetStory=new SpriteSheet(ImageLoader.loadImage("/story1.png"));
         SpriteSheet sheetCredits=new SpriteSheet(ImageLoader.loadImage("/credits.jpg"));
         SpriteSheet sheetMenu=new SpriteSheet(ImageLoader.loadImage("/start2.png"));
         SpriteSheet sheetScore= new SpriteSheet(ImageLoader.loadImage("/score.jpg"));
