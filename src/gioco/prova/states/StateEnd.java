@@ -54,6 +54,6 @@ public class StateEnd extends State implements StateDemo {
     }
     
     private void nextState() {
-        handler.getGame().setState(new MenuState(handler));
+        handler.getGame().setState(handler.getGame().getMenuState());
     }
 }

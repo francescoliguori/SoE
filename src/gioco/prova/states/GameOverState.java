@@ -51,7 +51,7 @@ public class GameOverState extends State {
     private void restoreGame() {
         k = new KeyManager();
         handler.getGame().setKeyManager(k);
-        handler.getGame().getDisplay().getFrame().addKeyListener(k);
+        handler.getGame().getDisplay().getFrame().addKeyListener(handler.getKeyManager());
         Creature.setDEAFULT_SPEED();
         //questo metodo è stato utilizzato per inizializzare nuovamente le variabili del player
         //una volta morti. Questo porta ad avere un'istanza di player per sessione di gioco

@@ -4,6 +4,7 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Arrow;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
+import gioco.prova.display.InputName;
 import gioco.prova.display.Score;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
@@ -393,10 +394,11 @@ public class Player extends Creature {
     }
 
     private void HighScore() {
-
-        HighScores hs = new HighScores();
-        String name = JOptionPane.showInputDialog("Enter your name: ");
-        hs.write(name, getScore());
+        InputName inputName = new InputName(handler);
+        handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getGame().getKeyManager());
+//        HighScores hs = new HighScores();
+//        String name = JOptionPane.showInputDialog("Enter your name: ");
+//        hs.write(name, getScore());
     }
 
     private void KunaiGenerator() {
