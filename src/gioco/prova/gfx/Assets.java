@@ -63,7 +63,7 @@ public class Assets {
         SpriteSheet sheetgameramen = new SpriteSheet(ImageLoader.loadImage("/ramenbowl.png"));
         SpriteSheet sheetStory=new SpriteSheet(ImageLoader.loadImage("/story.png"));
         SpriteSheet sheetCredits=new SpriteSheet(ImageLoader.loadImage("/credits.jpg"));
-        SpriteSheet sheetMenu=new SpriteSheet(ImageLoader.loadImage("/start1.jpg"));
+        SpriteSheet sheetMenu=new SpriteSheet(ImageLoader.loadImage("/start2.png"));
         SpriteSheet sheetScore= new SpriteSheet(ImageLoader.loadImage("/score.jpg"));
         SpriteSheet sheetCommands= new SpriteSheet(ImageLoader.loadImage("/keys.png"));
         
