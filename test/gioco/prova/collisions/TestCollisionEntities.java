@@ -17,11 +17,10 @@ import gioco.prova.entities.Enemy2;
 import gioco.prova.entities.Enemy3;
 import gioco.prova.entities.Player;
 import gioco.prova.entities.Ramen;
+import gioco.prova.states.GameState;
 import java.util.LinkedList;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -43,24 +42,24 @@ public class TestCollisionEntities {
     public TestCollisionEntities() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
-         }
+        handler.getGame().setGameState(new GameState(handler));
+        controller = handler.getGame().getGameState().getController();
+    }
 
     @Before
     public void setUp() {
-        controller = new ControllerEntities(handler);
         enemy1 = new Enemy1(handler, game.getWidth(), 400, controller);
         enemy1.setX(enemy1.getX() + enemy1.getWidth());
         enemy2 = new Enemy2(handler, game.getWidth(), 400);
         enemy2.setX(enemy2.getX() + enemy2.getWidth());
         enemy3 = new Enemy3(handler, game.getWidth(), 400, controller);
         enemy3.setX(enemy3.getX() + enemy3.getWidth());
-        
+
         controller.addEnemy(enemy1);
         controller.addEnemy(enemy2);
         controller.addEnemy(enemy3);
-        //player = new Player(handler, 100, 325, controller);
         player = Player.getPlayerInstance(handler, 100, 400, controller);
-        
+
     }
 
     @After
@@ -73,16 +72,17 @@ public class TestCollisionEntities {
 
     @Test
     public void testCollisionPlayerEnemy() {
+        //most assert for limit collision
         assertFalse(checkEnemyCollision(0, 0));
         enemy2.setX(150);
         assertTrue(checkEnemyCollision(0, 0));
-        enemy2.setX(30);
+        enemy2.setX(25);
         assertFalse(checkEnemyCollision(0, 0));
-        enemy2.setX(31);
+        enemy2.setX(26);
         assertTrue(checkEnemyCollision(0, 0));
-        enemy2.setX(214);
+        enemy2.setX(209);
         assertTrue(checkEnemyCollision(0, 0));
-        enemy2.setX(215);
+        enemy2.setX(210);
         assertFalse(checkEnemyCollision(0, 0));
 
         enemy2.setX(400);
@@ -90,13 +90,13 @@ public class TestCollisionEntities {
 
         enemy3.setX(100);
         assertTrue(checkEnemyCollision(0, 0));
-        enemy3.setX(41);
+        enemy3.setX(36);
         assertTrue(checkEnemyCollision(0, 0));
-        enemy3.setX(40);
+        enemy3.setX(35);
         assertFalse(checkEnemyCollision(0, 0));
-        enemy2.setX(214);
+        enemy2.setX(209);
         assertTrue(checkEnemyCollision(0, 0));
-        enemy2.setX(215);
+        enemy2.setX(210);
         assertFalse(checkEnemyCollision(0, 0));
     }
 
@@ -111,10 +111,10 @@ public class TestCollisionEntities {
             kunai = k;
         }
         enemy2.setX(500);
-        //System.out.println(enemy1.getX());
+
         while (!collisionKunaiPlayerEnemy(0, 0)) {
             kunai.tick();
-            //System.out.println(kunai.getX());
+
         }
         assertFalse(collisionKunaiPlayerEnemy(0, 0));
         assertEquals(0, controller.getListKunaiPlayer().size());
@@ -135,13 +135,13 @@ public class TestCollisionEntities {
         }
         while (!collisionKunaiEnemyPlayer(0, 0)) {
             kunai.tick();
-            //System.out.println(kunai.getX());
+
         }
         assertFalse(collisionKunaiEnemyPlayer(0, 0));
         assertEquals(0, controller.getListKunaiEnemies().size());
 
     }
-    
+
     @Test
     public void testArrowEnemyPlayerCollision() {
         // Player vita non disponibile
@@ -156,7 +156,7 @@ public class TestCollisionEntities {
         }
         while (!collisionArrowEnemyPlayer(0, 0)) {
             arrow.tick();
-            //System.out.println(kunai.getX());
+
         }
         assertFalse(collisionArrowEnemyPlayer(0, 0));
         assertEquals(0, controller.getListArrowEnemies().size());
@@ -165,60 +165,60 @@ public class TestCollisionEntities {
 
     @Test
     public void testFireballPlayerEnemyCollision() {
-        enemy3.setX(500);
-        enemy2.setX(350);
+        enemy3.setX(1100);
+        enemy2.setX(1000);
         controller.addFireball(new Fireball(handler, player.getX(), player.getY(),
                 player.getWidth(), player.getHeight()));
+
         LinkedList<Fireball> listFireball = controller.getF();
         assertTrue(listFireball.size() == 1);
         Fireball fireball = null;
         for (Fireball f : controller.getF()) {
             fireball = f;
         }
-        while(!checkFireballCollisions(0, 0)){
+        while (!checkFireballCollisions(0, 0)) {
+
             fireball.tick();
-            //System.out.println(fireball.getX());
+
         }
-        assertTrue(controller.getEnemies().isEmpty());
-        //System.out.println(fireball.getX());
-//        while(!listFireball.isEmpty()){
-//            controller.tick();
-//            System.out.println(fireball.getX());
-//        }
-//        assertTrue(listFireball.isEmpty());
-        handler.getKeyManager().space = false;
+        assertTrue(controller.getE().isEmpty());
+
+        while (!listFireball.isEmpty()) {
+            controller.tick();
+
+        }
+        assertTrue(listFireball.isEmpty());
 
     }
-    
+
     @Test
-    public void testPlayerRamenCollision(){
+    public void testPlayerRamenCollision() {
         player.setHealth(2);
         ramen = new Ramen(handler, handler.getWidth(), 550);
         controller.addRamen(ramen);
-        assertTrue(controller.getListRamen().size()==1);
-//        System.out.println(ramen.getY());
-//        System.out.println(player.getY());
-        while(!checkRamenPlayerCollision(0, 0)){
+        assertTrue(controller.getListRamen().size() == 1);
+
+        while (!checkRamenPlayerCollision(0, 0)) {
             ramen.tick();
-            //System.out.println(ramen.getX());
+
         }
         assertTrue(controller.getListRamen().isEmpty());
-        assertTrue(player.getHealth()==3);
+        assertTrue(player.getHealth() == 3);
     }
 
     private boolean checkEnemyCollision(float xOffset, float yOffset) {
-        for (Enemies e : controller.getEnemies()) {
+        for (Enemies e : controller.getE()) {
             if (e.getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(xOffset, yOffset))) {
                 return true;
             }
         }
         return false;
     }
-    
+
     private boolean checkRamenPlayerCollision(float xOffset, float yOffset) {
         for (Ramen ramen : controller.getListRamen()) {
             if (player.getHealth() != 3 && ramen.getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(xOffset, yOffset))) {
-                player.setHealth(player.getHealth()+1);
+                player.setHealth(player.getHealth() + 1);
                 controller.removeRamen(ramen);
                 return true;
             }
@@ -245,7 +245,7 @@ public class TestCollisionEntities {
         }
         return false;
     }
-    
+
     private boolean collisionArrowEnemyPlayer(float xOffset, float yOffset) {
         for (Arrow a : controller.getListArrowEnemies()) {
             if (a.getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(xOffset, yOffset))) {
@@ -258,14 +258,14 @@ public class TestCollisionEntities {
 
     private boolean checkFireballCollisions(float xOffset, float yOffset) {
         for (Fireball f : controller.getF()) {
-            for (Enemies e : controller.getEnemies()) {
+            for (Enemies e : controller.getE()) {
                 if (e.getCollisionBounds(0f, 0f).intersects(f.getCollisionBounds(xOffset, yOffset))) {
                     controller.removeEnemy(e);
-                    //System.out.println("Colpito");
+
                 }
             }
         }
-        if (controller.getEnemies().isEmpty()){
+        if (controller.getE().isEmpty()) {
             return true;
         }
         return false;

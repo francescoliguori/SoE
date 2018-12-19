@@ -7,15 +7,6 @@ package gioco.prova.bullets;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
-import gioco.prova.entities.ControllerEntities;
-import gioco.prova.entities.Player;
-import gioco.prova.states.GameState;
-import gioco.prova.states.State;
-import java.awt.Graphics;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,33 +15,16 @@ import static org.junit.Assert.*;
  * @author marcoruggiero
  */
 public class FireballTest {
+
     private Game game;
-    private Handler  handler;
+    private Handler handler;
     private Fireball f;
-    
-    public FireballTest() 
-    {
+
+    public FireballTest() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
-        f = new Fireball(handler,  200,  200,  50,  60);
+        f = new Fireball(handler, 200, 200, 50, 60);
     }
-    
-    @BeforeClass
-    public static void setUpClass() {    
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {        
-    }
-
 
     /**
      * Test of move method, of class Fireball.
@@ -66,5 +40,5 @@ public class FireballTest {
         assertTrue(f.getX() > temp);
         assertTrue(f.getY() == temp1);
     }
-    
+
 }

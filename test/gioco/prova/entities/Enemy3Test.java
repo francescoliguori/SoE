@@ -7,13 +7,9 @@ package gioco.prova.entities;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
-import gioco.prova.bullets.Arrow;
 import gioco.prova.bullets.Kunai;
-import java.util.LinkedList;
-import org.junit.After;
-import org.junit.AfterClass;
+import gioco.prova.states.GameState;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -22,18 +18,19 @@ import static org.junit.Assert.*;
  * @author Chris
  */
 public class Enemy3Test {
-    
-   private Game game;
+
+    private Game game;
     private Handler handler;
     private Enemy3 enemy;
     private ControllerEntities controller;
-    
+
     public Enemy3Test() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
-        controller = new ControllerEntities(handler);
+        handler.getGame().setGameState(new GameState(handler));
+        controller = handler.getGame().getGameState().getController();
     }
-    
+
     @Before
     public void setUp() {
         enemy = new Enemy3(handler, game.getWidth(), 0, controller);
@@ -52,12 +49,9 @@ public class Enemy3Test {
         //Check if enemy is positioned on the right side, out of the screen.
         assertTrue(enemy.getX() > game.getWidth());
     }
-    
+
     @Test
     public void enemyLeftMovementTest() {
-//        for (Enemies e : controller.getEnemies()) {
-//            enemy = (Enemy1) e;
-//        }
         float lastPosition = enemy.getX();
         controller.tick();
         assertTrue(enemy.getX() < lastPosition);
@@ -65,7 +59,7 @@ public class Enemy3Test {
         controller.tick();
         assertTrue(enemy.getX() < lastPosition);
     }
-    
+
     @Test
     public void testEnemyArrowShot() {
         controller.addKunaiEnemies(new Kunai(handler, enemy.getX(),
@@ -75,19 +69,19 @@ public class Enemy3Test {
         for (Kunai k : controller.getListKunaiEnemies()) {
             kunai = k;
         }
-        //enemy.setX(500);
-        //System.out.println(enemy1.getX());
-        while(!controller.getListKunaiEnemies().isEmpty())
+
+        while (!controller.getListKunaiEnemies().isEmpty()) {
             controller.tick();
+        }
         assertTrue(controller.getListArrowEnemies().isEmpty());
     }
 
     @Test
     public void testEnemyDeleteOuterScreen() {
-        assertTrue(!controller.getEnemies().isEmpty());
-        while (!controller.getEnemies().isEmpty()) {
+        assertTrue(!controller.getE().isEmpty());
+        while (!controller.getE().isEmpty()) {
             controller.tick();
         }
-        assertTrue(controller.getEnemies().isEmpty());
+        assertTrue(controller.getE().isEmpty());
     }
 }

@@ -9,9 +9,9 @@ import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
+import gioco.prova.states.GameState;
 import java.util.LinkedList;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -29,18 +29,13 @@ public class TestPlayer {
     public TestPlayer() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
-        }
-
-    @Before
-    public void setUp() {
-        controller = new ControllerEntities(handler);
-        //player = new Player(handler, 100, 325, controller);
-        player = Player.getPlayerInstance(handler, 100, 400, controller);
-        
+        handler.getGame().setGameState(new GameState(handler));
+        controller = handler.getGame().getGameState().getController();
+        player = handler.getGame().getGameState().getPlayer();
     }
-    
+
     @After
-    public void tearDown(){
+    public void tearDown() {
         Player.restartPlayer();
     }
 
@@ -50,12 +45,12 @@ public class TestPlayer {
         float lastPosition = player.getX();
         player.getInput();
         player.move();
-        //System.out.println(player.getX());
+        
         assertTrue(player.getX() > lastPosition);
         lastPosition = player.getX();
         player.getInput();
         player.move();
-        //System.out.println(player.getX());
+       
         assertTrue(player.getX() > lastPosition);
         handler.getKeyManager().right = false;
     }
@@ -66,12 +61,12 @@ public class TestPlayer {
         float lastPosition = player.getX();
         player.getInput();
         player.move();
-        //System.out.println(player.getX());
+        ;
         assertTrue(player.getX() < lastPosition);
         lastPosition = player.getX();
         player.getInput();
         player.move();
-        //System.out.println(player.getX());
+        
         assertTrue(player.getX() < lastPosition);
         handler.getKeyManager().left = false;
     }
@@ -88,7 +83,7 @@ public class TestPlayer {
         while (System.currentTimeMillis() - lastTime < 5) {
             player.getInput();
             player.move();
-            //System.out.println(player.getY());
+           
         }
         assertTrue(player.collisionWithGround(player.getY()));
     }
@@ -109,7 +104,7 @@ public class TestPlayer {
             player.getInput();
             player.move();
             assertTrue(player.getX() > lastX);
-            //System.out.println("y = " + player.getY() + " x = " + player.getX());
+
         }
         assertTrue(player.collisionWithGround(player.getY()));
     }
@@ -119,7 +114,8 @@ public class TestPlayer {
         handler.getKeyManager().space = true;
         player.getInput();
         LinkedList<Fireball> listFireball = controller.getF();
-        assertTrue(listFireball.size() == 1);
+        assertTrue(listFireball.size() == 0);
+        handler.getGame().getGameState().getHudmngr().setCurrPower(210); //set the fireball bar to full
         player.getInput();
         assertTrue(listFireball.size() == 1);
         handler.getKeyManager().space = false;
@@ -143,7 +139,7 @@ public class TestPlayer {
         while (System.currentTimeMillis() - lastTime < 50) {
             player.getInput();
             player.move();
-            //System.out.println(player.getX());
+
         }
         assertTrue(player.getX() == handler.getWidth() - 155);
         handler.getKeyManager().right = false;
@@ -152,7 +148,7 @@ public class TestPlayer {
         while (System.currentTimeMillis() - lastTime < 50) {
             player.getInput();
             player.move();
-            //System.out.println(player.getX());
+
         }
         assertTrue(player.getX() == 0);
         handler.getKeyManager().left = false;

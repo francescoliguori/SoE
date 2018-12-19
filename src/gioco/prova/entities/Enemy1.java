@@ -22,7 +22,6 @@ public class Enemy1 extends Enemies {
 
     private Animation enemyRunning1;
     private Animation enemyDead1;
-    private Animation enemyShot1;
     private ControllerEntities c;
 
     //varibili per il tempo
@@ -35,8 +34,7 @@ public class Enemy1 extends Enemies {
     //si annulla la possibilità di collidere con esso.
     public Enemy1(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y);
-        enemyRunning1 = new Animation(200, Assets.enemies1);
-        enemyShot1 = new Animation(150, Assets.enemies1Shot);
+        enemyRunning1 = new Animation(200, Assets.enemies1);      
         enemyDead1 = new Animation(70, Assets.enemies1Dead);
         this.c = c;
 
@@ -52,15 +50,9 @@ public class Enemy1 extends Enemies {
         
         if (dead) {
             enemyDead1.tick();
-        } 
-        
-        if (shot) {
-            enemyShot1.tick();
-        } else {
-            move();
-        }
-        
-        getInput();
+        }                   
+         getInput();
+         move();
     }
 
     @Override

@@ -7,10 +7,8 @@ package gioco.prova.entities;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
-import org.junit.After;
-import org.junit.AfterClass;
+import gioco.prova.states.GameState;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,6 +17,7 @@ import static org.junit.Assert.*;
  * @author Chris
  */
 public class Enemy2Test {
+
     private Game game;
     private Handler handler;
     private Enemy2 enemy;
@@ -27,7 +26,9 @@ public class Enemy2Test {
     public Enemy2Test() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
-        controller = new ControllerEntities(handler);
+        handler.getGame().setGameState(new GameState(handler));
+        controller = handler.getGame().getGameState().getController();
+
     }
 
     @Before
@@ -51,7 +52,7 @@ public class Enemy2Test {
 
     @Test
     public void enemyLeftMovementTest() {
-        for (Enemies e : controller.getEnemies()) {
+        for (Enemies e : controller.getE()) {
             enemy = (Enemy2) e;
         }
         float lastPosition = enemy.getX();
@@ -64,10 +65,10 @@ public class Enemy2Test {
 
     @Test
     public void testEnemyDeleteOuterScreen() {
-        assertTrue(!controller.getEnemies().isEmpty());
-        while (!controller.getEnemies().isEmpty()) {
+        assertTrue(!controller.getE().isEmpty());
+        while (!controller.getE().isEmpty()) {
             controller.tick();
         }
-        assertTrue(controller.getEnemies().isEmpty());
+        assertTrue(controller.getE().isEmpty());
     }
 }

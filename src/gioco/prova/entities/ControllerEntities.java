@@ -157,7 +157,7 @@ public class ControllerEntities {
             if (!longAttackJumpSequence && !attackJumpSequence && !jumpSequence) {
                 if (rand <= 1) {
                     longAttackJumpSequence = true;
-                    longAttackSequence = true;
+                    longAttackSequence = true;                
                 } else if (rand <= 2) {
                     attackJumpSequence = true;
                     attackSequence = true;
@@ -373,9 +373,7 @@ public class ControllerEntities {
     public LinkedList<Ramen> getRamenBowl() {
         return ramenBowl;
     }
-        public LinkedList<Enemies> getEnemies() {
-        return e;
-    }
+    
 //    public LinkedList<Kunai> getKunaiPlayer() {
 //        return kunaiPlayer;
 //    }

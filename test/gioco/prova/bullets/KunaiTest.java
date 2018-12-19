@@ -7,11 +7,6 @@ package gioco.prova.bullets;
 
 import gioco.prova.Game;
 import gioco.prova.Handler;
-import java.awt.Graphics;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -20,31 +15,17 @@ import static org.junit.Assert.*;
  * @author marcoruggiero
  */
 public class KunaiTest {
+
     private Game game;
-    private Handler  handler;
-    private Kunai k;
-    
+    private Handler handler;
+    private Kunai kPlayer, kEnemy;
+
     public KunaiTest() {
         game = Game.getGameIstance();
         handler = Handler.getHandlerInstance(game);
-        k = new Kunai(handler,  200,  200,  50,  60, true);
-    
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        kPlayer = new Kunai(handler, 200, 200, 50, 60, true);
+        kEnemy = new Kunai(handler, 200, 200, 50, 60, false);
+
     }
 
     /**
@@ -53,13 +34,18 @@ public class KunaiTest {
     @Test
     public void testMove() {
         System.out.println("move");
-        double temp = k.getX();
-        double temp1 = k.getY();
-        k.move(true);
-        
-        assertTrue(k.getX() > temp);
-        assertTrue(k.getY() == temp1);
-        
+        double temp = kPlayer.getX();
+        double temp1 = kPlayer.getY();
+        kPlayer.move(true);
+        assertTrue(kPlayer.getX() > temp);
+        assertTrue(kPlayer.getY() == temp1);
+
+        temp = kEnemy.getX();
+        temp1 = kEnemy.getY();
+        kEnemy.move(false);
+        assertTrue(kEnemy.getX() < temp);
+        assertTrue(kEnemy.getY() == temp1);
+
     }
-    
+
 }
