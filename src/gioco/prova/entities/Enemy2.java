@@ -8,7 +8,6 @@ package gioco.prova.entities;
 import gioco.prova.Handler;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -46,31 +45,23 @@ public class Enemy2 extends Enemies {
 
     @Override
     public void render(Graphics g) {
-        //g.drawImage(enemyRunning2.getCurrentFrame(), (int) x, (int) y, null);
         if(lastDeadFrame){
             g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y+15, null);
         }
         else{
             g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
         }
-        //g.setColor(Color.red);
-        //g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
     }
 
     private void getInput() {
         xMove = 0;
         yMove = 0;
-        /* if ((x - xMove) <= 0) {
-                x = 0;
-            } else {*/
-        xMove -= speed;
-        //}                 
+        xMove -= speed;          
     }
 
     private BufferedImage getCurrentAnimationFrame() {
         if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
             dead = true;
-            //handler.getGame().getGameState().getController().removeEnemy(this);
             return this.enemyDead2.getCurrentFrame();
         }
 

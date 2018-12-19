@@ -5,14 +5,11 @@
  */
 package gioco.prova.display;
 
-import gioco.prova.states.GameState;
 import java.awt.Graphics;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 /**
  *
- * @author Vincenzo
+ * @author Vincenzo Magna
  */
 public class ParallaxBackground {
     
@@ -40,5 +37,25 @@ public class ParallaxBackground {
     public void render(Graphics g) {
         for (int i = 0; i < sbgs.length; i++)
             sbgs[i].render(g);
+    }
+    
+    public static ParallaxBackground randomParallaxBg(int random,  int speed) {
+        
+        //Setting background image paths
+        String[] pathsNight = new String[3];
+        pathsNight[0] = "/background/mountain.png";
+        pathsNight[1] = "/background/trees.png";
+        pathsNight[2] = "/background/path.png";
+        
+        String[] pathsDay = new String[3];
+        pathsDay[0] = "/background/mountain_day.png";
+        pathsDay[1] = "/background/trees_day.png";
+        pathsDay[2] = "/background/path_day.png";
+        
+        if (random == 0) {
+            return new ParallaxBackground(pathsNight, speed);
+        } else {
+            return new ParallaxBackground(pathsDay, speed);
+        }
     }
 }

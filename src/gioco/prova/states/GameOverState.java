@@ -5,7 +5,6 @@
  */
 package gioco.prova.states;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.entities.Boss;
 import gioco.prova.entities.Creature;
@@ -39,14 +38,12 @@ public class GameOverState extends State {
 
     public void getInput() {
         if (k.esc) {
-           System.exit(0);
+           handler.getGame().setState(new MenuState(handler));
         }
-        if (k.enter) {
-//                gameState=new GameState(handler);               
+        if (k.enter) {             
             restoreGame();
             handler.getGame().setGameState(new GameState(handler));
             handler.getGame().setState(handler.getGame().getGameState());
-            //State.setState(handler.getGame().getGameState());
         }
     }
 

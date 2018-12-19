@@ -6,7 +6,6 @@
 package gioco.prova.gfx;
 
 import gioco.prova.display.Score;
-import gioco.prova.entities.Boss;
 import gioco.prova.entities.ControllerEntities;
 import gioco.prova.entities.Player;
 import java.awt.Color;
@@ -14,6 +13,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ *
+ * @author Vincenzo Magna, Laura Fusco
+ */
 public class HudManager {
 
     private BufferedImage life;
@@ -26,21 +29,23 @@ public class HudManager {
     private int currLife;
     private int currPower;
     private int maxPower;
-    private Font font;
+    private Font fontScore, fontKunai;
     private int bossLife;
     private Score score;
     private Player player;
 
     private ControllerEntities c;
 
-    public HudManager(String path, String path2, String path3, int currLife, ControllerEntities c) {
-       
-        life = ImageLoader.loadImage(path);
-        powerInactive = ImageLoader.loadImage(path2);
-        powerActive = ImageLoader.loadImage(path3);
+    public HudManager(Player player, ControllerEntities c) {
+        this.player = player;
+        fontScore = FontLoader.load("res/fonts/naruto.ttf", 40);
+        fontKunai = FontLoader.load("res/fonts/naruto.ttf", 18);
+        life = ImageLoader.loadImage("/hudBg/lifeicon.png");
+        powerInactive = ImageLoader.loadImage("/hudBg/powinactive.png");
+        powerActive = ImageLoader.loadImage("/hudBg/powactive.png");
         kunai = ImageLoader.loadImage("/hudBg/kunai.png");
+        currLife = player.getHealth();
         bossImage = ImageLoader.loadImage("/hudBg/oro.png");
-        this.currLife = currLife;
         currPower = 0;
         maxPower = 210;
         bossLife = 30;
@@ -73,56 +78,77 @@ public class HudManager {
         return score;
     }
 
-    public void render(Graphics g) {
-        int margin = 40;
-        int offset = 20;
-
-        font = FontLoader.load("res/fonts/naruto.ttf", 40);
-        g.setFont(font);
-        g.setColor(Color.white);
-        g.drawString(Integer.toString(score.getCount()), 600, 80);
-
-//        switch (currLife) {
-//            case 1:
-//                g.drawImage(life, (life.getWidth() + margin), margin, null);
-//                break;
-//            case 2:
-//                g.drawImage(life, (2 * life.getWidth() + margin + offset), margin, null);
-//                g.drawImage(life, (life.getWidth() + margin), margin, null);
-//                break;
-//            case 3:
-//                g.drawImage(life, (3 * life.getWidth() + margin + offset * 2), margin, null);
-//                g.drawImage(life, (2 * life.getWidth() + margin + offset), margin, null);
-//                g.drawImage(life, (life.getWidth() + margin), margin, null);
-//                break;
-//        }
-        if (currLife > 0) {
-            for (int i = 1; i <= currLife; i++) {
-                g.drawImage(life, ((i - 1) * life.getWidth() + margin + offset * (i - 1)), margin, null);
-            }
-        }
-
-        g.setColor(Color.orange);
-        g.drawRoundRect(margin + powerInactive.getWidth() + 10, margin + 10 + 55, maxPower + 10, powerInactive.getHeight() - 20, 25, 35);
-
-        if (currPower == maxPower) {
-            g.drawImage(powerActive, margin, margin + 55, null);
-            g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10 + 55, maxPower, powerInactive.getHeight() - 30, 15, 25);
-        } else {
-            g.drawImage(powerInactive, margin, margin + 50, null);
-            g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10 + 55, currPower, powerInactive.getHeight() - 30, 15, 25);
-        }
-
-        font = FontLoader.load("res/fonts/naruto.ttf", 18);
-        g.setFont(font);
-        g.drawImage(kunai, margin, margin + 120, null);
-        g.drawString("x " + Integer.toString(Player.getCount()), 80, 185);
-
+    public void updateLifeBar() {
+        currLife = player.getHealth();
+    }
+    
+    public void updateFireballBar() {
         nowTime = System.nanoTime(); //used for time generation of enemies        
         if (nowTime - lastTime > 0.25f * 1000000000 && currPower < maxPower) {
             currPower += 3;
             lastTime = System.nanoTime();
         }
+    }
+    
+    public void tick() {
+        updateLifeBar();
+        updateFireballBar();
+    }
+    
+    public void renderLifeBar(Graphics g) {
+        int margin = 40;
+        int offset = 20;
+        
+        switch(currLife) {
+            case 1:
+                g.drawImage(life, 1200 - (life.getWidth() + margin), margin, null);
+                break;
+            case 2:
+                g.drawImage(life, 1200 - (2*life.getWidth() + margin + offset), margin, null);
+                g.drawImage(life, 1200 - (life.getWidth() + margin), margin, null);
+                break;
+            case 3:
+                g.drawImage(life, 1200 - (3*life.getWidth() + margin + offset*2), margin, null);
+                g.drawImage(life, 1200 - (2*life.getWidth() + margin + offset), margin, null);
+                g.drawImage(life, 1200 - (life.getWidth() + margin), margin, null);
+                break;
+        }
+    }
+    
+    public void renderFireballBar(Graphics g) {
+        int margin = 40, margin1 = 50, margin2 = 55;
+        int offset1 = 20, offset2 = 30;
+        int arcWidth1 = 25, archHeight1 = 35;
+        int arcWidth2 = 15, archHeight2 = 25;
+        int fill = 10;
+        
+        g.setColor(Color.orange);
+        g.drawRoundRect(margin1 + powerInactive.getWidth(), margin1, maxPower + fill, powerInactive.getHeight() - offset1, arcWidth1, archHeight1);
+        
+        if(currPower == maxPower){
+           g.drawImage(powerActive, margin, margin, null);
+           g.fillRoundRect(margin2 + powerInactive.getWidth(), margin2, maxPower, powerInactive.getHeight() - offset2, arcWidth2, archHeight2);    
+        }else{
+           g.drawImage(powerInactive, margin, margin, null);
+           g.fillRoundRect(margin2 + powerInactive.getWidth(), margin2, currPower, powerInactive.getHeight() - offset2, arcWidth2, archHeight2);
+        }
+    }
+    
+    public void renderScoreText(Graphics g) {
+        g.setFont(fontScore);
+        g.setColor(Color.white);
+        g.drawString(Integer.toString(score.getCount()), 600, 80);
+    }
+    
+    public void rendereKunaiBarText(Graphics g) {
+        g.setFont(fontKunai);
+        g.drawImage(kunai, 50, 100, null);
+        g.drawString("x " + Integer.toString(Player.getCount()), 90, 125);
+    }
+    /*
+    public void renderBoss(Graphics g) {
+        int margin = 40;
+        
         if (c.getFinalBoss() && c.getBoss()!=null ) {          
             //boss life
             Color purple = new Color(122, 33, 152);
@@ -134,7 +160,15 @@ public class HudManager {
                  g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10 + 55, c.getBoss().getHealth(), powerInactive.getHeight() - 30, 15, 25);
                  bossLife=c.getBoss().getHealth();
             }            
-
         }
+    }*/
+    
+    public void render(Graphics g) {
+        renderLifeBar(g);
+        renderFireballBar(g);
+        rendereKunaiBarText(g);
+        renderScoreText(g);
+        //renderBoss(g);
     }
+    
 }

@@ -11,7 +11,7 @@ import java.awt.Graphics;
 
 /**
  *
- * @author Vincenzo
+ * @author Vincenzo Magna
  */
 public class Background {
     private int x;
@@ -36,5 +36,13 @@ public class Background {
     
     public void render(Graphics g) {
         g.drawImage(image, 0, 0, null);
+    }
+    
+    public static Background randomBg(int random) {
+        if (random == 0) {
+            return new Background(0, "/background/bg_sky_night.png");
+        } else {
+            return new Background(0, "/background/bg_sky_day.png");
+        }
     }
 }

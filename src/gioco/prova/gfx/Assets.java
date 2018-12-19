@@ -51,11 +51,16 @@ public class Assets {
     public static BufferedImage credits;
     public static BufferedImage score;
     public static BufferedImage commands;
+    public static BufferedImage[] demoUp;
+    public static BufferedImage[] demoDown;
+    public static BufferedImage[] demoLeft;
+    public static BufferedImage[] demoRight;
+    
     public static void init() {
         //si crea lo spritesheet da utilizzare
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/itachi.png"));
         SpriteSheet sheetEnemy = new SpriteSheet(ImageLoader.loadImage("/enemies.png"));
-		SpriteSheet sheetBoss = new SpriteSheet(ImageLoader.loadImage("/oro.png"));
+        SpriteSheet sheetBoss = new SpriteSheet(ImageLoader.loadImage("/oro.png"));
         SpriteSheet sheetBossLA = new SpriteSheet(ImageLoader.loadImage("/oroLA.png"));
         SpriteSheet sheetBullets = new SpriteSheet(ImageLoader.loadImage("/bullets.png"));
         SpriteSheet sheetgameOver = new SpriteSheet(ImageLoader.loadImage("/gameover.jpg"));
@@ -66,6 +71,10 @@ public class Assets {
         SpriteSheet sheetMenu=new SpriteSheet(ImageLoader.loadImage("/start2.png"));
         SpriteSheet sheetScore= new SpriteSheet(ImageLoader.loadImage("/score.jpg"));
         SpriteSheet sheetCommands= new SpriteSheet(ImageLoader.loadImage("/keys.png"));
+        SpriteSheet sheetDemoUp = new SpriteSheet(ImageLoader.loadImage("/demo/up.png"));
+        SpriteSheet sheetDemoDown = new SpriteSheet(ImageLoader.loadImage("/demo/down.png"));
+        SpriteSheet sheetDemoLeft = new SpriteSheet(ImageLoader.loadImage("/demo/left.png"));
+        SpriteSheet sheetDemoRight = new SpriteSheet(ImageLoader.loadImage("/demo/right.png"));
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
@@ -83,7 +92,11 @@ public class Assets {
         kunaiThrowForward = new BufferedImage[1];
         kunaiThrowBackward = new BufferedImage[1];
         arrowThrowBackward = new BufferedImage[1];
-		oroJump = new BufferedImage[3];
+        demoUp = new BufferedImage[6];
+        demoDown = new BufferedImage[6];
+        demoLeft = new BufferedImage[6];
+        demoRight = new BufferedImage[6];
+        oroJump = new BufferedImage[3];
         oroDead = new BufferedImage[9];
         oroHit = new BufferedImage[4];
         oroAttack = new BufferedImage[19];
@@ -193,6 +206,22 @@ public class Assets {
             fireballJutsu[i] = sheetBullets.crop(width * i, 0, width, height);
         }
 
+         for (int i = 0; i < 6; i++) {
+            demoUp[i] = sheetDemoUp.crop(240 * i, 0, 240, 153);
+        }
+
+        for (int i = 0; i < 6; i++) {
+            demoDown[i] = sheetDemoDown.crop(240 * i, 0, 240, 153);
+        }
+
+        for (int i = 0; i < 6; i++) {
+            demoLeft[i] = sheetDemoLeft.crop(240 * i, 0, 240, 153);
+        }
+
+        for (int i = 0; i < 6; i++) {
+            demoRight[i] = sheetDemoRight.crop(240 * i, 0, 240, 153);
+        }
+        
         kunaiThrowForward[0] = sheetBullets.crop(0, height, width, height);
         kunaiThrowBackward[0] = sheetBullets.crop(0, height * 2, width, height);
         arrowThrowBackward[0] = sheetBullets.crop(0, height * 3, width, height);

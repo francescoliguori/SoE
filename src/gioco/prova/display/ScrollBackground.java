@@ -6,13 +6,10 @@
 package gioco.prova.display;
 
 import java.awt.Graphics;
-import static java.lang.System.exit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Vincenzo
+ * @author Vincenzo Magna
  */
 public class ScrollBackground {
     private Background[] bg;

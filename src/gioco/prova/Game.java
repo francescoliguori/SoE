@@ -7,15 +7,12 @@ package gioco.prova;
 
 import gioco.prova.display.Display;
 import gioco.prova.gfx.Assets;
-import gioco.prova.gfx.ImageLoader;
 import gioco.prova.gfx.Soundtrack;
-import gioco.prova.gfx.SpriteSheet;
 import gioco.prova.input.KeyManager;
 import gioco.prova.states.GameState;
 import gioco.prova.states.MenuState;
 import gioco.prova.states.State;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -23,13 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import gioco.prova.display.ScrollBackground;
-import gioco.prova.gfx.ImageLoader;
 import gioco.prova.states.GameOverState;
 
-import sun.audio.*;
-import java.io.*;
-import java.nio.file.Path;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 /**

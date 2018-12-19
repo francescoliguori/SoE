@@ -8,7 +8,6 @@ package gioco.prova.display;
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Dimension;
-import java.awt.Component;
 /**
  *
  * @author marcoruggiero

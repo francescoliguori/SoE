@@ -85,9 +85,6 @@ public class MenuState extends State {
                         g.drawString(s[i], 250, 300+i*65);
                     }
                     break;
-//                case 3: //story
-//                    g.drawImage(Assets.story, 0, 0, null);
-//                    break;
                 case 3: //commands
                     g.drawImage(Assets.commands, 0, 0, null);
                     break;
@@ -132,12 +129,10 @@ public class MenuState extends State {
                 handler.getGame().setFps(60);
                 handler.getGame().setState(handler.getGame().getGameState());
                 break;
-//            case 1: //demostate
-//                //demoState=new DemoState(handler);
-//                //handler.getGame().setFps(60);
-//                //handler.getGame().setGameState(demoState);
-//                //State.setState(demoState);
-//                break;
+            case 1: //demostate
+                handler.getGame().setFps(60);
+                handler.getGame().setState(new DemoState(handler));
+                break;
             case 2: //score
                 //State.setState(new ScoreState(handler));
                 hs = new HighScores();

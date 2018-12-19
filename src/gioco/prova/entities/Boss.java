@@ -48,6 +48,7 @@ public class Boss extends Enemies {
     private long startAttack = 0;
     private boolean hitFireball = false;
     private int lastIndex = 0;
+    private int bossLife;
 
     public static Boss getBossInstance(Handler handler, float x, float y, ControllerEntities c) {
         if (instance == null) {
@@ -70,7 +71,7 @@ public class Boss extends Enemies {
         oroLongAttack = new Animation(130, Assets.oroLongAttack);
         gravity = 0.5;
         groundHeight = y;
-        health = 30;
+        health = 115;
 
         setWidth(100);
         setHeight(160);
@@ -79,6 +80,7 @@ public class Boss extends Enemies {
         bounds.height = 160;
         bounds.width = 80;
         this.c = c;
+        bossLife = 100;
     }
 
     @Override
@@ -245,9 +247,30 @@ public class Boss extends Enemies {
 
     @Override
     public void render(Graphics g) {
+        Color purple = new Color(122, 33, 152);
+        g.setColor(purple);
+        
         g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-//        g.setColor(Color.red);
-//        g.fillRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
+        
+        if (c.getFinalBoss()) {
+                if (jumping || falling){
+                    //boss life
+                    g.drawRoundRect((int) x - 15, (int) y - 5, 3 * 40, 20, 25, 35);
+                    g.fillRoundRect((int) x - 10, (int) y - 3, c.getBoss().getHealth(), 15, 25, 35);  
+                    bossLife = c.getBoss().getHealth();
+                } else if(longAttack){
+                    //boss life
+                    g.drawRoundRect((int) x + 350, (int) y - 12, 3 * 40, 20, 25, 35);
+                    g.fillRoundRect((int) x + 353, (int) y - 10, c.getBoss().getHealth(), 15, 25, 35); 
+                    bossLife=c.getBoss().getHealth();
+                }else {
+                    //boss life
+                    g.drawRoundRect((int) x + 220, (int) y, 3 * 40, 20, 25, 35);
+                    g.fillRoundRect((int) x + 223, (int) y  + 3, c.getBoss().getHealth(), 15, 25, 35);
+                    bossLife=c.getBoss().getHealth();
+                }
+            
+        }
     }
 
     private BufferedImage getCurrentAnimationFrame() {

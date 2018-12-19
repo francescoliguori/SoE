@@ -23,44 +23,24 @@ import java.awt.Graphics;
 public class GameState extends State {
 
     private Player player;
-    private Boss boss;
     private ParallaxBackground parallax;
     private Background fixBg;
     private ControllerEntities controller;
-    private static boolean story = true;
     private HudManager hudmngr;
+    private Boss boss;
+    private int random;
+    private static boolean story = true;
     private boolean winBoss = false;
 
     public GameState(Handler handler) {
         super(handler);
 
         controller = new ControllerEntities(handler);
-        player = Player.getPlayerInstance(handler, 100, 400, controller);
-
-        //Setting background image paths
-        String[] pathsNight = new String[3];
-        pathsNight[0] = "/background/mountain.png";
-        pathsNight[1] = "/background/trees.png";
-        pathsNight[2] = "/background/path.png";
-
-        String[] pathsDay = new String[3];
-        pathsDay[0] = "/background/mountain_day.png";
-        pathsDay[1] = "/background/trees_day.png";
-        pathsDay[2] = "/background/path_day.png";
-
-        if ((int) (Math.random() * 2) == 0) {
-            parallax = new ParallaxBackground(pathsNight, (int) (player.getSpeed() / 2));
-            fixBg = new Background(0, "/background/bg_sky_night.png");
-        } else {
-            parallax = new ParallaxBackground(pathsDay, (int) (player.getSpeed() / 2));
-            fixBg = new Background(0, "/background/bg_sky_day.png");
-        }
-
-        //Setting HUD
-        String pathHud = "/hudBg/lifeicon.png";
-        String pathHud2 = "/hudBg/powinactive.png";
-        String pathHud3 = "/hudBg/powactive.png";
-        hudmngr = new HudManager(pathHud, pathHud2, pathHud3, player.getHealth(), controller);
+        player =  Player.getPlayerInstance(handler, 100, 400, controller);
+        random = (int) (Math.random() * 2);
+        fixBg = Background.randomBg(random);
+        parallax = ParallaxBackground.randomParallaxBg(random, (int) player.getSpeed() / 2);
+        hudmngr = new HudManager(player, controller);
     }
 
     public Player getPlayer() {
@@ -80,8 +60,8 @@ public class GameState extends State {
         if (story) {
             getInput();
         } else {
-            hudmngr.setCurrLife(player.getHealth());
             parallax.tick();
+            hudmngr.tick();
             player.tick();
             controller.tick();
             if (player.getScore() >= 0 && !winBoss) {

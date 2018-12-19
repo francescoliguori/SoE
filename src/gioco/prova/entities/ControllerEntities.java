@@ -10,9 +10,7 @@ import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import gioco.prova.bullets.Arrow;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 
 /**
  *
@@ -40,7 +38,9 @@ public class ControllerEntities {
     private int countDifficulty = 0;
     private float TimeEnemyGenerator = 2.0f;
     private float TimeRamenGenerator = 5.0f;
+    private float TimeToUp = System.nanoTime();
 
+    //This variables regard the Boss
     private boolean finalBoss = false;
     private Boss boss;
     private boolean bossMoveSx;
@@ -54,21 +54,25 @@ public class ControllerEntities {
     private boolean attackJumpSequence = true;
     private int countAttackJump = 0;
 
-    private float TimeToUp = System.nanoTime();
 
     public ControllerEntities(Handler handler) {
         this.handler = handler;
     }
 
-    public void tick() {
+    /**
+     * ************************CONTROL ENTITY TICK****************************
+     */
+    public void enemyMovement() {
         for (int i = 0; i < e.size(); i++) {
-
             tempEnemy = e.get(i);
             if (tempEnemy.getX() < -tempEnemy.getWidth()) {
                 removeEnemy(tempEnemy);
             }
             tempEnemy.tick();
         }
+    }
+
+    public void fireballMovement() {
         for (int i = 0; i < f.size(); i++) {
             fireball = f.get(i);
             if (fireball.getX() > handler.getWidth()) {
@@ -76,6 +80,9 @@ public class ControllerEntities {
             }
             fireball.tick();
         }
+    }
+
+    public void kunaiPlayerMovement() {
         for (int i = 0; i < kunaiPlayer.size(); i++) {
             kunai = kunaiPlayer.get(i);
             if (kunai.getX() > handler.getWidth()) {
@@ -83,7 +90,9 @@ public class ControllerEntities {
             }
             kunai.tick();
         }
+    }
 
+    public void kunaiEnemyMovement() {
         for (int i = 0; i < kunaiEnemies.size(); i++) {
             kunai = kunaiEnemies.get(i);
             if (kunai.getX() < -kunai.getWidth()) {
@@ -91,7 +100,9 @@ public class ControllerEntities {
             }
             kunai.tick();
         }
+    }
 
+    public void arrowEnemyMovement() {
         for (int i = 0; i < arrowEnemies.size(); i++) {
             arrow = arrowEnemies.get(i);
             if (arrow.getX() < -arrow.getWidth()) {
@@ -99,7 +110,9 @@ public class ControllerEntities {
             }
             arrow.tick();
         }
+    }
 
+    public void ramenBowlMovement() {
         for (int i = 0; i < ramenBowl.size(); i++) {
             ramen = ramenBowl.get(i);
             if (ramen.getX() < -ramen.getWidth()) {
@@ -107,6 +120,21 @@ public class ControllerEntities {
             }
             ramen.tick();
         }
+    }
+
+    /**
+     * ***********************************************************************
+     */
+    
+    public void tick() {
+        //Control Entities Movement 
+        enemyMovement();
+        fireballMovement();
+        kunaiPlayerMovement();
+        kunaiEnemyMovement();
+        arrowEnemyMovement();
+        ramenBowlMovement();
+        
         if (!finalBoss) {
             
             Boss.restartBoss();
@@ -249,35 +277,57 @@ public class ControllerEntities {
         boss = null;
     }
 
-    public void render(Graphics g) {
-        for (int i = 0; i < e.size(); i++) {
-            tempEnemy = e.get(i);
-            tempEnemy.render(g);
-        }
-        for (int i = 0; i < f.size(); i++) {
-            fireball = f.get(i);
-            fireball.render(g);
-        }
-        for (int i = 0; i < kunaiPlayer.size(); i++) {
-            kunai = kunaiPlayer.get(i);
-            kunai.render(g);
-        }
-
-        for (int i = 0; i < kunaiEnemies.size(); i++) {
-            kunai = kunaiEnemies.get(i);
-            kunai.render(g);
-        }
-
-        for (int i = 0; i < arrowEnemies.size(); i++) {
-            arrow = arrowEnemies.get(i);
-            arrow.render(g);
-        }
-        for (int i = 0; i < ramenBowl.size(); i++) {
-            ramen = ramenBowl.get(i);
-            ramen.render(g);
+    /**
+     * *********************CONTROL ENTITY RENDER*****************************
+     */
+    public void renderEnemy(Graphics g) {
+        for(Enemies enemy : e) {
+            enemy.render(g);
         }
     }
 
+    public void renderFireball(Graphics g) {
+        for(Fireball fb : f) {
+            fb.render(g);
+        }
+    }
+
+    public void renderKunaiPlayer(Graphics g) {
+        for(Kunai k : kunaiPlayer) {
+            k.render(g);
+        }
+    }
+
+    public void renderKunaiEnemy(Graphics g) {
+        for(Kunai k : kunaiEnemies) {
+            k.render(g);
+        }
+    }
+
+    public void renderKunaiArrow(Graphics g) {
+        for(Arrow a : arrowEnemies) {
+            a.render(g);
+        }
+    }
+
+    public void renderRamenBowl(Graphics g) {
+        for(Ramen r : ramenBowl) {
+            r.render(g);
+        }
+    }
+
+    /**
+     * ***********************************************************************
+     */
+    public void render(Graphics g) {
+        renderEnemy(g);
+        renderFireball(g);
+        renderKunaiPlayer(g);
+        renderKunaiEnemy(g);
+        renderKunaiArrow(g);
+        renderRamenBowl(g);
+    }
+    
     private void checkDifficulty() {
         //check the difficulty
 //        if (handler.getKeyManager().j) {
@@ -326,6 +376,10 @@ public class ControllerEntities {
         return e;
     }
 
+    public LinkedList<Ramen> getRamenBowl() {
+        return ramenBowl;
+    }
+    
 //    public LinkedList<Kunai> getKunaiPlayer() {
 //        return kunaiPlayer;
 //    }
@@ -409,9 +463,14 @@ public class ControllerEntities {
         return ramenBowl;
     }
 
-//    private void enemyJump() {
-//        jumpEnemy(chooseEnemy(1));
-//    }
+    public void setKunaiPlayer(LinkedList<Kunai> kunaiPlayer) {
+        this.kunaiPlayer = kunaiPlayer;
+    }
+   
+    public boolean isEmptyEnemies() {
+        return e.size() == 0;
+    }
+    
     private void enemyGenerator() {
         long now = System.nanoTime(); //used for time generation of enemies        
         if (now - lastTime > TimeEnemyGenerator * 1000000000) {           //every 2 seconds at the moment
@@ -472,5 +531,4 @@ public class ControllerEntities {
         return boss;
     }
     
-
 }
