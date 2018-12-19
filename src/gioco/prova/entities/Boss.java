@@ -46,7 +46,7 @@ public class Boss extends Enemies {
     private long startLongAttack = 0;
     private long timeAttack = 100000000 * 19;
     private long startAttack = 0;
-    private boolean hit = false;
+    private boolean hitFireball = false;
     private int lastIndex = 0;
 
     public static Boss getBossInstance(Handler handler, float x, float y, ControllerEntities c) {
@@ -64,13 +64,13 @@ public class Boss extends Enemies {
     private Boss(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y);
         oroHit = new Animation(200, Assets.oroHit);
-//        oroDead = new Animation(200, Assets.oroDead);
+        oroDead = new Animation(200, Assets.oroDead);
         oroJump = new Animation(200, Assets.oroJump);
         oroAttack = new Animation(100, Assets.oroAttack);
         oroLongAttack = new Animation(130, Assets.oroLongAttack);
         gravity = 0.5;
         groundHeight = y;
-        health = 100;
+        health = 30;
 
         setWidth(100);
         setHeight(160);
@@ -83,15 +83,8 @@ public class Boss extends Enemies {
 
     @Override
     public void tick() {
-        hit = false;
-
-        if (checkCollsionFireballPlayer(0, 0)) {
-            hit = true;
-            System.out.println("fuoccoooo");
-        }
-        if (checkCollsionKunaiPlayer(0, 0)) {
-            hit = true;
-            System.out.println("kuunai");
+        if (hitFireball && c.getF().isEmpty()) {
+            hitFireball = false;
         }
         if (longAttack) {
             if (System.nanoTime() - startLongAttack > timeLongAttack) {
@@ -110,6 +103,12 @@ public class Boss extends Enemies {
         } else {
             jump(jumpStep);
             fall();
+        }
+        if(dead){
+            oroDead.tick();
+        }
+        if (lastDeadFrame) {
+            bossDead();
         }
     }
 
@@ -141,8 +140,10 @@ public class Boss extends Enemies {
             bounds.y = 20;
             y += gravity;
             gravity += 1;
-            if (this.forward) {
+            
+            if (this.forward) {             
                 walkForward();
+            
             } else {
                 walkBackward();
             }
@@ -223,6 +224,7 @@ public class Boss extends Enemies {
         for (Kunai k : c.getListKunaiPlayer()) {
             if (k.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !longAttack && !attack) {
                 c.removeKunaiPlayer(k);
+                health -= 5;
                 return true;
             }
         }
@@ -231,7 +233,10 @@ public class Boss extends Enemies {
 
     public boolean checkCollsionFireballPlayer(float xOffset, float yOffset) {
         for (Fireball f : c.getF()) {
-            if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !longAttack && !attack) {
+            if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !hitFireball) {
+                health -= 25;
+                hitFireball = true;
+                //System.out.println("Colpito e appicciato");
                 return true;
             }
         }
@@ -246,10 +251,54 @@ public class Boss extends Enemies {
     }
 
     private BufferedImage getCurrentAnimationFrame() {
-        if (checkCollsionKunaiPlayer(0, 0) || checkCollsionFireballPlayer(0, 0)) {
+        if (!dead && (checkCollsionKunaiPlayer(0, 0) || checkCollsionFireballPlayer(0, 0))) {
+            if (health <= 0) {
+                dead = true;
+                handler.getGame().getGameState().getHudmngr().getScore().incrementCount(200);
+                //falling = true;
+//                System.out.println(attack);
+//                System.out.println(longAttack);
+                if(longAttack){
+                    x+=351;
+                }
+                if(attack){
+                    x+=250;
+                }
+                return oroDead.getCurrentFrame();
+            }
             //System.out.println("Colpito");
-            return this.oroJump.getFrame(0);
+            //System.out.println(health);
+            //return this.oroJump.getFrame(0);
         }
+        if (dead && lastDeadFrame) {
+            return oroDead.getFrame(8);
+        }
+
+        if (dead) {                   
+            if (oroDead.getCurrentFrame() == oroDead.getFrame(7)) {
+                lastDeadFrame = true;
+            }
+            return oroDead.getCurrentFrame();
+        }
+//        if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
+//            dead = true;
+//            falling = true;
+//            //System.out.println("Nemico colpito");
+//            //handler.getGame().getGameState().getController().removeEnemy(this);
+//            return this.enemyDead3.getCurrentFrame();
+//        }
+//
+//        if (dead && lastDeadFrame) {
+//            return this.enemyDead3.getFrame(7);
+//        }
+//
+//        if (dead) {
+//            if (enemyDead3.getCurrentFrame() == enemyDead3.getFrame(6)) {
+//                lastDeadFrame = true;
+        // c.setFinalBoss();
+//            }
+//            return this.enemyDead3.getCurrentFrame();
+//        }
         if (longAttack) {
             if (lastIndex != oroLongAttack.getIndex()) {
 //                if (oroLongAttack.getIndex() > 6 && oroLongAttack.getIndex() < 9) {
@@ -257,27 +306,25 @@ public class Boss extends Enemies {
 //                    bounds.x -= 156;
 //                    System.out.println(bounds.width);
 //                    System.out.println(bounds.x);
-                if (oroLongAttack.getIndex() == 6){
+                if (oroLongAttack.getIndex() == 6) {
                     bounds.width += 160;
                     bounds.x -= 160;
-                } else if (oroLongAttack.getIndex() == 7){
+                } else if (oroLongAttack.getIndex() == 7) {
                     bounds.width += 158;
                     bounds.x -= 158;
-                } else if (oroLongAttack.getIndex() == 8){
+                } else if (oroLongAttack.getIndex() == 8) {
                     bounds.width += 50;
                     bounds.x -= 50;
-                }else if(oroLongAttack.getIndex() == 9) {
+                } else if (oroLongAttack.getIndex() == 9) {
                     bounds.x += 59;
                     bounds.width -= 59;
-                }else if(oroLongAttack.getIndex() == 10){
+                } else if (oroLongAttack.getIndex() == 10) {
                     bounds.x += 171;
                     bounds.width -= 171;
-                }
-                else if(oroLongAttack.getIndex() == 11){
+                } else if (oroLongAttack.getIndex() == 11) {
                     bounds.x += 100;
                     bounds.width -= 100;
-                }
-                else if(oroLongAttack.getIndex() == 12){
+                } else if (oroLongAttack.getIndex() == 12) {
                     bounds.x += 36;
                     bounds.width -= 36;
                 }
@@ -288,27 +335,22 @@ public class Boss extends Enemies {
         }
         if (attack) {
             if (lastIndex != oroAttack.getIndex()) {
-                if (oroAttack.getIndex() == 6){
+                if (oroAttack.getIndex() == 6) {
                     bounds.width += 31;
                     bounds.x -= 31;
-                }
-                else if (oroAttack.getIndex() == 7){
+                } else if (oroAttack.getIndex() == 7) {
                     bounds.width += 68;
                     bounds.x -= 68;
-                }
-                else if (oroAttack.getIndex() == 8){
+                } else if (oroAttack.getIndex() == 8) {
                     bounds.width += 127;
                     bounds.x -= 127;
-                }
-                else if (oroAttack.getIndex() == 11){
+                } else if (oroAttack.getIndex() == 11) {
                     bounds.x += 127;
                     bounds.width -= 127;
-                }
-                else if (oroAttack.getIndex() == 12){
+                } else if (oroAttack.getIndex() == 12) {
                     bounds.x += 68;
                     bounds.width -= 68;
-                }
-                else if (oroAttack.getIndex() == 13){
+                } else if (oroAttack.getIndex() == 13) {
                     bounds.x += 31;
                     bounds.width -= 31;
                 }
@@ -342,5 +384,11 @@ public class Boss extends Enemies {
 
     public boolean isAttack() {
         return attack;
+    }
+
+    private void bossDead() {
+
+        handler.getGame().getGameState().destroyBoss();
+        c.getEnemies().clear();
     }
 }

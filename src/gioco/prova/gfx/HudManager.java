@@ -6,6 +6,7 @@
 package gioco.prova.gfx;
 
 import gioco.prova.display.Score;
+import gioco.prova.entities.Boss;
 import gioco.prova.entities.ControllerEntities;
 import gioco.prova.entities.Player;
 import java.awt.Color;
@@ -25,13 +26,15 @@ public class HudManager {
     private int currLife;
     private int currPower;
     private int maxPower;
-
     private Font font;
+    private int bossLife;
     private Score score;
     private Player player;
+
     private ControllerEntities c;
 
     public HudManager(String path, String path2, String path3, int currLife, ControllerEntities c) {
+       
         life = ImageLoader.loadImage(path);
         powerInactive = ImageLoader.loadImage(path2);
         powerActive = ImageLoader.loadImage(path3);
@@ -40,9 +43,8 @@ public class HudManager {
         this.currLife = currLife;
         currPower = 0;
         maxPower = 210;
-//        bossLife = :
+        bossLife = 30;
         lastTime = System.nanoTime();
-
         score = new Score();
         this.c = c;
     }
@@ -110,7 +112,7 @@ public class HudManager {
             g.drawImage(powerInactive, margin, margin + 50, null);
             g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10 + 55, currPower, powerInactive.getHeight() - 30, 15, 25);
         }
-        
+
         font = FontLoader.load("res/fonts/naruto.ttf", 18);
         g.setFont(font);
         g.drawImage(kunai, margin, margin + 120, null);
@@ -121,16 +123,18 @@ public class HudManager {
             currPower += 3;
             lastTime = System.nanoTime();
         }
-        if (c.getFinalBoss()) {
+        if (c.getFinalBoss() && c.getBoss()!=null ) {          
             //boss life
             Color purple = new Color(122, 33, 152);
             g.setColor(purple);
             g.drawImage(bossImage, 1200 - (margin + bossImage.getWidth()), margin, null);
-            g.drawRoundRect(1200 - (margin + bossImage.getWidth() + 10 + 5 + 150), margin + 10, 3 * 50, powerInactive.getHeight() - 20, 25, 35);
-            g.fillRoundRect(1200 - (margin + bossImage.getWidth() + 10 + 150), margin + 10 + 5, (3 * 50) - 10, powerInactive.getHeight() - 30, 15, 25);
+            g.drawRoundRect(1200 - (margin + bossImage.getWidth() + 10 + 5 + 150+50), margin + 10, 210, powerInactive.getHeight() - 20, 25, 35);
+            g.fillRoundRect(1200 - (margin + bossImage.getWidth() + 10 + 150+50), margin + 10 + 5, bossLife*2, powerInactive.getHeight() - 30, 15, 25);
+            if(bossLife!=c.getBoss().getHealth()){
+                 g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10 + 55, c.getBoss().getHealth(), powerInactive.getHeight() - 30, 15, 25);
+                 bossLife=c.getBoss().getHealth();
+            }            
 
         }
-
     }
-
 }

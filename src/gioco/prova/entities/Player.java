@@ -53,7 +53,6 @@ public class Player extends Creature {
     private float collisionTime = System.nanoTime();
     private boolean isCollision = false;
     private static Player instance = null;
-    
 
     public static Player getPlayerInstance(Handler handler, float x, float y, ControllerEntities c) {
         if (instance == null) {
@@ -110,7 +109,7 @@ public class Player extends Creature {
             isCollision = false;
             //collisionTime = System.nanoTime();
         }
-	if (count < MAX_KUNAI) {
+        if (count < MAX_KUNAI) {
             KunaiGenerator();
         }
     }
@@ -385,17 +384,17 @@ public class Player extends Creature {
             handler.getGame().setGameoverState(new GameOverState(handler));
             handler.getGame().setState(handler.getGame().getGameoverState());
             handler.getGame().st.stop();
-            //HighScore();
+            HighScore();
         }
         isCollision = true;
         collisionTime = System.nanoTime();
     }
 
     private void HighScore() {
-        score = handler.getGame().getGameState().getHudmngr().getScore();
+
         HighScores hs = new HighScores();
         String name = JOptionPane.showInputDialog("Enter your name: ");
-        hs.write(name, score.getCount());
+        hs.write(name, getScore());
     }
 
     private void KunaiGenerator() {

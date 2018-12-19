@@ -20,7 +20,6 @@ public class Enemy2 extends Enemies {
 
     private Animation enemyRunning2;
     private Animation enemyDead2;
-    private boolean lastDeadFrame = false;
 
     //inizialmente è possibile fare una collisione con il nemico, una volta colpito 
     //si annulla la possibilità di collidere con esso.

@@ -23,7 +23,6 @@ public class Enemy1 extends Enemies {
     private Animation enemyRunning1;
     private Animation enemyDead1;
     private Animation enemyShot1;
-    private boolean lastDeadFrame = false;
     private ControllerEntities c;
 
     //varibili per il tempo

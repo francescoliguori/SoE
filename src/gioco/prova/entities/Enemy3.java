@@ -24,7 +24,6 @@ public class Enemy3 extends Enemies {
     private Animation enemyRunning3;
     private Animation enemyDead3;
     private Animation enemyJump3;
-    private boolean lastDeadFrame = false;
 
     //varibili per il tempo
     private long lastTimeJump = System.currentTimeMillis();

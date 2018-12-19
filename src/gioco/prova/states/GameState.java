@@ -29,6 +29,7 @@ public class GameState extends State {
     private ControllerEntities controller;
     private static boolean story = true;
     private HudManager hudmngr;
+    private boolean winBoss = false;
 
     public GameState(Handler handler) {
         super(handler);
@@ -83,7 +84,7 @@ public class GameState extends State {
             parallax.tick();
             player.tick();
             controller.tick();
-            if ((player.getScore() >= 10)) {
+            if (player.getScore() >= 0 && !winBoss) {
                 createBoss();
             }
         }
@@ -115,12 +116,17 @@ public class GameState extends State {
         //la stessa altezza del player! Perchè gli sprite hanno altezze diverse
         controller.setFinalBoss(true);
     }
+    
+    public void destroyBoss(){
+        boss = null;
+        controller.setFinalBoss(false);
+        winBoss = true;
+    }
 
     public void getInput() {
         if (handler.getKeyManager().enter) {
             story = false;
         }
-
     }
 
 }

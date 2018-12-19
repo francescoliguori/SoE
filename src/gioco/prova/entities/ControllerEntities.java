@@ -41,7 +41,7 @@ public class ControllerEntities {
     private float TimeEnemyGenerator = 2.0f;
     private float TimeRamenGenerator = 5.0f;
 
-    public boolean finalBoss = false;
+    private boolean finalBoss = false;
     private Boss boss;
     private boolean bossMoveSx;
     private boolean jumpSequence;
@@ -108,6 +108,8 @@ public class ControllerEntities {
             ramen.tick();
         }
         if (!finalBoss) {
+            
+            Boss.restartBoss();
             enemyGenerator();
             ramenGenerator();
             if (System.nanoTime() - TimeToUp > 5 * 1000000000L) { //every 5 sec
@@ -152,7 +154,7 @@ public class ControllerEntities {
     }
 
     private void bossBattle() {
-        if (boss.reachedB()) {
+        if (boss.reachedB() && !boss.isDead()) {
 
             if (jumpSequence) {
                 bossJumpSequence();
@@ -241,6 +243,10 @@ public class ControllerEntities {
 
     public void setLongAttackSequence(boolean longAttackSequence) {
         this.longAttackSequence = longAttackSequence;
+    }
+    
+    public void endBossBattle(){
+        boss = null;
     }
 
     public void render(Graphics g) {
@@ -461,5 +467,10 @@ public class ControllerEntities {
     public void setTimeToUp(float TimeToUp) {
         this.TimeToUp = TimeToUp;
     }
+
+    public Boss getBoss() {
+        return boss;
+    }
+    
 
 }
