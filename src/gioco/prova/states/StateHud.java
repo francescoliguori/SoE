@@ -29,6 +29,7 @@ public class StateHud extends State implements StateDemo {
     private String infoMsg, infoMsgLife, infoMsgKunai1, infoMsgKunai2, infoMsgFireball1, infoMsgFireball2, infoMsgRamenBowl, infoMsgFinal;
     private boolean addLifeBar, addKunaiBar, addFireballBar, addRamenBowl, showMsgLifeBar, showMsgKunaiBar, showMsgFireballBar, showMsgRamenBowl, showMsgFinal;
     private long nowTime, lastTime, lastTime2;
+    private FontLoader fl;
     
     public StateHud(Handler handler, Context ctx) {
         super(handler);
@@ -38,7 +39,8 @@ public class StateHud extends State implements StateDemo {
         controller = handler.getGame().getGameState().getController();
         controller.getListRamen().add(new Ramen(handler, handler.getWidth(), 550));
         k = handler.getKeyManager();
-        font = FontLoader.load("res/fonts/naruto.ttf", 30);
+        fl = new FontLoader();
+        font = fl.load("/fonts/naruto.ttf", 30);
         
         infoMsg = "Let's have a look at the HUD";
         lastTime = System.nanoTime();

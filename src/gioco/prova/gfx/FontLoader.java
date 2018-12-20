@@ -7,14 +7,15 @@ package gioco.prova.gfx;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class FontLoader {
     
-    public static Font load(String path, int size) {
+    public Font load(String path, int size) {
         try {
-            return Font.createFont(Font.TRUETYPE_FONT, new File(path)).deriveFont(Font.PLAIN, size);
+            InputStream is = getClass().getResourceAsStream(path);
+            return Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, size);
         } catch (FontFormatException | IOException ex) {
             ex.printStackTrace();
             System.exit(1);

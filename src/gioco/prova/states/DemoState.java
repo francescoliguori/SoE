@@ -24,10 +24,12 @@ public class DemoState extends State {
     private StateJump statejump;
     private KeyManager k;
     private Font font;
+    private FontLoader fl;
 
     public DemoState(Handler handler) {
         super(handler);
-        font = FontLoader.load("res/fonts/naruto.ttf", 40);
+        fl = new FontLoader();
+        font = fl.load("/fonts/naruto.ttf", 40);
         player = Player.getPlayerInstance(handler, 100, 400, null);
         random = (int) (Math.random() * 2);
         fixBg = Background.randomBg(random);

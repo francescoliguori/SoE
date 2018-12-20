@@ -28,13 +28,15 @@ public class HudManager {
     private Font fontScore, fontKunai;
     private Score score;
     private Player player;
+    private FontLoader fl;
 
     private ControllerEntities c;
 
     public HudManager(Player player, ControllerEntities c) {
         this.player = player;
-        fontScore = FontLoader.load("res/fonts/naruto.ttf", 40);
-        fontKunai = FontLoader.load("res/fonts/naruto.ttf", 18);
+        fl = new FontLoader();
+        fontScore = fl.load("/fonts/naruto.ttf", 40);
+        fontKunai = fl.load("/fonts/naruto.ttf", 18);
         life = ImageLoader.loadImage("/hudBg/lifeicon.png");
         powerInactive = ImageLoader.loadImage("/hudBg/powinactive.png");
         powerActive = ImageLoader.loadImage("/hudBg/powactive.png");

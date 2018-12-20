@@ -38,13 +38,15 @@ public class MenuState extends State {
     private int choice = 0;
     private KeyManager k = handler.getKeyManager();
     private boolean option = false;
+    
+    private FontLoader fl;
 
     public MenuState(Handler handler) {
         super(handler);
-        font = FontLoader.load("res/fonts/naruto.ttf", 40);
-        fontScore = FontLoader.load("res/fonts/naruto.ttf", 55);
+        fl = new FontLoader();
+        font = fl.load("/fonts/naruto.ttf", 40);
+        fontScore = fl.load("/fonts/naruto.ttf", 55);
         handler.getGame().setFps(10);
-
     }
 
     @Override
