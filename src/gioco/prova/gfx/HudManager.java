@@ -13,10 +13,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class HudManager {
 
     private BufferedImage life;
@@ -30,7 +26,6 @@ public class HudManager {
     private int currPower;
     private int maxPower;
     private Font fontScore, fontKunai;
-    private int bossLife;
     private Score score;
     private Player player;
 
@@ -48,7 +43,6 @@ public class HudManager {
         bossImage = ImageLoader.loadImage("/hudBg/oro.png");
         currPower = 0;
         maxPower = 210;
-        bossLife = 30;
         lastTime = System.nanoTime();
         score = new Score();
         this.c = c;
@@ -145,30 +139,12 @@ public class HudManager {
         g.drawImage(kunai, 50, 100, null);
         g.drawString("x " + Integer.toString(Player.getCount()), 90, 125);
     }
-    /*
-    public void renderBoss(Graphics g) {
-        int margin = 40;
-        
-        if (c.getFinalBoss() && c.getBoss()!=null ) {          
-            //boss life
-            Color purple = new Color(122, 33, 152);
-            g.setColor(purple);
-            g.drawImage(bossImage, 1200 - (margin + bossImage.getWidth()), margin, null);
-            g.drawRoundRect(1200 - (margin + bossImage.getWidth() + 10 + 5 + 150+50), margin + 10, 210, powerInactive.getHeight() - 20, 25, 35);
-            g.fillRoundRect(1200 - (margin + bossImage.getWidth() + 10 + 150+50), margin + 10 + 5, bossLife*2, powerInactive.getHeight() - 30, 15, 25);
-            if(bossLife!=c.getBoss().getHealth()){
-                 g.fillRoundRect(margin + powerInactive.getWidth() + 10 + 5, margin + 5 + 10 + 55, c.getBoss().getHealth(), powerInactive.getHeight() - 30, 15, 25);
-                 bossLife=c.getBoss().getHealth();
-            }            
-        }
-    }*/
     
     public void render(Graphics g) {
         renderLifeBar(g);
         renderFireballBar(g);
         rendereKunaiBarText(g);
         renderScoreText(g);
-        //renderBoss(g);
     }
     
 }

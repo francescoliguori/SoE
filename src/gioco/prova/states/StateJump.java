@@ -13,10 +13,6 @@ import gioco.prova.input.KeyManager;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class StateJump extends State implements StateDemo {
 
     private Player player;

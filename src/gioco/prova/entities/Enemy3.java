@@ -9,14 +9,9 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Kunai;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author Utente
- */
 public class Enemy3 extends Enemies {
 
     private ControllerEntities c;
@@ -26,9 +21,7 @@ public class Enemy3 extends Enemies {
     private Animation enemyJump3;
 
     //varibili per il tempo
-    private long lastTimeJump = System.currentTimeMillis();
     private long lastTime = System.nanoTime();
-    private long lastTimeKunai = System.currentTimeMillis();
     private boolean firstAttack=true;
     private long now;
 
@@ -107,8 +100,6 @@ public class Enemy3 extends Enemies {
 
         xMove -= speed;
 
-        //if (!isDead()) {
-        //if (!isDead() || (isDead() && !this.collisionWithGround(this.getY()))) {
         fall();
         if (!isDead()) {
             jump(jumpStep);
@@ -116,7 +107,6 @@ public class Enemy3 extends Enemies {
 
         now = System.nanoTime(); //used for time generation of enemies        
 
-        //System.out.println(yDelta);
         if (!isDead()) {
             enemyBehavior();
         }
@@ -128,43 +118,22 @@ public class Enemy3 extends Enemies {
 
     private void enemyBehavior() {
         if ((firstAttack && x <= handler.getWidth() - width) || now - lastTime > timeBehavior*1000000000) {           //every 2 seconds at the moment
-//            System.out.println(timeBehavior);
             if(firstAttack)
                 firstAttack = false;
             if ((int) (Math.random() * 2) == 1) {
                 if (y == groundHeight) {
                     yMove -= jumpStep;
                     jumping = true;
-                    //lastTimeJump = System.currentTimeMillis();
                     lastTime = System.nanoTime();
                 }
 
             } else {
                 c.addKunaiEnemies(new Kunai(handler, this.getX() - this.width, this.getY(), width, height, false));
-
-                //lastTimeKunai = System.currentTimeMillis();
                 lastTime = System.nanoTime();
             }
         }
-        /* if (y == groundHeight) {
-                    yMove -= jumpStep;
-                    jumping = true;
-         }*/
     }
 
-//    public boolean checkPlayerColliion(float xOffset, float yOffset) {
-//        if (.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
-//            if (e.isDead()) {
-//                    //jumping = true;
-//                //jump(jumpStep, groundHeight+100);
-//                return false;
-//            }
-//            return true;
-//        }
-//
-//        return false;
-//
-//    }
     @Override
     public void render(Graphics g) {
 
@@ -173,31 +142,13 @@ public class Enemy3 extends Enemies {
         }
         else{
             g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-//            g.setColor(Color.red);
-//            g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);
         }
-            
-        /* else if (jumping == true) {
-            //g.drawImage(enemyJump3.getFrame(3), (int) x, (int) y, null);
-            
-                g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-            
-           
-        } else if (falling == true && jumping == false) {
-            //g.drawImage(enemyJump3.getFrame(2), (int) x, (int) y, null);
-                g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-            
-            //g.drawImage(this.getCurrentAnimationFrame(), (int) x, (int) y, null);
-        }*/
-        
     }
 
     private BufferedImage getCurrentAnimationFrame() {
         if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
             dead = true;
             falling = true;
-            //System.out.println("Nemico colpito");
-            //handler.getGame().getGameState().getController().removeEnemy(this);
             return this.enemyDead3.getCurrentFrame();
         }
 

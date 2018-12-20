@@ -5,38 +5,32 @@
  */
 package gioco.prova.entities;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 
-/**
- *
- * @author marcoruggiero
- */
-public abstract class Creature extends Entity
-{
-    
+public abstract class Creature extends Entity {
+
     protected int health;
     protected static float DEAFULT_SPEED = 10.0f;
     protected float speed;
     public static final int DEFAULT_CREATURE_WIDTH = 155;
     public static final int DEFAULT_CREATURE_HEIGHT = 187;
-    
+
     protected float xMove, yMove;
-    public Creature(Handler handler, float x,float y, int width, int height)
-    {
-        super(handler,x,y,width,height);
-        
+
+    public Creature(Handler handler, float x, float y, int width, int height) {
+        super(handler, x, y, width, height);
+
         speed = DEAFULT_SPEED;
         xMove = 0;
         yMove = 0;
     }
 
-    public void move()
-    {
+    public void move() {
         x += xMove;
         y += yMove;
-        
+
     }
+
     public float getxMove() {
         return xMove;
     }
@@ -60,7 +54,6 @@ public abstract class Creature extends Entity
     public void setHealth(int health) {
         this.health = health;
 
-               
     }
 
     public float getSpeed() {
@@ -70,14 +63,12 @@ public abstract class Creature extends Entity
     public static float getDEAFULT_SPEED() {
         return DEAFULT_SPEED;
     }
-    public static void changeDefaultSpeed(){
+
+    public static void changeDefaultSpeed() {
         DEAFULT_SPEED += 1.5;
     }
-//    public void setSpeed(float speed) {
-//        
-//        this.speed = DEAFULT_SPEED;
-//    }
+
     public static void setDEAFULT_SPEED() {
-          DEAFULT_SPEED=10.0f;
+        DEAFULT_SPEED = 10.0f;
     }
 }

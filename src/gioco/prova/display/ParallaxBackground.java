@@ -7,10 +7,6 @@ package gioco.prova.display;
 
 import java.awt.Graphics;
 
-/**
- *
- * @author Vincenzo Magna
- */
 public class ParallaxBackground {
     
     private ScrollBackground[] sbgs;

@@ -11,10 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
-/**
- *
- * @author marcoruggiero
- */
 /*La classe ImageLoader viene utilizzata per caricare le immeagini del gioco.
 In Java le immagini sono salvat in un oggetto di tipo BufferedImage. Il metodo
 loadImage ritorna quindi una BufferedImage a partire da un certo path.

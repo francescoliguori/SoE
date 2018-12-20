@@ -25,7 +25,6 @@ public class Player extends Creature {
     private Animation animRunningLeft;
     private Animation animRunningRight;
     private Animation animRunning;
-    private Animation animStop;
     private Animation animJump;
     private Animation animDown;
 
@@ -35,15 +34,15 @@ public class Player extends Creature {
     public final int MAX_KUNAI = 5;
     public final int MAX_HEALTH = 3;
     private static int count;
-    private float TimeKunaiGenerator; //15 secondi
+    private float TimeKunaiGenerator; 
 
     protected double gravity;
     protected boolean falling = true;
     protected boolean jumping = false;
-    protected boolean canSlide = true; //added
+    protected boolean canSlide = true; 
     protected boolean slidingUp = false;
     protected boolean slidingDown = true;
-    float xStart; //addddd
+    float xStart; 
     float xFin;
     private float jumpStrength = 200;
 
@@ -75,7 +74,6 @@ public class Player extends Creature {
         animRunningLeft = new Animation(90, Assets.playerRunning);
         animRunningRight = new Animation(50, Assets.playerRunning);
         animRunning = new Animation(70, Assets.playerRunning);
-        animStop = new Animation(70, Assets.playerStop);
         animJump = new Animation(270, Assets.playerJump);
         animDown = new Animation(200, Assets.playerDown); //my add to define the millisecond
         groundHeight = y;
@@ -95,21 +93,18 @@ public class Player extends Creature {
 
     @Override
     public void tick() {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //in questo metodo si aggiornano tutte le variabili per ciascun oggetto
         //si invoca tick su animRunning così da cambiare i frame
         animRunningLeft.tick();
         animRunningRight.tick();
         animRunning.tick();
         animDown.tick();
-        //animJumping.tick();
         //movimento
         getInput();
         move();
         checkRamenCollisions(0, 0);
         if (System.nanoTime() - collisionTime > 2000000000) { //2 sec
             isCollision = false;
-            //collisionTime = System.nanoTime();
         }
         if (count < MAX_KUNAI) {
             KunaiGenerator();
@@ -163,20 +158,19 @@ public class Player extends Creature {
     }
 
     private void slide(float stepY, float stepX) {  //funzione per lo sliding in discesa
-        xFin = xStart + 90; //adddddd
+        xFin = xStart + 90;
         if (!slidingUp && !slidingDown) {
             yMove += stepY;
             xMove += stepX;
 
             if (y > (groundHeight + getHeight() * 0.55)) { // /3
                 y = (float) (groundHeight + getHeight() * 0.55);
-                yMove = 0;//addddddd
+                yMove = 0;
                 xMove += stepX;
                 //slidingUp = true;
 
             }
             if (this.getX() > xFin || x > handler.getWidth() - 200 || this.getX() < xStart) {//
-                //                    System.out.println(this.getX() < xstart);
                 slidingUp = true;
             }
         } else if (slidingUp && !slidingDown) {
@@ -185,12 +179,10 @@ public class Player extends Creature {
             if (y <= groundHeight) {
                 yMove = 0;
 
-                //System.out.println("Entrato nell'if");
                 yMove += groundHeight - y;
                 slidingUp = false;
                 slidingDown = true;
                 canSlide = true;
-                //                System.out.println(slidingUp + " " + slidingDown);
             }
         }
 
@@ -202,8 +194,6 @@ public class Player extends Creature {
         for (Enemies e : handler.getGame().getGameState().getController().getE()) {
             if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && canSlide) {
                 if (e.isDead()) {
-                    //jumping = true;
-                    //jump(jumpStep, groundHeight+100);
                     return false;
                 }
                 return true;
@@ -222,17 +212,9 @@ public class Player extends Creature {
         return false;
     }
 
-    /*public void checkRamenCollisions(float xOffset, float yOffset) {
-     for (Ramen ramen : handler.getGame().getGameState().getController().getRamen()) {
-     if (health != 3 && ramen.checkPlayerCollisions(xOffset, yOffset)) {
-     health += 1;
-     }
-     }
-     }*/
     public boolean checkArrowEnemyCollisions(float xOffset, float yOffset) {
         for (Arrow a : handler.getGame().getGameState().getController().getListArrowEnemies()) {
             if (a.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && canSlide) {
-                //            System.out.println("Collisione con kunai nemico");
                 c.removeArrowEnemies(a);
 
                 return true;
@@ -259,14 +241,12 @@ public class Player extends Creature {
         fall();
         jump(jumpStep, groundHeight);
         slide(slideStepY, slideStepX);
-        //System.out.println(yDelta);
         if (y == groundHeight && handler.getKeyManager().up) {
             yMove -= jumpStep;
             jumping = true;
         }
         if (handler.getKeyManager().right && canSlide) {
             if ((x + xMove) >= handler.getWidth() - 155) {
-                //x = 375;
                 x = handler.getWidth() - 155;
             } else {
                 xMove += speed;
@@ -286,11 +266,9 @@ public class Player extends Creature {
 
             if (slidingDown) {
                 xStart = this.getX();
-                //System.out.println(xstart);
                 yMove += slideStepY;
                 xMove += slideStepX;
                 if ((x + xMove) >= handler.getWidth() - 250) {  //400
-                    //x = 375;
                     x = handler.getWidth() - 250;
                 }
                 slidingDown = false;
@@ -299,7 +277,6 @@ public class Player extends Creature {
         }
 
         if (handler.getKeyManager().space && y == groundHeight && c.getF().isEmpty() && c.getListKunaiPlayer().isEmpty() && handler.getGame().getGameState().getHudmngr().getCurrPower() == handler.getGame().getGameState().getHudmngr().getMaxPower()) {
-            //canShoot=false;
             c.addFireball(new Fireball(handler, this.getX(), this.getY(), width, height));
             handler.getGame().getGameState().getHudmngr().setCurrPower(0);
         }
@@ -320,7 +297,6 @@ public class Player extends Creature {
 
     @Override
     public void render(Graphics g) {
-        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         //si disegna ogni volta il frame corrente dell'animazione
         g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, null);       
     }
@@ -332,8 +308,6 @@ public class Player extends Creature {
         if (jumping) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 checkCollision();
-                //isCollision = true;
-                //return animDown.getCurrentFrame();
             }
             if (y >= groundHeight - (jumpStrength * 2 / 4)) {
                 return animJump.getFrame(3);
@@ -341,13 +315,9 @@ public class Player extends Creature {
                 return animJump.getFrame(4);
             }
 
-            //        } else if (!slidingDown) {
-            //            return animDown.getCurrentFrame();
         } else if (falling && y >= (groundHeight - jumpStrength)) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 checkCollision();
-                //isCollision = true;
-                //return animDown.getCurrentFrame();
             }
             return animJump.getFrame(6);
 
@@ -355,8 +325,6 @@ public class Player extends Creature {
         if (xMove < 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 checkCollision();
-                //isCollision = true;
-                //return animDown.getCurrentFrame();
             }
 
             return animRunningLeft.getCurrentFrame();
@@ -364,15 +332,11 @@ public class Player extends Creature {
         if (xMove > 0) {
             if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
                 checkCollision();
-                //isCollision = true;
-                //return animDown.getCurrentFrame();
             }
             return animRunningRight.getCurrentFrame();
         }
         if (this.checkEnemyCollisions(0, 0) || this.checkKunaiEnemyCollisions(0, 0) || checkArrowEnemyCollisions(0, 0)) {
             checkCollision();
-            //isCollision = true;
-            //return animDown.getCurrentFrame();
             return animDown.getFrame(2);
 
         }
@@ -395,9 +359,6 @@ public class Player extends Creature {
     private void HighScore() {
         InputName inputName = new InputName(handler);
         handler.getGame().getDisplay().getFrame().removeKeyListener(handler.getGame().getKeyManager());
-//        HighScores hs = new HighScores();
-//        String name = JOptionPane.showInputDialog("Enter your name: ");
-//        hs.write(name, getScore());
     }
 
     private void KunaiGenerator() {

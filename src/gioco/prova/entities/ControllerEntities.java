@@ -12,17 +12,12 @@ import gioco.prova.bullets.Arrow;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
-/**
- *
- * @author Chris
- */
 public class ControllerEntities {
 
     private LinkedList<Enemies> e = new LinkedList<Enemies>();
     private Enemies tempEnemy;
     private Handler handler;
     private LinkedList<Fireball> f = new LinkedList<Fireball>();
-    private LinkedList ball;
     private LinkedList<Kunai> kunaiPlayer = new LinkedList<Kunai>();
     private LinkedList<Kunai> kunaiEnemies = new LinkedList<Kunai>();
     private LinkedList<Arrow> arrowEnemies = new LinkedList<Arrow>();
@@ -337,25 +332,25 @@ public class ControllerEntities {
             case 1:
                 Creature.changeDefaultSpeed();
                 this.TimeEnemyGenerator -= 0.5f; //1.5 sec
-                goalScore = 20;//190;
+                goalScore = 190;//190;
 
                 break;
             case 2:
                 Creature.changeDefaultSpeed();
                 Enemy3.setTimeBehavior(1.0f); //1 sec
-                goalScore = 30;//290;
+                goalScore = 290;//290;
 
                 break;
             case 3:
                 Creature.changeDefaultSpeed();
                 this.TimeEnemyGenerator -= 0.7f; // 0.8 sec
-                goalScore = 40;//380;
+                goalScore = 380;//380;
 
                 break;
             case 4:
                 Creature.changeDefaultSpeed();
                 Enemy3.setTimeBehavior(0.5f); //1 sec
-                goalScore = 50;//450;
+                goalScore = 450;//450;
 
                 break;
             default:
@@ -366,21 +361,10 @@ public class ControllerEntities {
 
     }
 
-
-    //public boolean collisionKunai(Kunai kunai){
-    // metodo che implementerà la collisione del kunai nemico con il player
-    //}
     public LinkedList<Ramen> getRamenBowl() {
         return ramenBowl;
     }
     
-//    public LinkedList<Kunai> getKunaiPlayer() {
-//        return kunaiPlayer;
-//    }
-//    
-//    public LinkedList<Kunai> getKunaiEnemies() {
-//        return kunaiEnemies;
-//    }
     public boolean isNotShooting() {
         return f.isEmpty();
     }
@@ -467,7 +451,7 @@ public class ControllerEntities {
     
     private void enemyGenerator() {
         long now = System.nanoTime(); //used for time generation of enemies        
-        if (now - lastTime > TimeEnemyGenerator * 1000000000) {           //every 2 seconds at the moment
+        if (now - lastTime > TimeEnemyGenerator * 1000000000) {
             addEnemy(chooseEnemy((int) (Math.random() * 3)));
             lastTime = System.nanoTime();
         }

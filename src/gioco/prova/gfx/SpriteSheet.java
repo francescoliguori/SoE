@@ -7,10 +7,6 @@ package gioco.prova.gfx;
 
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author marcoruggiero
- */
 /*Questa classe rappresenta uno spritesheet. Il metodo pubblico crop viene utilizzato per 
 prendere un oggetto di tipo BufferedImage dallo spritesheet sfruttando l'area dello 
 spritesheet individuato dai 4 parametri in ingresso.*/

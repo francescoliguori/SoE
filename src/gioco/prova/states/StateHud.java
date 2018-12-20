@@ -17,10 +17,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class StateHud extends State implements StateDemo {
 
     private Player player;

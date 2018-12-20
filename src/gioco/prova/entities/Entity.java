@@ -5,15 +5,10 @@
  */
 package gioco.prova.entities;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-/**
- *
- * @author marcoruggiero
- */
 public abstract class Entity 
 {   
     //protected: tutte le classi che estendono Entity avranno anche x e y

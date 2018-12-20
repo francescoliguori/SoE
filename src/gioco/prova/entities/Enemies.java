@@ -9,19 +9,14 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Fireball;
 import gioco.prova.bullets.Kunai;
 import gioco.prova.display.Score;
-import java.awt.Graphics;
 
-/**
- *
- * @author Utente
- */
 public abstract class Enemies extends Creature {
 
     protected boolean dead = false;
     private Score score;
     private int difficulty;
-    protected boolean lastDeadFrame = false;   
-    
+    protected boolean lastDeadFrame = false;
+
     public Enemies(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
     }
@@ -34,13 +29,6 @@ public abstract class Enemies extends Creature {
         this.dead = dead;
     }
 
-    private void destroyEnemy(Graphics g) {
-        if ((x - xMove) <= 0) {
-            g.clearRect(0, 300, width, height);
-
-        }
-    }
-
     //questo metodo è utilizzato per controllare se un nemico 
     //entra in collisione con un kunai lanciato dal personaggio
     public boolean checkKunaiCollisions(float xOffset, float yOffset) {
@@ -49,8 +37,7 @@ public abstract class Enemies extends Creature {
                 handler.getGame().getGameState().getController().removeKunaiPlayer(k);
                 difficulty = handler.getGame().getGameState().getController().getCountDifficulty();
                 score = handler.getGame().getGameState().getHudmngr().getScore();
-                score.incrementCount(difficulty+2);
-                //System.out.println(score.getCount());
+                score.incrementCount(difficulty + 2);
                 return true;
             }
 
@@ -63,8 +50,7 @@ public abstract class Enemies extends Creature {
             if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 difficulty = handler.getGame().getGameState().getController().getCountDifficulty();
                 score = handler.getGame().getGameState().getHudmngr().getScore();
-                score.incrementCount(difficulty+2);
-                //System.out.println(score.getCount());
+                score.incrementCount(difficulty + 2);
                 return true;
             }
         }

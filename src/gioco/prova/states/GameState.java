@@ -5,7 +5,6 @@
  */
 package gioco.prova.states;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.display.Background;
 import gioco.prova.display.ParallaxBackground;
@@ -16,10 +15,6 @@ import gioco.prova.gfx.HudManager;
 import gioco.prova.gfx.Assets;
 import java.awt.Graphics;
 
-/**
- *
- * @author marcoruggiero
- */
 public class GameState extends State {
 
     private Player player;
@@ -64,7 +59,7 @@ public class GameState extends State {
             hudmngr.tick();
             player.tick();
             controller.tick();
-            if (player.getScore() >= 50 && !winBoss) {//450 def
+            if (player.getScore() >= 450 && !winBoss) {//450 def
                 createBoss();
             }
         }

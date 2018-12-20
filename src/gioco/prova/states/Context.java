@@ -7,10 +7,6 @@ package gioco.prova.states;
 
 import java.awt.Graphics;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class Context implements StateDemo{
     
     private StateDemo state;

@@ -5,39 +5,33 @@
  */
 package gioco.prova.states;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 import java.awt.Graphics;
 
-/**
- *
- * @author marcoruggiero
- */
-public abstract class State
-{
+public abstract class State {
+
     //inizialemente lo stato corrente è null
+
     private static State currentState = null;
-    
-    public static void setState(State state)
-    {
+
+    public static void setState(State state) {
         currentState = state;
     }
-    
-    public static State getState()
-    {
+
+    public static State getState() {
         return currentState;
     }
-    
-    
-    
+
     protected Handler handler;
-    public State(Handler handler)
-    {
+
+    public State(Handler handler) {
         this.handler = handler;
     }
+
     //Ogni stato in cui si troverà il gioco avrà sicuramente i metodi tick e render
+
     public abstract void tick();
+
     public abstract void render(Graphics g);
-    
-    
+
 }

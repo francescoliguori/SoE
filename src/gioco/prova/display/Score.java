@@ -5,10 +5,6 @@
  */
 package gioco.prova.display;
 
-/**
- *
- * @author Umberto
- */
 public class Score {
 
     private int count;

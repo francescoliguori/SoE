@@ -11,10 +11,6 @@ import gioco.prova.gfx.Assets;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author Utente
- */
 public class Enemy2 extends Enemies {
 
     private Animation enemyRunning2;
@@ -79,7 +75,4 @@ public class Enemy2 extends Enemies {
 
         return this.enemyRunning2.getCurrentFrame();
     }
-
-    
-
 }

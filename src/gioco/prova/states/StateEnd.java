@@ -11,10 +11,6 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class StateEnd extends State implements StateDemo {
 
     private Context ctx;
@@ -54,6 +50,7 @@ public class StateEnd extends State implements StateDemo {
     }
     
     private void nextState() {
+        handler.getGame().setFps(10);
         handler.getGame().setState(handler.getGame().getMenuState());
     }
 }

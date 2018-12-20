@@ -7,11 +7,6 @@ package gioco.prova;
 
 import gioco.prova.input.KeyManager;
 
-
-/**
- *
- * @author Chris
- */
 //anche l'handler viene reso singleton
 public class Handler {
     private Game game;
@@ -36,14 +31,6 @@ public class Handler {
         this.game = game;
         
     }
-
-    /*public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }*/
     
     public int getWidth(){
         return game.getWidth();

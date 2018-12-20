@@ -7,10 +7,6 @@ package gioco.prova.states;
 
 import java.awt.Graphics;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public interface StateDemo {
     
     public void tick();

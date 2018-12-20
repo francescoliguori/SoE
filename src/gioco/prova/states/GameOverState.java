@@ -38,7 +38,6 @@ public class GameOverState extends State {
 
     public void getInput() {
         if (k.esc) {
-           //handler.getGame().setState(new MenuState(handler));
            System.exit(0);
         }
         if (k.enter) {             
@@ -59,6 +58,5 @@ public class GameOverState extends State {
         Boss.restartBoss();
 
         handler.getGame().st.play();
-
     }
 }

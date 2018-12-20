@@ -9,10 +9,6 @@ import java.awt.image.BufferedImage;
 import gioco.prova.gfx.ImageLoader;
 import java.awt.Graphics;
 
-/**
- *
- * @author Vincenzo Magna
- */
 public class Background {
     private int x;
     private BufferedImage image;

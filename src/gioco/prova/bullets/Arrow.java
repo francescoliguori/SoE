@@ -10,13 +10,8 @@ import gioco.prova.entities.Entity;
 import java.awt.Graphics;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author stefano
- */
 public class Arrow extends Entity {
 
     private Animation arrowThrowBackward;
@@ -39,11 +34,9 @@ public class Arrow extends Entity {
 
     }
 
-    //@Override
+    @Override
     public void render(Graphics g) {
         g.drawImage(getCurrentAnimationFrame(), (int) x + 35, (int) y + 20, null);
-        /*g.setColor(Color.red);
-        g.fillRect((int)x+bounds.x , (int)y+bounds.y , bounds.width, bounds.height);*/
     }
 
     private BufferedImage getCurrentAnimationFrame() {

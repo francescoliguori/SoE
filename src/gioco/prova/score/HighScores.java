@@ -16,10 +16,6 @@ import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Utente
- */
 class PersonScore {
 
     String name;

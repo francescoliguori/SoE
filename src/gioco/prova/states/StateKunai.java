@@ -15,10 +15,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class StateKunai extends State implements StateDemo {
     private Player player;
     private ControllerEntities controller;

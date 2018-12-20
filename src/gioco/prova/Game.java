@@ -15,19 +15,13 @@ import gioco.prova.states.State;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import gioco.prova.display.ScrollBackground;
 import gioco.prova.states.GameOverState;
 
 import javax.sound.sampled.Clip;
 
-/**
- *
- * @author marcoruggiero
- */
 public class Game implements Runnable {
 
     private Display display;
@@ -40,12 +34,6 @@ public class Game implements Runnable {
 
     private BufferStrategy bs;
     private Graphics g;
-
-    //SCROLLBACKGROUND
-    private ScrollBackground sbg;
-
-    //static background
-    private BufferedImage background;
 
     private GameState gameState;
     private MenuState menuState;

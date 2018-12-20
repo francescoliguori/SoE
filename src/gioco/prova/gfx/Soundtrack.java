@@ -13,10 +13,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-/**
- *
- * @author Umberto
- */
 public class Soundtrack {
 
     private final String soundsPath;

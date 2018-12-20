@@ -10,10 +10,6 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 
-/**
- *
- * @author Umberto
- */
 public class FontLoader {
     
     public static Font load(String path, int size) {

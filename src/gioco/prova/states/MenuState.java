@@ -5,7 +5,6 @@
  */
 package gioco.prova.states;
 
-import gioco.prova.Game;
 import gioco.prova.Handler;
 import gioco.prova.entities.Player;
 import gioco.prova.gfx.Assets;
@@ -26,7 +25,6 @@ public class MenuState extends State {
         "START",
         "DEMO",
         "HIGH SCORE",
-        //"THE STORY",
         "COMMANDS",
         "CREDITS",
         "QUIT"
@@ -38,7 +36,6 @@ public class MenuState extends State {
     private String[] s;
     
     private int choice = 0;
-    //private GameState gameState;
     private KeyManager k = handler.getKeyManager();
     private boolean option = false;
 
@@ -66,10 +63,8 @@ public class MenuState extends State {
             g.drawImage(Assets.menu, 0, 0, null);
             for (int i = 0; i < menu.length; i++) {
                 if (i == choice) {
-                    //g.setColor(Color.RED);
                     g.setColor(selected);
                 } else {
-                    //g.setColor(Color.ORANGE);
                     g.setColor(noSelected);
                 }
                 g.drawString(menu[i], 20, 250 + i * 50);
@@ -134,22 +129,14 @@ public class MenuState extends State {
                 handler.getGame().setState(new DemoState(handler));
                 break;
             case 2: //score
-                //State.setState(new ScoreState(handler));
                 hs = new HighScores();
                 s = hs.read();
                 option = true;
                 break;
-//            case 3: //the story
-//                //State.setState(new StoryState(handler));
-//
-//                option = true;
-//                break;
             case 3: //commands
-                //State.setState(new CommandsState(handler));
                 option = true;
                 break;
             case 4: //credits
-                //State.setState(new CreditsState(handler));
                 option = true;
                 break;
             case 5: //exit

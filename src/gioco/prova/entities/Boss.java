@@ -14,15 +14,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author Giovanni
- */
 public class Boss extends Enemies {
 
     private ControllerEntities c;
 
-    private Animation oroHit;
     private Animation oroDead;
     private Animation oroJump;
     private Animation oroAttack;
@@ -63,7 +58,6 @@ public class Boss extends Enemies {
 
     private Boss(Handler handler, float x, float y, ControllerEntities c) {
         super(handler, x, y);
-        oroHit = new Animation(200, Assets.oroHit);
         oroDead = new Animation(200, Assets.oroDead);
         oroJump = new Animation(200, Assets.oroJump);
         oroAttack = new Animation(100, Assets.oroAttack);
@@ -236,7 +230,6 @@ public class Boss extends Enemies {
             if (f.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)) && !hitFireball) {
                 health -= 25;
                 hitFireball = true;
-                //System.out.println("Colpito e appicciato");
                 return true;
             }
         }
@@ -370,7 +363,6 @@ public class Boss extends Enemies {
     }
 
     private void bossDead() {
-
         handler.getGame().getGameState().destroyBoss();
         c.getE().clear();
     }

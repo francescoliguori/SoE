@@ -9,8 +9,6 @@ import gioco.prova.Handler;
 import gioco.prova.bullets.Arrow;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import static gioco.prova.gfx.Assets.enemies1Shot;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -83,7 +81,6 @@ public class Enemy1 extends Enemies {
     private BufferedImage getCurrentAnimationFrame() {
         if (!dead && (this.checkKunaiCollisions(0, 0) || this.checkFireballCollisions(0, 0))) {
             dead = true;
-            //handler.getGame().getGameState().getController().removeEnemy(this);
             return this.enemyDead1.getCurrentFrame();
         }
 

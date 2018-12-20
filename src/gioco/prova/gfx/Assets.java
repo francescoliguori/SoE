@@ -7,10 +7,6 @@ package gioco.prova.gfx;
 
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author marcoruggiero
- */
 /*Un asset è una qualsiasi immagine o canzone all'interno del gioco. Al momento 
 si gestiscono solamente le immagini perché le canzoni non sono ancora presenti*/
 public class Assets {
@@ -18,17 +14,15 @@ public class Assets {
     //dimensioni di ogni elemento della "griglia" spritesheet
     private static final int width = 155, height = 187;
     private static final int widthEnemies = 155, heightEnemies = 187;
-	private static final int widthBoss = 100, heightBoss = 160;
+    private static final int widthBoss = 100, heightBoss = 160;
     private static final int widthBossLA = 451;
 	
     public static BufferedImage player;
     public static BufferedImage[] playerRunning;
     public static BufferedImage[] playerJump;
-    public static BufferedImage[] playerStop;
     public static BufferedImage[] playerDown; //my add
     public static BufferedImage[] enemies1;
     public static BufferedImage[] enemies1Dead;
-    public static BufferedImage[] enemies1Shot;
     public static BufferedImage[] enemies2;
     public static BufferedImage[] enemies2Dead;
     public static BufferedImage[] enemies3;
@@ -38,9 +32,8 @@ public class Assets {
     public static BufferedImage[] kunaiThrowForward;
     public static BufferedImage[] kunaiThrowBackward;
     public static BufferedImage[] arrowThrowBackward;
-	public static BufferedImage[] oroJump;
+    public static BufferedImage[] oroJump;
     public static BufferedImage[] oroDead;
-    public static BufferedImage[] oroHit;
     public static BufferedImage[] oroAttack;
     public static BufferedImage[] oroLongAttack;
     public static BufferedImage gameOver;
@@ -78,11 +71,9 @@ public class Assets {
         
         playerRunning = new BufferedImage[6];
         playerJump = new BufferedImage[8];
-        playerStop = new BufferedImage[3];
         playerDown = new BufferedImage[4]; //my add
         enemies1 = new BufferedImage[5];
         enemies1Dead = new BufferedImage[8];
-        enemies1Shot = new BufferedImage[5];
         enemies2 = new BufferedImage[8];
         enemies2Dead = new BufferedImage[5];
         enemies3 = new BufferedImage[7];
@@ -98,7 +89,6 @@ public class Assets {
         demoRight = new BufferedImage[6];
         oroJump = new BufferedImage[3];
         oroDead = new BufferedImage[9];
-        oroHit = new BufferedImage[4];
         oroAttack = new BufferedImage[19];
         oroLongAttack = new BufferedImage[16];
         player = sheet.crop(0, 0, width, height);
@@ -117,8 +107,6 @@ public class Assets {
         for (int i = 0; i <= 7; i++) {
             playerJump[i] = sheet.crop(width * i, height * 3, width, height);
         }
-
-        playerStop[0] = sheet.crop(0, height * 2, width, height);
 
         for (int i = 1; i <= 3; i++) {
             playerDown[i] = sheet.crop(width * i, height * 4, width, height);
@@ -150,13 +138,9 @@ public class Assets {
         
         for (int i = 3; i >= 0; i--) {
             // boss hit
-            oroHit[3-i] = sheetBoss.crop((int) (widthBoss * (2 + (i * 1.5))), heightBoss, (int) (widthBoss * 1.5), heightBoss);
+            oroDead[3-i] = sheetBoss.crop((int) (widthBoss * (2 + (i * 1.5))), heightBoss, (int) (widthBoss * 1.5), heightBoss);
         }
 
-        for (int i=0; i<4; i++ ){
-            // boss dead
-            oroDead[i] = oroHit[i];
-        }
         oroDead[4] = sheetBoss.crop((int) (widthBoss * 0.5), heightBoss, (int) (widthBoss * 1.5), heightBoss);
         for (int i = 8; i >= 5; i--) {
             // adding boss dead
@@ -171,11 +155,6 @@ public class Assets {
         for (int i = 0; i < 8; i++) {
             //arciere cade
             enemies1Dead[i] = sheetEnemy.crop(widthEnemies * i, heightEnemies * 6, widthEnemies, heightEnemies);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            //arciere spara
-            enemies1Shot[i] = sheetEnemy.crop(widthEnemies * i, heightEnemies * 7, widthEnemies, heightEnemies);
         }
 
         for (int i = 0; i < 5; i++) {

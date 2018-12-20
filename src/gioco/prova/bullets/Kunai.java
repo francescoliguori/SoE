@@ -11,13 +11,8 @@ import gioco.prova.entities.Entity;
 import java.awt.Graphics;
 import gioco.prova.gfx.Animation;
 import gioco.prova.gfx.Assets;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author marcoruggiero
- */
 public class Kunai extends Entity {
 
     private Animation kunaiThrowForward;
@@ -45,8 +40,6 @@ public class Kunai extends Entity {
     @Override
     public void tick() {
         move(forward);
-        //System.out.println(forward);
-        //move();
         if (forward) {
             kunaiThrowForward.tick();
         } else {
@@ -60,7 +53,7 @@ public class Kunai extends Entity {
         return forward;
     }
 
-    //@Override
+    @Override
     public void render(Graphics g) {
         if(isForward()){
         g.drawImage(getCurrentAnimationFrame(), (int) x + 57, (int) y +1, null);
@@ -86,7 +79,4 @@ public class Kunai extends Entity {
             x -= 17 + (Creature.getDEAFULT_SPEED()-10);
         }
     }
-//    public void move() {
-//        x += 17;
-//    }
 }

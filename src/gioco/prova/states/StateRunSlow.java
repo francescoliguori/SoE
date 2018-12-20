@@ -15,10 +15,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-/**
- *
- * @author Vincenzo Magna, Laura Fusco
- */
 public class StateRunSlow extends State implements StateDemo {
 
     private Player player;
